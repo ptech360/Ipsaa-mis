@@ -1,6 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { StorageService } from '../localstorage/storage';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -8,7 +9,19 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class Api {
   url: string = environment.api;
-  constructor(public http: HttpClient) {
+
+  
+  constructor(public http: HttpClient,public storage : StorageService) {
+
+  }
+
+  getHeaders(){
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    debugger
+    if(this.storage.getData('ngStorage-token'))
+      headers = headers.set('Authorization', 'Bearer ' + this.storage.getData('ngStorage-token'));
+    return headers;
   }
 
   get(endpoint: string, params?: any, reqOpts?: any) {
@@ -25,23 +38,28 @@ export class Api {
         reqOpts.params = reqOpts.params.set(k, params[k]);
       }
     }
-
-    return this.http.get(this.url + '/' + endpoint, reqOpts);
+    const headers = this.getHeaders();
+    return this.http.get(this.url + '/' + endpoint,{headers:headers,params:reqOpts});
   }
 
   post(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.post(this.url + '/' + endpoint, body, reqOpts);
+    const headers = this.getHeaders();
+    console.log(headers);
+    return this.http.post(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
   }
 
   put(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.put(this.url + '/' + endpoint, body, reqOpts);
+    const headers = this.getHeaders();
+    return this.http.put(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
   }
 
   delete(endpoint: string, reqOpts?: any) {
-    return this.http.delete(this.url + '/' + endpoint, reqOpts);
+    const headers = this.getHeaders();
+    return this.http.delete(this.url + '/' + endpoint, {headers:headers,params:reqOpts});
   }
 
   patch(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.put(this.url + '/' + endpoint, body, reqOpts);
+    const headers = this.getHeaders();
+    return this.http.put(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
   }
 }

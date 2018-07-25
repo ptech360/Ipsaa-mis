@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../providers/user/user';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -8,15 +9,29 @@ import { User } from '../../providers/user/user';
 export class LoginComponent implements OnInit {
   private user:any = {};
 
-  constructor(private userService : User) { }
+  constructor(private userService : User, private router : Router) { }
 
   ngOnInit() {
   }
 
   verifyUser(){
     this.userService.login(this.user).subscribe((response:any)=>{
-      console.log(response);
+      this.onSuccess();
     })
+  }
+
+  onSuccess(){
+    var user:any = this.userService.getUser();
+
+    if (user.domain === "/pp/") {
+      this.router.navigate(['pp']);
+    } else {
+      this.router.navigate(['mis']);        
+    }
+  }
+
+  onError(){
+
   }
 
 }
