@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { StorageService } from '../localstorage/storage';
+import { Storage } from '../localstorage/storage';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -11,7 +11,7 @@ export class Api {
   url: string = environment.api;
 
   
-  constructor(public http: HttpClient,public storage : StorageService) {
+  constructor(public http: HttpClient,public storage : Storage) {
 
   }
 
@@ -38,27 +38,26 @@ export class Api {
       }
     }
     const headers = this.getHeaders();
-    return this.http.get(this.url + '/' + endpoint,{headers:headers,params:reqOpts});
+    return this.http.get(this.url + '/' + endpoint,{headers:headers});
   }
 
   post(endpoint: string, body: any, reqOpts?: any) {
     const headers = this.getHeaders();
-    console.log(headers);
-    return this.http.post(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
+    return this.http.post(this.url + '/' + endpoint, body, {headers:headers});
   }
 
   put(endpoint: string, body: any, reqOpts?: any) {
     const headers = this.getHeaders();
-    return this.http.put(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
+    return this.http.put(this.url + '/' + endpoint, body, {headers:headers});
   }
 
   delete(endpoint: string, reqOpts?: any) {
     const headers = this.getHeaders();
-    return this.http.delete(this.url + '/' + endpoint, {headers:headers,params:reqOpts});
+    return this.http.delete(this.url + '/' + endpoint, {headers:headers});
   }
 
   patch(endpoint: string, body: any, reqOpts?: any) {
     const headers = this.getHeaders();
-    return this.http.put(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
+    return this.http.put(this.url + '/' + endpoint, body, {headers:headers});
   }
 }

@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Api } from '../api/api';
-import { StorageService } from '../localstorage/storage';
+import { Storage } from '../localstorage/storage';
 
 /**
  * Most apps have the concept of a User. This is a simple provider
@@ -26,7 +26,7 @@ import { StorageService } from '../localstorage/storage';
 export class User {
   _user: any;
 
-  constructor(public api: Api,public storage : StorageService) { }
+  constructor(public api: Api, public storage: Storage) { }
 
   /**
    * Send a POST request to our login endpoint with the data
@@ -37,7 +37,7 @@ export class User {
     var token = this.storage.getData('ngStorage-token');
     var user = {};
     if (typeof token !== 'undefined') {
-        user = JSON.parse(this.urlBase64Decode(token.split('.')[1]));
+      user = JSON.parse(this.urlBase64Decode(token.split('.')[1]));
     }
     return user;
   }
@@ -45,19 +45,19 @@ export class User {
   urlBase64Decode(str) {
     var output = str.replace('-', '+').replace('_', '/');
     switch (output.length % 4) {
-        case 0:
-            break;
-        case 2:
-            output += '==';
-            break;
-        case 3:
-            output += '=';
-            break;
-        default:
-            throw 'Illegal base64url string!';
+      case 0:
+        break;
+      case 2:
+        output += '==';
+        break;
+      case 3:
+        output += '=';
+        break;
+      default:
+        throw 'Illegal base64url string!';
     }
     return window.atob(output);
-}
+  }
 
   login(accountInfo: any) {
     let seq = this.api.post('login', accountInfo);
@@ -97,8 +97,8 @@ export class User {
    * Log the user out, which forgets the session
    */
   logout() {
-    this.storage.storeData('ngStorage-token',null);
-    this.storage.storeData('ngStorage-privileges',null);
+    this.storage.storeData('ngStorage-token', null);
+    this.storage.storeData('ngStorage-privileges', null);
     this._user = null;
   }
 
@@ -106,8 +106,8 @@ export class User {
    * Process a login/signup response to store user data
    */
   _loggedIn(resp) {
-   this.storage.storeData('ngStorage-token',resp.token);
-   this.storage.storeData('ngStorage-privileges',resp.privileges);
+    this.storage.storeData('ngStorage-token', resp.token);
+    this.storage.storeData('ngStorage-privileges', resp.privileges);
     this._user = resp.user;
   }
 }

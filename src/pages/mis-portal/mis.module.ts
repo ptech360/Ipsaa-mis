@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MISComponent } from './mis.component';
 import { RouterModule } from '@angular/router';
+import { MenuService } from '../../providers/initial/menu.service';
 
 @NgModule({
  imports:[CommonModule,
@@ -13,7 +14,8 @@ import { RouterModule } from '@angular/router';
            component:MISComponent
          }])
          ],
- declarations:[MISComponent]
+ declarations:[MISComponent],
+ providers:[MenuService]
 })
 export class MISModule{
 
