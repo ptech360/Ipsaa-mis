@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'assets/css/bootstrap.min.css';
+@import 'assets/css/material-dashboard.css';
+@import 'assets/css/mis.css';
+@import 'assets/css/font-awesome.min.css';
+@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons';    
+
+.full-page-background {
+    background-image: url('assets/img/login-bg.png');
+}
+
+a {
+    cursor: pointer;
+}
+
+.d-inline {
+    display: inline;
+}
+.mt-2{
+    margin-top: 10px;
+}
+.mx-3 {
+    margin: 0 15px;
+}
+.vertical-middle {
+    vertical-align: middle;
+}
+
+.sidebar .sidebar-wrapper, .off-canvas-sidebar .sidebar-wrapper {
+    height: calc(100vh - 90px)
+}

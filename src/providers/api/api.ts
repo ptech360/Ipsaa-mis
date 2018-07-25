@@ -18,7 +18,6 @@ export class Api {
   getHeaders(){
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    debugger
     if(this.storage.getData('ngStorage-token'))
       headers = headers.set('Authorization', 'Bearer ' + this.storage.getData('ngStorage-token'));
     return headers;
