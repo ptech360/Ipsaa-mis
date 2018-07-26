@@ -18,7 +18,6 @@ export class Api {
   getHeaders(){
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    debugger
     if(this.storage.getData('ngStorage-token'))
       headers = headers.set('Authorization', 'Bearer ' + this.storage.getData('ngStorage-token'));
     return headers;
@@ -39,27 +38,27 @@ export class Api {
       }
     }
     const headers = this.getHeaders();
-    return this.http.get(this.url + '/' + endpoint,{headers:headers,params:reqOpts});
+    return this.http.get(this.url + '/' + endpoint,{headers:headers});
   }
 
   post(endpoint: string, body: any, reqOpts?: any) {
     const headers = this.getHeaders();
     console.log(headers);
-    return this.http.post(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
+    return this.http.post(this.url + '/' + endpoint, body, {headers:headers});
   }
 
   put(endpoint: string, body: any, reqOpts?: any) {
     const headers = this.getHeaders();
-    return this.http.put(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
+    return this.http.put(this.url + '/' + endpoint, body, {headers:headers});
   }
 
   delete(endpoint: string, reqOpts?: any) {
     const headers = this.getHeaders();
-    return this.http.delete(this.url + '/' + endpoint, {headers:headers,params:reqOpts});
+    return this.http.delete(this.url + '/' + endpoint, {headers:headers});
   }
 
   patch(endpoint: string, body: any, reqOpts?: any) {
     const headers = this.getHeaders();
-    return this.http.put(this.url + '/' + endpoint, body, {headers:headers,params:reqOpts});
+    return this.http.put(this.url + '/' + endpoint, body, {headers:headers});
   }
 }

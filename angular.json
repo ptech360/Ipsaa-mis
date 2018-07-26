@@ -21,9 +21,21 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/material-dashboard/assets/css/material-dashboard.min.css",
+              "src/assets/scss/material-dashboard.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist//js/bootstrap.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/material-dashboard/assets/js/material-dashboard.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"
+            ]
           },
           "configurations": {
             "production": {

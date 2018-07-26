@@ -4,7 +4,7 @@ import { RouterModule, Routes} from '@angular/router';
 const routes:Routes = [
  {path:'',redirectTo:'login', pathMatch:'full'},
  { path : 'login', loadChildren: 'pages/login/login.module#LoginModule'},
- { path : 'mis', loadChildren: 'pages/mis-portal/mis.module#MISModule'}
+ { path : 'mis', loadChildren: 'pages/mis/mis.module#MISModule'}
 ]
 
 @NgModule({
