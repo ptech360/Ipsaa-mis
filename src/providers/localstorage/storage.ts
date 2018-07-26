@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 @Injectable()
-export class Storage {
+export class StorageService {
   constructor() {
 
   }

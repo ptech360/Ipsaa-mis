@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { Api } from '../providers/api/api';
 import { User } from '../providers/user/user';
-import { Storage } from '../providers/localstorage/storage';
+import { StorageService } from '../providers/localstorage/storage';
 import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -21,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     AppComponent
   ],
-  providers: [Api,User,Storage],
+  providers: [Api,User,StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

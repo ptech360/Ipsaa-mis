@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Api } from '../api/api';
-import { Storage } from '../localstorage/storage';
+import { StorageService } from '../localstorage/storage';
 
 /**
  * Most apps have the concept of a User. This is a simple provider
@@ -26,7 +26,7 @@ import { Storage } from '../localstorage/storage';
 export class User {
   _user: any;
 
-  constructor(public api: Api, public storage: Storage) { }
+  constructor(public api: Api, public storage: StorageService) { }
 
   /**
    * Send a POST request to our login endpoint with the data

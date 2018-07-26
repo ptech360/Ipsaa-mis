@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Storage } from '../localstorage/storage';
+import { StorageService } from '../localstorage/storage';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -11,7 +11,7 @@ export class Api {
   url: string = environment.api;
 
   
-  constructor(public http: HttpClient,public storage : Storage) {
+  constructor(public http: HttpClient,public storage : StorageService) {
 
   }
 
@@ -43,6 +43,7 @@ export class Api {
 
   post(endpoint: string, body: any, reqOpts?: any) {
     const headers = this.getHeaders();
+    console.log(headers);
     return this.http.post(this.url + '/' + endpoint, body, {headers:headers});
   }
 
