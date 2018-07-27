@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'assets/css/bootstrap.min.css';
+/* @import 'assets/css/bootstrap.min.css'; */
 @import 'assets/css/material-dashboard.css';
-@import 'assets/css/mis.css';
-@import 'assets/css/font-awesome.min.css';
-@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons';    
+/* @import 'assets/css/mis.css'; */
+/* @import 'assets/css/font-awesome.min.css'; */
+/* @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons';     */
 
 .full-page-background {
     background-image: url('assets/img/login-bg.png');
