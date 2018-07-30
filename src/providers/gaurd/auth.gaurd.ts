@@ -17,4 +17,3 @@ export class AuthGaurd implements CanActivate {
   return false;
  }
 }
-}

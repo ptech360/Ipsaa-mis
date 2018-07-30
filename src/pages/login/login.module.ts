@@ -8,11 +8,11 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{
-      path: '',
-      component: LoginComponent
-    }])
+    // RouterModule.forChild([{
+    //   path: '',
+    //   component: LoginComponent
+    // }])
   ],
-  declarations: [LoginComponent]
+  declarations: []
 })
 export class LoginModule { }

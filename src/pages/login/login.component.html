@@ -4,7 +4,8 @@
 		<div class="content">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+					
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3 mx-auto">
 						<form name="form" role="form" (ngSubmit)="verifyUser()">
 							<div class="card card-login">
 								<div class="card-header text-center" data-background-color="orange">
@@ -32,13 +33,13 @@
 										</div>
 									</div>
 								</div>
-								<div class="footer text-center">
-									<button type="submit" [class.disabled]="formInvalid" class="btn btn-rose">Login</button>
+								<div class="footer text-center d-block">
+									<button type="submit" [class.disabled]="formInvalid" class="btn btn-rose mx-auto">Login</button>
 									<div *ngIf="error" style="color: red">
 										{{error}}
 									</div>
 									<div style="padding-top: 20px">
-										<a (click)="showResetPassword()">Forgot Password?</a>
+										<a href="" (click)="showResetPassword()">Forgot Password?</a>
 									</div>
 								</div>
 							</div>
