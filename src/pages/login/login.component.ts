@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../providers/user/user';
 import { Router } from '@angular/router';
+
+import { User } from '../../providers/user/user';
+import {AlertService} from '../../providers/alert/alert.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,7 +11,9 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   private user: any = {};
 
-  constructor(private userService: User, private router: Router) {}
+  constructor(private userService: User,
+              private router: Router,
+              private alertService: AlertService) {}
 
   ngOnInit() {}
 
@@ -19,7 +23,7 @@ export class LoginComponent implements OnInit {
         this.onSuccess();
       },
       (error: any) => {
-        this.onError();
+        this.onError(error);
       }
     );
   }
@@ -34,5 +38,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onError() {}
+  onError(error: any) {
+    this.alertService.errorAlert(error.message);
+  }
 }

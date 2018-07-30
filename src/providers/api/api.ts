@@ -1,7 +1,18 @@
-import { HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
+import {
+  HttpClient,
+  HttpParams,
+  HttpHeaders,
+  HttpResponse,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { StorageService } from '../localstorage/storage';
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -10,55 +21,85 @@ import { StorageService } from '../localstorage/storage';
 export class Api {
   url: string = environment.api;
 
-  
-  constructor(public http: HttpClient,public storage : StorageService) {
+  constructor(public http: HttpClient, public storage: StorageService) {}
 
-  }
-
-  getHeaders(){
+  getHeaders(optHeaders?: HttpHeaders) {
     let headers = new HttpHeaders();
-    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    if(this.storage.getData('ngStorage-token'))
-      headers = headers.set('Authorization', 'Bearer ' + this.storage.getData('ngStorage-token'));
+    if (this.storage.getData('ngStorage-token')) {
+      headers = headers.set(
+        'Authorization',
+        'Bearer ' + this.storage.getData('ngStorage-token')
+      );
+    }
+    if (optHeaders) {
+      for (const optHeader of optHeaders.keys()) {
+        headers = headers.append(optHeader, optHeaders.get(optHeader));
+      }
+    }
     return headers;
   }
 
-  get(endpoint: string, params?: any, reqOpts?: any) {
-    if (!reqOpts) {
-      reqOpts = {
-        params: new HttpParams()
-      };
-    }
-
-    // Support easy query params for GET requests
-    if (params) {
-      reqOpts.params = new HttpParams();
-      for (let k in params) {
-        reqOpts.params = reqOpts.params.set(k, params[k]);
-      }
-    }
-    const headers = this.getHeaders();
-    return this.http.get(this.url + '/' + endpoint,{headers:headers});
+  get(endpoint: string, optHeaders?: HttpHeaders) {
+    const headers = this.getHeaders(optHeaders);
+    return this.http
+      .get(this.url + '/' + endpoint, { headers: headers, observe: 'response' })
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
-  post(endpoint: string, body: any, reqOpts?: any) {
-    const headers = this.getHeaders();
-    console.log(headers);
-    return this.http.post(this.url + '/' + endpoint, body, {headers:headers});
+  post(endpoint: string, body: any, optHeaders?: HttpHeaders) {
+    const headers = this.getHeaders(optHeaders);
+    return this.http
+      .post(this.url + '/' + endpoint, body, {
+        headers: headers,
+        observe: 'response'
+      })
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
-  put(endpoint: string, body: any, reqOpts?: any) {
-    const headers = this.getHeaders();
-    return this.http.put(this.url + '/' + endpoint, body, {headers:headers});
+  put(endpoint: string, body: any, optHeaders?: HttpHeaders) {
+    const headers = this.getHeaders(optHeaders);
+    return this.http
+      .put(this.url + '/' + endpoint, body, {
+        headers: headers,
+        observe: 'response'
+      })
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
-  delete(endpoint: string, reqOpts?: any) {
-    const headers = this.getHeaders();
-    return this.http.delete(this.url + '/' + endpoint, {headers:headers});
+  delete(endpoint: string, optHeaders?: HttpHeaders) {
+    const headers = this.getHeaders(optHeaders);
+    return this.http
+      .delete(this.url + '/' + endpoint, {
+        headers: headers,
+        observe: 'response'
+      })
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
-  patch(endpoint: string, body: any, reqOpts?: any) {
-    const headers = this.getHeaders();
-    return this.http.put(this.url + '/' + endpoint, body, {headers:headers});
+  patch(endpoint: string, body: any, optHeaders?: HttpHeaders) {
+    const headers = this.getHeaders(optHeaders);
+    return this.http
+      .put(this.url + '/' + endpoint, body, {
+        headers: headers,
+        observe: 'response'
+      })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  extractData(response: HttpResponse<any>) {
+    return response.body || response.status;
+  }
+
+  handleError(errorResponse: HttpErrorResponse) {
+    const err: any = {};
+    err.status = errorResponse.error ? errorResponse.error.status : errorResponse.status;
+    err.message = errorResponse.error ? (errorResponse.error.message ? errorResponse.error.message : errorResponse.error.toString())
+    : 'Something went wrong';
+    return Observable.throw(err);
   }
 }

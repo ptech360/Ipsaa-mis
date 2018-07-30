@@ -15,7 +15,7 @@ import { StorageService } from '../localstorage/storage';
  * {
  *   status: 'success',
  *   user: {
- *     // User fields your app needs, like "id", "name", "email", etc.
+ *     // User fields your app needs, like 'id', 'name', 'email', etc.
  *   }
  * }Ø
  * ```
@@ -26,7 +26,7 @@ import { StorageService } from '../localstorage/storage';
 export class User {
   _user: any;
 
-  constructor(public api: Api, public storage: StorageService) { }
+  constructor(public api: Api, public storage: StorageService) {}
 
   /**
    * Send a POST request to our login endpoint with the data
@@ -34,8 +34,8 @@ export class User {
    */
 
   getUser() {
-    var token = this.storage.getData('ngStorage-token');
-    var user = {};
+    const token = this.storage.getData('ngStorage-token');
+    let user = {};
     if (typeof token !== 'undefined') {
       user = JSON.parse(this.urlBase64Decode(token.split('.')[1]));
     }
@@ -43,7 +43,7 @@ export class User {
   }
 
   urlBase64Decode(str) {
-    var output = str.replace('-', '+').replace('_', '/');
+    let output = str.replace('-', '+').replace('_', '/');
     switch (output.length % 4) {
       case 0:
         break;
@@ -54,24 +54,16 @@ export class User {
         output += '=';
         break;
       default:
-        throw 'Illegal base64url string!';
+        throw new Error('Illegal base64url string!');
     }
     return window.atob(output);
   }
 
   login(accountInfo: any) {
-    let seq = this.api.post('login', accountInfo);
-    seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      this._loggedIn(res);
-      // if (res.status == 'success') {
-      // } else {
-      // }
-    }, err => {
-      console.error('ERROR', err);
+    return this.api.post('login', accountInfo).map(response => {
+      this._loggedIn(response);
+      return response;
     });
-
-    return seq;
   }
 
   /**
@@ -81,14 +73,17 @@ export class User {
   signup(accountInfo: any) {
     let seq = this.api.post('signup', accountInfo);
 
-    seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        this._loggedIn(res);
+    seq.subscribe(
+      (res: any) => {
+        // If the API returned a successful response, mark the user as logged in
+        if (res.status === 'success') {
+          this._loggedIn(res);
+        }
+      },
+      err => {
+        console.error('ERROR', err);
       }
-    }, err => {
-      console.error('ERROR', err);
-    });
+    );
 
     return seq;
   }

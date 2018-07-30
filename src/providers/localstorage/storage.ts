@@ -10,19 +10,19 @@ export class StorageService {
   }
 
   public storeData(field_name: any, data: any) {
-    if (field_name === "access_token")
+    if (field_name === 'access_token') {
       localStorage.setItem(field_name, data);
-    else {
+    } else {
       localStorage.setItem(field_name, JSON.stringify(data));
     }
   }
 
   public getData(field_name: any) {
-    let data = JSON.parse(localStorage.getItem(field_name));
+    const data = JSON.parse(localStorage.getItem(field_name));
     if (data) {
       return data;
-    }else{
-      return {};
+    } else {
+      return null;
     }
   }
 }
