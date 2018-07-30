@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { User } from "../../providers/user/user";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { User } from '../../providers/user/user';
+import { Router } from '@angular/router';
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['login.component.css']
 })
 export class LoginComponent implements OnInit {
   private user: any = {};
@@ -25,12 +25,12 @@ export class LoginComponent implements OnInit {
   }
 
   onSuccess() {
-    var user: any = this.userService.getUser();
+    const user: any = this.userService.getUser();
 
-    if (user.domain === "/pp/") {
-      this.router.navigate(["pp"]);
+    if (user.domain === '/pp/') {
+      this.router.navigate(['pp']);
     } else {
-      this.router.navigate(["mis"]);
+      this.router.navigate(['mis']);
     }
   }
 
