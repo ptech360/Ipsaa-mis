@@ -92,9 +92,11 @@ export class User {
    * Log the user out, which forgets the session
    */
   logout() {
-    this.storage.storeData('ngStorage-token', null);
-    this.storage.storeData('ngStorage-privileges', null);
-    this._user = null;
+    // this.storage.storeData('ngStorage-token', null);
+    // this.storage.storeData('ngStorage-privileges', null);
+    // this._user = null;
+    this.storage.clearData();
+    location.reload();
   }
 
   /**
