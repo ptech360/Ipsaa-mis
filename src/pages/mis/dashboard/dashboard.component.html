@@ -1,2 +1,192 @@
-
- <p>Dashboard Works!</p>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="sel1">Zone:</label>
+          <select class="form-control" id="sel1" [(ngModel)]="selectedZone" (ngModelChange)="getStatsResult()">
+            <option value="all">All</option>
+            <option *ngFor="let zone of zones;" [ngValue]="zone">{{zone.name}}</option>
+          </select>
+          <span class="material-input"></span>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="sel2">City:</label>
+          <select class="form-control" id="sel2" [(ngModel)]="selectedCity" (ngModelChange)="getStatsResult()">
+            <option value="all">All</option>
+            <option *ngFor="let city of cities;" value="{{city.name}}">{{city.name}}</option>
+          </select>
+          <span class="material-input"></span>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="sel3">Center:</label>
+          <select class="form-control" id="sel3" [(ngModel)]="selectedCenter" (ngModelChange)="getStatsResult()">
+            <option value="all">All</option>
+            <option *ngFor="let center of centers;" value="{{center.name}}">{{center.name}}</option>
+          </select>
+          <span class="material-input"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Inuiries</p>
+            <h3 class="card-title">{{statsResult.monthInquiries}}
+              <!-- <small>GB</small> -->
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger">warning</i>
+              <a href="#pablo">Get More Space...</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Centers</p>
+            <h3 class="card-title">{{statsResult.centers}}
+              <!-- <small>GB</small> -->
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger">warning</i>
+              <a href="#pablo">Get More Space...</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Staff</p>
+            <h3 class="card-title">{{statsResult.staffCount}}
+              <!-- <small>GB</small> -->
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger">warning</i>
+              <a href="#pablo">Get More Space...</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Students</p>
+            <h3 class="card-title">{{statsResult.students}}
+              <!-- <small>GB</small> -->
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger">warning</i>
+              <a href="#pablo">Get More Space...</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Monthly Fee</p>
+            <h3 class="card-title" *ngIf="monthlyFee.expectedFee">{{monthlyFee.expectedFee.monthly ? monthlyFee.expectedFee.monthly : 0}}
+              <!-- <small>GB</small> -->
+            </h3>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" style="float: left;margin: 0px">Month:</label>
+                  <select class="form-control" [(ngModel)]="monthly.month" (ngModelChange)="getMonthlyFee()">
+                    <option *ngFor="let month of months;let i = index;" value="{{ i+1 }}">{{month}}</option>
+                  </select>
+                  <span class="material-input"></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" style="float: left;margin: 0px">Year:</label>
+                  <select class="form-control" [(ngModel)]="monthly.year" (ngModelChange)="getMonthlyFee()">
+                    <option value="2018">2018</option>
+                  </select>
+                  <span class="material-input"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger">warning</i>
+              <a href="#pablo">Get More Space...</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Quarterly Fee</p>
+            <h3 class="card-title" *ngIf="quarterlyFee.expectedFee">{{quarterlyFee.expectedFee.quarterly ? quarterlyFee.expectedFee.quarterly : 0}}
+              <!-- <small>GB</small> -->
+            </h3>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" style="float: left;margin: 0px">Quarter:</label>
+                  <select class="form-control" [(ngModel)]="quarterly.quarter" (ngModelChange)="getQuarterlyFee()">
+                    <option *ngFor="let quarter of quarters;let i = index" value="{{i + 1}}">{{quarter}}</option>
+                  </select>
+                  <span class="material-input"></span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" style="float: left;margin: 0px">Year:</label>
+                  <select class="form-control" [(ngModel)]="quarterly.year" (ngModelChange)="getQuarterlyFee()">
+                    <option value="2018">2018</option>
+                  </select>
+                  <span class="material-input"></span>
+                </div>
+              </div>
+            </div>            
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger">warning</i>
+              <a href="#pablo">Get More Space...</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

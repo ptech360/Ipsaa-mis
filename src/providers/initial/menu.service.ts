@@ -11,10 +11,10 @@ export class MenuService {
  }
 
  getMenus() {
-  return this.api.get('/api/user/menu');
+  return this.api.get('api/user/menu');
  }
 
  getUserProfile() {
-  return this.api.get('/api/user/me/');
+  return this.api.get('api/user/me/');
  }
 }
