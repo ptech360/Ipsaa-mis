@@ -2,30 +2,41 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { User } from '../../providers/user/user';
-import {AlertService} from '../../providers/alert/alert.service';
+import { AlertService } from '../../providers/alert/alert.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
+
 export class LoginComponent implements OnInit {
-  private user: any = {};
 
-  constructor(private userService: User,
-              private router: Router,
-              private alertService: AlertService) {}
+  user = {
+    email: '',
+    password: 'riddhi0211'
+  };
+  logging = false; // to diable the login btn while request is in progress
 
-  ngOnInit() {}
+  constructor(
+    private userService: User,
+    private router: Router,
+    private alertService: AlertService
+  ) { }
+
+  ngOnInit() { }
 
   verifyUser() {
-    this.userService.login(this.user).subscribe(
-      (response: any) => {
+    this.logging = true;
+    this.userService.login(this.user)
+      .subscribe((response: any) => {
+        this.logging = false;
         this.onSuccess();
-      },
-      (error: any) => {
+      }, (error: any) => {
+        this.logging = false;
         this.onError(error);
-      }
-    );
+      });
   }
 
   onSuccess() {
@@ -40,5 +51,9 @@ export class LoginComponent implements OnInit {
 
   onError(error: any) {
     this.alertService.errorAlert(error.message);
+  }
+
+  onForgotPswd() {
+    // TODO
   }
 }

@@ -13,3 +13,11 @@
  background-position: center center;
  background-image: url('../../assets/img/login-bg.png')
 }
+
+.err-msg-red{
+    color: red;
+}
+.err-msg-smaller{
+    font-size: smaller;
+
+}
