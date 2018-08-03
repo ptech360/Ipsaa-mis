@@ -8,7 +8,7 @@ import { User } from '../providers/user/user';
 import { StorageService } from '../providers/localstorage/storage';
 import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { PageNotFound } from '../pages/404/page404';
+import { Page404Component } from '../pages/404/page404.component';
 import { LoginComponent } from '../pages/login/login.component';
 
 
@@ -23,7 +23,7 @@ import { LoginComponent } from '../pages/login/login.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    PageNotFound
+    Page404Component
   ],
   providers: [Api, User, StorageService],
   bootstrap: [AppComponent]

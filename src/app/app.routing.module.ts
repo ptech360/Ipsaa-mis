@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGaurd } from '../providers/gaurd/auth.gaurd';
 import { LoginGaurd } from '../providers/gaurd/login.gaurd';
-import { PageNotFound } from '../pages/404/page404';
+import { Page404Component } from '../pages/404/page404.component';
 import { LoginComponent } from '../pages/login/login.component';
 
 const routes: Routes = [
@@ -16,8 +16,8 @@ const routes: Routes = [
   redirectTo: '/page404'
  },
  {
-  path: 'page404',
-  component: PageNotFound
+    path: 'page404',
+    component: Page404Component
  }
 ];
 
