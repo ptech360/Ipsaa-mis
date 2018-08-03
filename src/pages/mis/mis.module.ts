@@ -13,6 +13,7 @@ import {
 import { ComponentsModule } from '../components/components.module';
 import { MISComponent } from './mis.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { TableComponent } from '../components/table/table.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +25,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatInputModule,
     MatTooltipModule,
   ],
-  declarations: [MISComponent, DashboardComponent],
+  declarations: [MISComponent, DashboardComponent, TableComponent],
 })
 
 export class MISModule {}

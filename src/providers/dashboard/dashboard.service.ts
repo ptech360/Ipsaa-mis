@@ -1,9 +1,17 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Api } from '../api/api';
+import { Student } from '../../modal/student';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import { Staff } from '../../modal/staff';
+import { Center } from '../../modal/center';
 
 @Injectable({providedIn: 'root'})
 export class DashboardService {
+ students: Student[];
+ staff: Staff[];
+ centers: Center[];
  constructor(public api: Api) {
 
  }
@@ -38,5 +46,39 @@ export class DashboardService {
 
  getFee(timestamp: any) {
   return this.api.post('api/stats/fee', timestamp);
+ }
+
+ getStudents() {
+  if (this.students) {
+   return of(this.students);
+  }
+  return this.api.post('api/dash/student', {status: 'new request'}).map((response: any) => {
+   this.students = response;
+   return response;
+  });
+ }
+
+ getStaff() {
+  if (this.staff) {
+   return of(this.staff);
+  }
+  return this.api.post('api/dash/staff', {}).map((response: any) => {
+   this.staff = response;
+   return response;
+  });
+ }
+
+ getCenterList() {
+  if (this.centers) {
+   return of(this.centers);
+  }
+  return this.api.get('api/center/').map((response: any) => {
+   this.centers = response;
+   return response;
+  });
+ }
+
+ getStudentFee(body: any) {
+  return this.api.post('api/dash/studentfee', body);
  }
 }

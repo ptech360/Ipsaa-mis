@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../../providers/dashboard/dashboard.service';
-
+import {Student} from '../../../modal/student';
 @Component({
  selector: 'app-dashboard',
  templateUrl: './dashboard.component.html',
- styleUrls: []
+ styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
  zones: any;
@@ -20,15 +20,21 @@ export class DashboardComponent implements OnInit {
  quarters: any[] = ['FYQ4', 'FYQ1', 'FYQ2', 'FYQ3'];
  monthly: any = { feeDuration: 'Monthly', month: new Date().getMonth() + 1, year: new Date().getFullYear() };
  quarterly: any = { feeDuration: 'Quarterly', quarter: Math.floor(new Date().getMonth() / 3) + 1 , year: new Date().getFullYear() };
+ years: any[] = [new Date().getFullYear() - 1, new Date().getFullYear()];
  monthlyFee: any = {};
  quarterlyFee: any = {};
+ students: Student[] = [];
+ tableData: any[] = [];
+ staff: any;
+ tableColumn: any[] = [];
+ tableTitle: string;
  constructor(private dashboardService: DashboardService) {
 
  }
 
  ngOnInit() {
-  this.getMonthlyFee();
-  this.getQuarterlyFee();
+  this.getMonthlyFee({});
+  this.getQuarterlyFee({});
   this.getStatsResult();
   this.getZones();
   this.getCities();
@@ -60,12 +66,12 @@ export class DashboardComponent implements OnInit {
   if (this.selectedZone !== 'all') {
    object.zone = this.selectedZone.name;
    this.cities = this.selectedZone.cities;
-   this.getCenterByZone(this.selectedZone.name);
-  } else {
-   this.cities = this.citiesCopy;
+   // this.getCenterByZone(this.selectedZone.name);
   }
-  if (this.selectedCity) { object.zone = this.selectedZone.name; }
-  if (this.selectedCenter) { object.zone = this.selectedZone.name; }
+  if (this.selectedCity !== 'all') { object.city = this.selectedCity.name; }
+  if (this.selectedCenter !== 'all') { object.center = this.selectedCenter.code; }
+  this.getMonthlyFee(object);
+  this.getQuarterlyFee(object);
   this.dashboardService.getStats(object).subscribe((response: any) => {
    this.statsResult = response;
   });
@@ -77,17 +83,109 @@ export class DashboardComponent implements OnInit {
   });
  }
 
- getMonthlyFee() {
-  console.log(this.monthly);
-  this.dashboardService.getFee(this.monthly).subscribe((response: any) => {
+ getMonthlyFee(object: any) {
+  if (object) {
+   object = Object.assign(object, this.monthly );
+  } else {
+   object = Object.assign({}, this.monthly );
+  }
+  this.dashboardService.getFee(object).subscribe((response: any) => {
    this.monthlyFee = response;
   });
  }
 
- getQuarterlyFee() {
-  console.log(this.quarterly);
-  this.dashboardService.getFee(this.quarterly).subscribe((response: any) => {
+ getQuarterlyFee(object: any) {
+  if (object) {
+   object = Object.assign(object, this.quarterly );
+  } else {
+   object = Object.assign({}, this.quarterly );
+  }
+  this.dashboardService.getFee(object).subscribe((response: any) => {
    this.quarterlyFee = response;
+  });
+ }
+
+ getStudents() {
+  this.tableTitle = 'Students';
+  this.tableData = [];
+  this.dashboardService.getStudents().subscribe((response: any) => {
+   this.tableData = response;
+   this.students = response;
+   this.tableColumn = [ 'name', 'program', 'group', 'present', 'expectedIn', 'expectedOut', 'checkin', 'checkout', 'extraHours'];
+  });
+ }
+
+ getStaff() {
+  this.tableTitle = 'Staff';
+  this.tableData = [];
+  this.dashboardService.getStaff().subscribe((response: any) => {
+   this.tableData = response;
+   this.tableColumn = [ 'eid', 'name', 'designation', 'mobile', 'center', 'employer', 'ctc'];
+  });
+ }
+
+ getCenterList() {
+  this.tableTitle = 'Centers';
+  this.tableData = [];
+  this.dashboardService.getCenterList().subscribe((response: any) => {
+   this.tableData = response;
+   this.tableColumn = ['code', 'capacity', 'name', 'type', 'address', 'city', 'zone'];
+  });
+ }
+
+ getFilteredStudents(filterType: any) {
+  this.tableTitle = filterType + ' Students';
+  this.tableData = [];
+  this.tableColumn = [];
+  this.dashboardService.getStudents().subscribe((response: any) => {
+   this.students = response;
+   switch (filterType) {
+    case 'Present':
+     this.tableColumn = [ 'name', 'program', 'group', 'corporate', 'checkin', 'expectedOut'];
+     this.tableData = this.students.filter(student => {
+      return student.present;
+     });
+    break;
+    case 'Corporate':
+     this.tableColumn = [ 'name', 'program', 'group', 'corporate', 'checkin', 'checkout', 'expectedOut', 'extraHours'];
+     this.tableData = this.students.filter((student: any) => {
+      if (student.checkin < student.expectedIn) {
+       student.extraHours += Math.trunc(student.expectedIn - student.checkin);
+      }
+      if (student.checkout > student.expectedOut) {
+       student.extraHours += Math.trunc(student.checkout - student.expectedOut);
+      }
+      return student.corporate;
+     });
+    break;
+    case 'Non-corporate':
+     this.tableColumn = [ 'name', 'program', 'group', 'corporate', 'checkin' , 'checkout', 'expectedOut', 'extraHours'];
+     this.tableData = this.students.filter((student: any) => {
+      if (student.checkin < student.expectedIn) {
+       student.extraHours += Math.trunc(student.expectedIn - student.checkin);
+      }
+      if (student.checkout > student.expectedOut) {
+       student.extraHours += Math.trunc(student.checkout - student.expectedOut);
+      }
+      return !(student.corporate);
+     });
+    break;
+   }
+  });
+ }
+
+ getStudentFee(feeDuration: any) {
+  const object: any = {};
+  this.tableTitle = 'Students Fee';
+  this.tableData = [];
+  this.tableColumn = [];
+  object.feeDuration = feeDuration;
+  if (this.selectedZone !== 'all') { object.center = this.selectedZone.name; }
+  if (this.selectedCity !== 'all') { object.city = this.selectedCity.name; }
+  if (this.selectedCenter !== 'all') { object.center = this.selectedCenter.code; }
+  this.dashboardService.getStudentFee(object).subscribe((response: any) => {
+   this.tableData = response;
+   this.tableColumn = [ 'name', 'program', 'group', 'center', 'baseFee', 'discount', 'finalFee', 'feeDuration'];
   });
  }
 

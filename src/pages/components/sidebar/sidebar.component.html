@@ -33,6 +33,24 @@
                 <p>{{menuItem.title}}</p>
             </a>
         </li>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" data-toggle="collapse" data-target="#admin">
+                <i class="material-icons">settings</i>
+                <p>Admin
+                    <b class="caret"></b>
+                </p>
+            </a>
+            <div class="collapse" id="admin">
+                <ul class="nav">
+                    <li class="nav-item" routerLinkActive="active">
+                        <a class="nav-link" routerLink="admin/student">
+                            <span class="sidebar-mini">&nbsp;</span>
+                            <span class="sidebar-normal">Student</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
         <li routerLinkActive="active" *ngFor="let item of menu.items" class="nav-item">
             <a class="nav-link" data-toggle="collapse" [attr.href]="'#id_' + item.label.split(' ').join('-')">
                 <i class="material-icons">{{item.icon}}</i>

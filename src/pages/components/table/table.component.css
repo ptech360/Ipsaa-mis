@@ -1,0 +1,6 @@
+.table-responsive{
+ height: 80vh;
+}
+.table th {
+ text-transform: capitalize;
+}
