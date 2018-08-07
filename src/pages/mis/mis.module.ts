@@ -14,6 +14,7 @@ import { ComponentsModule } from '../components/components.module';
 import { MISComponent } from './mis.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TableComponent } from '../components/table/table.component';
+import { PagerService } from '../../providers/pagination/pager.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +27,7 @@ import { TableComponent } from '../components/table/table.component';
     MatTooltipModule,
   ],
   declarations: [MISComponent, DashboardComponent, TableComponent],
+  providers: [PagerService]
 })
 
 export class MISModule {}
