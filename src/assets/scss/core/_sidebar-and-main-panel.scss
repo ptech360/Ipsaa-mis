@@ -147,14 +147,14 @@
             & .dropdown-menu a:hover,
             & .dropdown-menu a:focus,
             &.active > [data-toggle="collapse"]{
-                background-color: rgba(200, 200, 200, 0.2);
-                color: $black-color;
-                box-shadow: none;
+                color: #fff !important;
+                background-color: #ff9800 !important;
+                box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4) !important;
             }
 
             &.active > [data-toggle="collapse"]{
                 i{
-                    color: #a9afbb;
+                    color: #fff;
                 }
             }
 

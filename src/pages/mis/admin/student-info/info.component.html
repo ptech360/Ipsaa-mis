@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-header card-header-warning">
+      <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="card-title">Student Info</h4>
+      <p class="card-category">Category subtitle</p>
+  </div>
+  <div class="card-body">
+      The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona...
+  </div>
+  <div class="card-footer">
+   <div class="stats">
+     <button mat-raised-button class="btn btn-success" *ngIf="editable">Save</button>
+     <button mat-raised-button class="btn btn-danger" (click)="hideViewPanel()">Cancel</button>
+   </div>
+  </div>
+</div>
