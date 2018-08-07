@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { AlertService } from '../alert/alert.service';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -21,7 +22,7 @@ import 'rxjs/add/observable/throw';
 export class Api {
   url: string = environment.api;
 
-  constructor(public http: HttpClient, public storage: StorageService) {}
+  constructor(public http: HttpClient, public storage: StorageService, public errService: AlertService) {}
 
   getHeaders(optHeaders?: HttpHeaders) {
     let headers = new HttpHeaders();
@@ -100,6 +101,7 @@ export class Api {
     err.status = errorResponse.error ? errorResponse.error.status : errorResponse.status;
     err.message = errorResponse.error ? (errorResponse.error.message ? errorResponse.error.message : errorResponse.error.toString())
     : 'Something went wrong';
+    this.errService.errorAlert(err.message);
     return Observable.throw(err);
   }
 }

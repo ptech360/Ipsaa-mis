@@ -1,3 +1,13 @@
+<div class="wrapper" *ngIf="loading">
+    <div class="row cf">   
+        <div class="loader-container">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" *ngIf="!loading">
+
 <div class="row">
   <div class="col-md-4">
     <div class="form-group">
@@ -89,4 +99,5 @@
   <div class="col-md-6" *ngIf="viewPanel">
     <app-student-info [id]="selectedStudent.id" [update]="update"></app-student-info>
   </div>
+</div>
 </div>
