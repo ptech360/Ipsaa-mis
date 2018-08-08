@@ -71,13 +71,19 @@ export class StudentComponent implements OnInit {
  }
 
  showStudent(student) {
+  this.update = false;
   this.selectedStudent = student;
   this.adminService.viewPanel.next(true);
  }
 
  editStudent(student) {
-  this.selectedStudent = student;
   this.update = true;
+  this.selectedStudent = student;
+  this.adminService.viewPanel.next(true);
+ }
+
+ addNewStudent() {
+  this.update = false;
   this.adminService.viewPanel.next(true);
  }
 

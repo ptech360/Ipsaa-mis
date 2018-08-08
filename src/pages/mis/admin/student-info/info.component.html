@@ -1,18 +1,299 @@
 <div class="card">
-  <div class="card-header card-header-warning">
-      <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="card-title">Student Info</h4>
-      <p class="card-category">Category subtitle</p>
+ <div class="card-header card-header-warning">
+  <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
+   <span aria-hidden="true">&times;</span>
+  </button>
+  <!-- <h4 class="card-title">Student Info</h4>
+  <p class="card-category">Category subtitle</p> -->
+  <div class="card-profile">
+   <!-- <img *ngIf="(loaded&&student)" src="/assets/img/loading.gif" /> -->
+   <img *ngIf="!student.studentImageData" src="/assets/img/default-avatar.png" />
+   <img id="student-profile" *ngIf="student.studentImageData" [hidden]="!loaded" (load)="loaded = true" [src]="'data:image/PNG;base64,' + student.studentImageData" />
   </div>
-  <div class="card-body">
-      The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona...
+ </div>
+ <div class="card-body">
+  <div class="card-profile-name">
+   <span>{{student.fullName}}</span>
+   <span *ngIf="!student.fullName">New Student</span>
+   <br>
+   <a href="" onclick="document.getElementById('upload').click(); return false" *ngIf="student.fullName">Update Profile Pic</a>
+   <input type="file" id="upload" name="upload" style="display: none" (change)="uploadProfilePic(student, $event.target.files['0'])" />
   </div>
-  <div class="card-footer">
-   <div class="stats">
-     <button mat-raised-button class="btn btn-success" *ngIf="editable">Save</button>
-     <button mat-raised-button class="btn btn-danger" (click)="hideViewPanel()">Cancel</button>
-   </div>
+  <div class="card-content">
+   <!-- Nav pills -->
+   <ul class="nav nav-pills nav-tabs" role="tablist">
+    <li class="nav-item">
+     <a class="nav-link active" data-toggle="tab" href="#profile">Profile</a>
+    </li>
+    <li class="nav-item">
+     <a class="nav-link" data-toggle="tab" href="#parent0">Father</a>
+    </li>
+    <li class="nav-item">
+     <a class="nav-link" data-toggle="tab" href="#parent1">Mother</a>
+    </li>
+   </ul>
+
+   <!-- Tab panes -->
+   <form class="tab-content" [formGroup]="studentForm">
+    <div id="profile" class="container tab-pane active">
+     <br>
+     <div class="row" *ngIf="student.admissionNumber">
+      <div class="col-lg-6">
+       <label class="control-label">Admission Number : </label> {{student.admissionNumber}}</div>
+     </div>
+     <div class="row">
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">First Name : </label>
+        <input class="form-control" value=" Pankaj" formControlName="firstName">
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Last Name : </label>
+        <input class="form-control" value=" Kharetwal" formControlName="lastName">
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Nick Name : </label>
+        <input class="form-control" value=" Pankaj" formControlName="nickName">
+       </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Center : </label>
+        <select class="form-control" formControlName="centerId">
+         <option *ngFor="let center of centers;let c = index;" [ngValue]="center.id"> {{center.name}}</option>
+        </select>
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Program : </label>
+        <select class="form-control" formControlName="programId">
+          <option *ngFor="let program of programs;let c = index;" [ngValue]="program.id"> {{program.name}}</option>
+        </select>
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Group : </label>
+        <select class="form-control" formControlName="groupId">
+          <option *ngFor="let group of groups;let c = index;" [ngValue]="group.id"> {{group.name}}</option>
+        </select>
+       </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Gender : </label>
+        <select class="form-control" formControlName="gender">
+          <option value="">Gender</option>
+          <option value="Male">Boy</option>
+          <option value="Female">Girl</option>
+        </select>
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Blood Group : </label>
+        <select class="form-control" formControlName="bloodGroup">
+         <option *ngFor="let bg of bloodGroups;">{{bg}}</option>
+        </select>
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Familty Type : </label>
+        <select class="form-control" formControlName="familyType">
+          <option value="">Family Type</option>
+          <option value="Nuclear">Nuclear</option>
+          <option value="Joint">Joint</option>
+        </select>
+       </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Expected In : </label>
+        <input class="form-control" formControlName="expectedIn">
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <label class="control-label">Expected Out : </label>
+        <input class="form-control" formControlName="expectedOut">
+       </div>
+      </div>
+      <div class="col-lg-4">
+       <div class="form-group">
+        <div class="checkbox" style="padding-top: 45px;">
+         <label>
+          <input type="checkbox" checked="checked" formControlName="corporate"> Corporate Student
+         </label>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <ng-container formArrayName="parents">
+    <div [attr.id]="'parent'+i" class="container tab-pane fade" *ngFor=" let parent of studentForm.controls.parents.controls;let i = index;" [formGroupName]="i">
+     <br>
+     <div class="row">
+      <div class="col-lg-6">
+       <div class="form-group">
+        <label class="control-label">First Name : </label>
+        <input class="form-control" value=" Pankaj" formControlName="firstName">
+       </div>
+      </div>
+      <div class="col-lg-6">
+       <div class="form-group">
+        <label class="control-label">Last Name : </label>
+        <input class="form-control" value=" Kharetwal" formControlName="lastName">
+       </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-md-6">
+       <div class="form-group">
+        <label class="control-label">*Phone</label>
+        <input class="form-control" type="text" formControlName="mobile">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-6">
+       <div class="form-group">
+        <label class="control-label">*Email</label>
+        <input class="form-control" type="email" formControlName="email">
+        <span class="material-input"></span>
+       </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-md-6">
+       <div class="checkbox">
+        <label>
+         <input type="checkbox" checked="checked" formControlName="smsEnabled"> SMS Notification
+        </label>
+       </div>
+      </div>
+      <div class="col-md-6">
+       <div class="checkbox">
+        <label>
+         <input type="checkbox" checked="checked" formControlName="emailEnabled"> Email Notification
+        </label>
+       </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-md-6">
+       <div class="form-group">
+        <label class="control-label">Educational Qualification</label>
+        <input class="form-control" name="fatherEducationalQualification" type="text" formControlName="educationalQualification">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-6">
+       <div class="form-group">
+        <label class="control-label">Occupation</label>
+        <input class="form-control" name="fatherOccupation" type="text" formControlName="occupation">
+        <span class="material-input"></span>
+       </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-md-6">
+       <div class="form-group">
+        <label class="control-label">Designation</label>
+        <input class="form-control" name="fatherdesignation" type="text" formControlName="designation">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-6">
+       <div class="form-group">
+        <label class="control-label">Organisation</label>
+        <input class="form-control" name="fatherOrganisation" type="text" formControlName="organisation">
+        <span class="material-input"></span>
+       </div>
+      </div>
+     </div>
+     <div class="row" formGroupName="residentialAddress">
+      <h4 class="col-lg-12">Residential Address</h4>
+      <div class="col-lg-12">
+       <div class="form-group">
+        <label class="control-label">Address</label>
+        <input class="form-control" type="text" formControlName="address">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-4">
+       <div class="form-group">
+        <label class="control-label">City</label>
+        <input class="form-control" name="city" type="text" formControlName="city">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-4">
+       <div class="form-group">
+        <label class="control-label">State</label>
+        <input class="form-control" name="state" type="text" formControlName="state">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-4">
+       <div class="form-group">
+        <label class="control-label">Zipcode</label>
+        <input class="form-control" name="zipcode" type="text" formControlName="zipcode">
+        <span class="material-input"></span>
+       </div>
+      </div>
+     </div>
+     <div class="row" formGroupName="officeAddress">
+      <h4 class="col-lg-12">Office Address</h4>
+      <div class="col-lg-12">
+       <div class="form-group">
+        <label class="control-label">Address</label>
+        <input class="form-control" type="text" formControlName="address">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-4">
+       <div class="form-group">
+        <label class="control-label">City</label>
+        <input class="form-control" name="city" type="text" formControlName="city">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-4">
+       <div class="form-group">
+        <label class="control-label">State</label>
+        <input class="form-control" name="state" type="text" formControlName="state">
+        <span class="material-input"></span>
+       </div>
+      </div>
+      <div class="col-md-4">
+       <div class="form-group">
+        <label class="control-label">Zipcode</label>
+        <input class="form-control" name="zipcode" type="text" formControlName="zipcode">
+        <span class="material-input"></span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </ng-container>
+   </form>
   </div>
+ </div>
+
+ <div class="card-footer">
+  <div class="stats">
+   <button mat-raised-button class="btn btn-primary">Save</button>
+   <button mat-raised-button class="btn btn-default" (click)="hideViewPanel()">Cancel</button>
+  </div>
+ </div>
 </div>

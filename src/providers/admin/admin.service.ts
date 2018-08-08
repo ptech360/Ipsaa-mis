@@ -18,6 +18,14 @@ export class AdminService {
   return this.api.get('api/program/');
  }
 
+ getCenters() {
+  return this.api.get('api/center/');
+ }
+
+ getGroups() {
+  return this.api.get('api/group/');
+ }
+
  getStudents(body: any) {
   return this.api.post('api/student/filter', body);
  }
@@ -28,6 +36,14 @@ export class AdminService {
 
  deleteStudentById(studentId: number) {
   return this.api.delete('api/student/' + studentId);
+ }
+
+ getPrivileges() {
+  return this.api.get('api/user/my_privileges');
+ }
+
+ uploadStudentProfilePic(studentId: number, formData: FormData) {
+  return this.api.post('api/student/' + studentId + '/profile-pic', formData);
  }
 
 }

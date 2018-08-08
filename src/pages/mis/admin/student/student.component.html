@@ -1,11 +1,11 @@
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="form-group">
       <label for="exampleFormControlInput1">Search</label>
       <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Search by Student Name.." (keyup)="searchStudent($event)">
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="form-group">
       <label for="exampleFormControlSelect2">Program</label>
       <select class="form-control" id="exampleFormControlSelect2" [(ngModel)]="programCode" (ngModelChange)="getStudents()">
@@ -14,7 +14,7 @@
       </select>
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="form-group">
       <label for="exampleFormControlSelect3">Active/Incative</label>
       <select class="form-control" id="exampleFormControlSelect3" [(ngModel)]="activeStatus">
@@ -25,17 +25,17 @@
   </div>
 </div>
 <div class="row">
-  <div [class]="viewPanel?'col-md-6':'col-md-12'">
-    <div class="card card-stats">
+  <div [class]="viewPanel?'col-lg-6':'col-lg-12'">
+    <div class="card">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
           <i class="material-icons">content_copy</i>
         </div>
-        <h3 class="card-title">
-          <i class="fa fa-spinner fa-fw fa-pulse fa-2x text-primary" [hidden]="students.length"></i>Students
-          <!-- <small>GB</small> -->
+        <h3 class="card-title">Students
+          <i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="students.length"></i>
+          <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;" (click)="addNewStudent()">Add New</button>
         </h3>
-        <p class="card-category">Table Title</p>
+        
       </div>
       <div class="card-footer">
         <div class="table-responsive">
@@ -86,7 +86,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6" *ngIf="viewPanel">
+  <div class="col-lg-6" *ngIf="viewPanel">
     <app-student-info [id]="selectedStudent.id" [update]="update"></app-student-info>
   </div>
 </div>
