@@ -5,3 +5,56 @@
         </div>
     </div>
 </div>
+
+<div class="container-fluid">
+    <div class="main-content" [hidden]="loading">
+        <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="serach">Search:</label>
+                        <input type="text" class="form-control" id="search" [(ngModel)]="search" (ngModelChange)="searchStaff()">
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="center">Center:</label>
+                        <select class="form-control" id="center" [(ngModel)]="selectedCenter">
+                            <option value="all">All</option>
+                            <option *ngFor="let center of centers;" [ngValue]="center">{{center.name}}</option>
+                        </select>
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="staff_status">Staff Status:</label>
+                        <select class="form-control" id="staff_status" [(ngModel)]="selectedStaffStatus">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="staff_type">Staff Type:</label>
+                        <select class="form-control" id="staff_type" [(ngModel)]="selectedStaffType">
+                            <option value="all" selected>All</option>
+                            <option *ngFor="let stafftype of staffType" [ngValue]="stafftype.value">{{stafftype.name}}</option>
+                        </select>
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info mt-3" (click)="addStaff()">Add</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
