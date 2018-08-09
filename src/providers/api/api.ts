@@ -97,9 +97,14 @@ export class Api {
 
   handleError(errorResponse: HttpErrorResponse) {
     const err: any = {};
-    err.status = errorResponse.error ? errorResponse.error.status : errorResponse.status;
-    err.message = errorResponse.error ? (errorResponse.error.message ? errorResponse.error.message : errorResponse.error.toString())
-    : 'Something went wrong';
+    err.status = errorResponse.error
+      ? errorResponse.error.status
+      : errorResponse.status;
+    err.message = errorResponse.error
+      ? errorResponse.error.message
+        ? errorResponse.error.message
+        : errorResponse.error.toString()
+      : 'Something went wrong';
     return Observable.throw(err);
   }
 }

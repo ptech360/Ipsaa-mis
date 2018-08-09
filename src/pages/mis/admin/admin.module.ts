@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,16 +9,8 @@ import { AdminService } from '../../../providers/admin/admin.service';
 import { StudentInfoComponent } from './student-info/info.component';
 
 @NgModule({
- imports: [
-  CommonModule,
-  AdminRoutingModule,
-  FormsModule,
-  ReactiveFormsModule
- ],
- declarations: [AdminComponent, StudentComponent, StudentInfoComponent],
- providers: [AdminService]
+  imports: [CommonModule, AdminRoutingModule, FormsModule, ReactiveFormsModule],
+  declarations: [AdminComponent, StudentComponent, StudentInfoComponent],
+  providers: [AdminService]
 })
-export class AdminModule {
-
-}
-
+export class AdminModule {}

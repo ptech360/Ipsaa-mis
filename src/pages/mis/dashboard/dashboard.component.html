@@ -46,7 +46,7 @@
           </div>
           <div class="card-footer">
             <div class="stats">
-            
+
               <a class="link"> Open: {{statsResult.openFollowups}} | Today : {{statsResult.todayFollowups}} | Due : {{statsResult.previousFollowups}}</a>
             </div>
           </div>
@@ -65,7 +65,7 @@
           </div>
           <div class="card-footer" (click)="getCenterList()">
             <div class="stats">
-            
+
               <a class="link">Capacity:{{statsResult.capacity}} | Utilization:{{statsResult.utilisation}} %</a>
             </div>
           </div>
@@ -87,7 +87,7 @@
             <div class="stats">
               <a class="link" ng-click="showPanel('stafflist', 'present')">Present</a>
               : {{statsResult.staffPresent}} | &nbsp;
-              <a class="link" ng-click="showPanel('stafflist', 'newjoinings')">New Joiners</a> : {{statsResult.newJoinings}} | &nbsp;                 
+              <a class="link" ng-click="showPanel('stafflist', 'newjoinings')">New Joiners</a> : {{statsResult.newJoinings}} | &nbsp;
               <a class="link" ng-click="showPanel('stafflist', 'newleavings')">Leavers</a>
               : {{statsResult.newLeavings}} &nbsp;&nbsp;&nbsp;
             </div>
@@ -146,7 +146,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <div class="stats">            
+            <div class="stats">
               <a class="link" *ngIf="monthlyFee.collectedFee" (click)="getStudentFee(monthly.feeDuration)">Collected : {{monthlyFee.collectedFee.quarterly?monthlyFee.collectedFee.quarterly:0}}</a>
             </div>
           </div>
@@ -181,10 +181,10 @@
                   <span class="material-input"></span>
                 </div>
               </div>
-            </div>            
+            </div>
           </div>
           <div class="card-footer">
-            <div class="stats">            
+            <div class="stats">
               <a class="link" *ngIf="quarterlyFee.collectedFee" (click)="getStudentFee(quarterly.feeDuration)">Collected : {{quarterlyFee.collectedFee.quarterly?quarterlyFee.collectedFee.quarterly:0}}</a>
             </div>
           </div>

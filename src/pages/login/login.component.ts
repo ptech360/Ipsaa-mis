@@ -9,10 +9,7 @@ import { AlertService } from '../../providers/alert/alert.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
-
 export class LoginComponent implements OnInit {
-
   user = {
     email: '',
     password: 'riddhi0211'
@@ -23,20 +20,22 @@ export class LoginComponent implements OnInit {
     private userService: User,
     private router: Router,
     private alertService: AlertService
-  ) { }
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   verifyUser() {
     this.logging = true;
-    this.userService.login(this.user)
-      .subscribe((response: any) => {
+    this.userService.login(this.user).subscribe(
+      (response: any) => {
         this.logging = false;
         this.onSuccess();
-      }, (error: any) => {
+      },
+      (error: any) => {
         this.logging = false;
         this.onError(error);
-      });
+      }
+    );
   }
 
   onSuccess() {

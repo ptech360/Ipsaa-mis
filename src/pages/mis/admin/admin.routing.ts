@@ -4,22 +4,22 @@ import { AdminComponent } from './admin.component';
 import { StudentComponent } from './student/student.component';
 
 export const adminRoutes: Routes = [
-    {
-        path: '', component: AdminComponent,
-        children: [
-            {
-                path: 'student', component: StudentComponent
-            }
-        ]
-    }
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+      {
+        path: 'student',
+        component: StudentComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
- imports: [RouterModule.forChild(adminRoutes)],
- exports: [RouterModule]
+  imports: [RouterModule.forChild(adminRoutes)],
+  exports: [RouterModule]
 })
 export class AdminRoutingModule {
- constructor() {
- }
+  constructor() {}
 }
-

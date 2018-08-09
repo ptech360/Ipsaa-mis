@@ -8,20 +8,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MenuService } from '../../providers/initial/menu.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-  ],
-  declarations: [
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent
-  ],
-  exports: [
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent
-  ],
-  providers:[MenuService]
+  imports: [CommonModule, RouterModule],
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent],
+  exports: [FooterComponent, NavbarComponent, SidebarComponent],
+  providers: [MenuService]
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

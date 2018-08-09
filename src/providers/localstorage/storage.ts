@@ -5,9 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class StorageService {
-  constructor() {
-
-  }
+  constructor() {}
 
   public storeData(field_name: any, data: any) {
     if (field_name === 'access_token') {

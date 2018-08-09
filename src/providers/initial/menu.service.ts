@@ -5,16 +5,14 @@ import { StorageService } from '../localstorage/storage';
 
 @Injectable()
 export class MenuService {
- menu: any;
- constructor(public api: Api, public storage: StorageService) {
+  menu: any;
+  constructor(public api: Api, public storage: StorageService) {}
 
- }
+  getMenus() {
+    return this.api.get('api/user/menu');
+  }
 
- getMenus() {
-  return this.api.get('api/user/menu');
- }
-
- getUserProfile() {
-  return this.api.get('api/user/me/');
- }
+  getUserProfile() {
+    return this.api.get('api/user/me/');
+  }
 }

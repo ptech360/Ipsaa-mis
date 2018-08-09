@@ -8,7 +8,7 @@ import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
-  MatTooltipModule,
+  MatTooltipModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
 import { MISComponent } from './mis.component';
@@ -24,10 +24,9 @@ import { PagerService } from '../../providers/pagination/pager.service';
     MatButtonModule,
     MatRippleModule,
     MatInputModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   declarations: [MISComponent, DashboardComponent, TableComponent],
   providers: [PagerService]
 })
-
 export class MISModule {}

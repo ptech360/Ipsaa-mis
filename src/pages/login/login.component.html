@@ -16,10 +16,11 @@
 										<span class="input-group-addon">
 											<i class="material-icons">email</i>
 										</span>
-										<div class="form-group label-floating" >
+										<div class="form-group label-floating">
 											<label for="username" class="control-label">Email address</label>
-											<input type="email" name="username" id="username" class="form-control" [(ngModel)]="user.email" #username="ngModel" required autofocus>
-											<span class="err-msg-red err-msg-smaller" *ngIf="username.dirty && username.invalid" >Username is required</span>
+											<input type="email" name="username" id="username" class="form-control" [(ngModel)]="user.email" #username="ngModel" required
+											 autofocus>
+											<span class="err-msg-red err-msg-smaller" *ngIf="username.dirty && username.invalid">Username is required</span>
 										</div>
 									</div>
 									<div class="input-group">
@@ -28,7 +29,8 @@
 										</span>
 										<div class="form-group label-floating">
 											<label for="password" class="control-label">Password</label>
-											<input type="password" name="password" id="password" class="form-control" [(ngModel)]="user.password" #password="ngModel" required>
+											<input type="password" name="password" id="password" class="form-control" [(ngModel)]="user.password" #password="ngModel"
+											 required>
 											<span class="err-msg-red err-msg-smaller" *ngIf="password.dirty && password.invalid">Password is required</span>
 										</div>
 									</div>
@@ -46,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="full-page-background"></div>
 	</div>
 </div>

@@ -11,21 +11,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { PageNotFound } from '../pages/404/page404';
 import { LoginComponent } from '../pages/login/login.component';
 
-
-
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    AppRoutingModule
-  ],
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    PageNotFound
-  ],
+  imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
+  declarations: [AppComponent, LoginComponent, PageNotFound],
   providers: [Api, User, StorageService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

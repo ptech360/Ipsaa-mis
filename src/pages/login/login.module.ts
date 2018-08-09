@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+    FormsModule
     // RouterModule.forChild([{
     //   path: '',
     //   component: LoginComponent
@@ -15,4 +15,4 @@ import { FormsModule } from '@angular/forms';
   ],
   declarations: []
 })
-export class LoginModule { }
+export class LoginModule {}
