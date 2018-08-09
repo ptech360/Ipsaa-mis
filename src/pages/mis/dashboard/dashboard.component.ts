@@ -7,6 +7,7 @@ import { Student } from '../../../modal/student';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+    loading = true;
   zones: any;
   cities: any;
   centers: any;
@@ -97,6 +98,7 @@ export class DashboardComponent implements OnInit {
     this.getQuarterlyFee(object);
     this.dashboardService.getStats(object).subscribe((response: any) => {
       this.statsResult = response;
+        this.loading = false;
     });
   }
 

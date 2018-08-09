@@ -14,6 +14,7 @@ export class StudentComponent implements OnInit {
   pageNumber = 0;
   pageSize = 0;
   programCode = 'ALL';
+  loading = true;
 
   // array of all items to be paged
   allItems: any[];
@@ -63,6 +64,7 @@ export class StudentComponent implements OnInit {
       if (this.searchKey) {
         this.searchStudent(this.searchKey);
       }
+      this.loading = false;
     });
   }
 

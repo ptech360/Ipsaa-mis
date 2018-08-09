@@ -1,5 +1,5 @@
 export interface Staff {
- basicSalary: 11900;
+ basicSalary: number;
  center: string;
  checkin: string;
  checkout: string;

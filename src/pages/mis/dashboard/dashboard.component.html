@@ -1,4 +1,12 @@
-<div class="main-content">
+<div class="wrapper" *ngIf="loading">
+    <div class="row cf">
+        <div class="loader-container">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+<div class="main-content" [hidden]="loading">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-4">

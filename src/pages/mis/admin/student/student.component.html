@@ -1,11 +1,21 @@
+<div class="wrapper" *ngIf="loading">
+    <div class="row cf">   
+        <div class="loader-container">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!loading">
+
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <div class="form-group">
       <label for="exampleFormControlInput1">Search</label>
       <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Search by Student Name.." (keyup)="searchStudent($event)">
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-4">
     <div class="form-group">
       <label for="exampleFormControlSelect2">Program</label>
       <select class="form-control" id="exampleFormControlSelect2" [(ngModel)]="programCode" (ngModelChange)="getStudents()">
@@ -14,7 +24,7 @@
       </select>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-4">
     <div class="form-group">
       <label for="exampleFormControlSelect3">Active/Incative</label>
       <select class="form-control" id="exampleFormControlSelect3" [(ngModel)]="activeStatus">
@@ -25,7 +35,7 @@
   </div>
 </div>
 <div class="row">
-  <div [class]="viewPanel?'col-lg-6':'col-lg-12'">
+  <div [class]="viewPanel?'transition col-md-6':'transition col-md-12'">
     <div class="card">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
@@ -89,4 +99,6 @@
   <div class="col-lg-6" *ngIf="viewPanel">
     <app-student-info [id]="selectedStudent.id" [update]="update"></app-student-info>
   </div>
+</div>
+
 </div>

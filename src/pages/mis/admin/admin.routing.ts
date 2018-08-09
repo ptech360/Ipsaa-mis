@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { StudentComponent } from './student/student.component';
 import { CenterComponent } from './center/center/center.component';
+import { AppStaffComponent } from './staff/staff.component';
 
 export const adminRoutes: Routes = [
   {
@@ -16,6 +17,9 @@ export const adminRoutes: Routes = [
       {
         path: 'center',
         component: CenterComponent
+      },
+      {
+          path: 'staff', component: AppStaffComponent
       }
     ]
   }

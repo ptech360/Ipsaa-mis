@@ -8,12 +8,21 @@ import { User } from '../providers/user/user';
 import { StorageService } from '../providers/localstorage/storage';
 import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { PageNotFound } from '../pages/404/page404';
+import { Page404Component } from '../pages/404/page404.component';
 import { LoginComponent } from '../pages/login/login.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
-  declarations: [AppComponent, LoginComponent, PageNotFound],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    AppRoutingModule
+  ],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    Page404Component
+  ],
   providers: [Api, User, StorageService],
   bootstrap: [AppComponent]
 })

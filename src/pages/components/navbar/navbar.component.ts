@@ -105,7 +105,7 @@ export class NavbarComponent implements OnInit {
       }, 100);
 
       $layer.onclick = function() {
-        //asign a function
+        // asign a function
         body.classList.remove('nav-open');
         this.mobile_menu_visible = 0;
         $layer.classList.remove('visible');
@@ -121,18 +121,13 @@ export class NavbarComponent implements OnInit {
   }
 
   getTitle() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === '#') {
-      titlee = titlee.slice(2);
+    let title = this.location.prepareExternalUrl(this.location.path());
+    if (title.charAt(0) === '#') {
+      title = title.slice(2);
     }
-    titlee = titlee.split('/').pop();
+    title = title.split('/').pop();
 
-    for (var item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
-        return this.listTitles[item].title;
-      }
-    }
-    return 'Dashboard';
+    return title.charAt(0).toUpperCase() + title.substring(1);
   }
 
   onLogout() {

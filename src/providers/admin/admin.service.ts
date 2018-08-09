@@ -36,6 +36,20 @@ export class AdminService {
     return this.api.delete('api/student/' + studentId);
   }
 
+  // Used by staffComponent
+  getStaff() {
+    return this.api.get('api/staff/all/');
+  }
+  getStaffById(staffId: number) {
+    return this.api.get('api/staff/' + staffId);
+  }
+  filterStaff(filter) {
+    return this.api.post('api/staff/filter', filter);
+  }
+  deleteStaffById(staffId) {
+    return this.api.delete('api/staff/' + staffId);
+  }
+
   getPrivileges() {
     return this.api.get('api/user/my_privileges');
   }
