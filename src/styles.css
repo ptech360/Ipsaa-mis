@@ -3,6 +3,10 @@
     margin-top: 30px;
 }
 
+.transition {
+    transition: all .1s linear;
+}
+
 .loader-container {
     position: absolute;
     top: 40%;

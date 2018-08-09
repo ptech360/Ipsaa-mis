@@ -126,7 +126,7 @@ export class StudentComponent implements OnInit {
   const val = event.target.value;
     if (val && val.trim() !== '') {
      this.allItems = this.students.filter((student) => {
-      return student.fullName.startsWith(val);
+      return student.fullName.toLowerCase().startsWith(val);
      });
      this.setPage(1);
     } else {

@@ -8,6 +8,7 @@ import { StudentComponent } from './student/student.component';
 import { AdminService } from '../../../providers/admin/admin.service';
 import { StudentInfoComponent } from './student-info/info.component';
 import { AppStaffComponent } from './staff/staff.component';
+import { StaffInfoComponent } from './staff-info/staffInfo.component';
 
 @NgModule({
  imports: [
@@ -15,7 +16,7 @@ import { AppStaffComponent } from './staff/staff.component';
   AdminRoutingModule,
   FormsModule
  ],
- declarations: [AdminComponent, StudentComponent, StudentInfoComponent, AppStaffComponent],
+ declarations: [AdminComponent, StudentComponent, StudentInfoComponent, AppStaffComponent, StaffInfoComponent],
  providers: [AdminService]
 })
 export class AdminModule {
