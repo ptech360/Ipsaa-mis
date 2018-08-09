@@ -13,7 +13,6 @@ import {
 import { ComponentsModule } from '../components/components.module';
 import { MISComponent } from './mis.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TableComponent } from '../components/table/table.component';
 import { PagerService } from '../../providers/pagination/pager.service';
 @NgModule({
   imports: [
@@ -26,7 +25,7 @@ import { PagerService } from '../../providers/pagination/pager.service';
     MatInputModule,
     MatTooltipModule
   ],
-  declarations: [MISComponent, DashboardComponent, TableComponent],
+  declarations: [MISComponent, DashboardComponent],
   providers: [PagerService]
 })
 export class MISModule {}
