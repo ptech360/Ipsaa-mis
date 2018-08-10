@@ -15,7 +15,6 @@ export class AppStaffComponent implements OnInit {
     private alertService: AlertService
   ) {}
 
-  loading = true;
   loadingStaffList = false;
   centers: any;
   selectedCenter: any = 'all';
@@ -62,7 +61,6 @@ export class AppStaffComponent implements OnInit {
     this.adminService.getStaff().subscribe(response => {
       this.allItems = response;
       this.staffList = this.allItems;
-      this.loading = false;
     });
   }
 
