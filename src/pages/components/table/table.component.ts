@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 
 declare let $: any;
 
@@ -11,6 +11,7 @@ export class TableComponent implements AfterViewInit {
   private tableColums: any[] = [];
   private tableData: any[] = [];
   private tableTitle: string;
+  tableForObject: string;
 
   @Input()
   set dataArray(data: any[]) {
@@ -32,9 +33,21 @@ export class TableComponent implements AfterViewInit {
     this.tableTitle = text;
   }
 
+  @Input()
+  set tableFor(text: string) {
+    this.tableForObject = text;
+  }
+
+  @Output() showDetail: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   constructor() {}
 
   ngAfterViewInit() {
     $('.table-responsive').perfectScrollbar();
+  }
+
+  showInfoInSidePanel(object: any) {
+    object['selectedObject'] = this.tableForObject;
+    this.showDetail.emit(object);
   }
 }

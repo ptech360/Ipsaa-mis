@@ -83,10 +83,10 @@
       </div>
       <div class="card-footer" (click)="getStaff()">
         <div class="stats">
-          <a class="link" ng-click="showPanel('stafflist', 'present')">Present</a>
+          <a class="link" >Present</a>
           : {{statsResult.staffPresent}} | &nbsp;
-          <a class="link" ng-click="showPanel('stafflist', 'newjoinings')">New Joiners</a> : {{statsResult.newJoinings}} | &nbsp;
-          <a class="link" ng-click="showPanel('stafflist', 'newleavings')">Leavers</a>
+          <a class="link" >New Joiners</a> : {{statsResult.newJoinings}} | &nbsp;
+          <a class="link" >Leavers</a>
           : {{statsResult.newLeavings}} &nbsp;&nbsp;&nbsp;
         </div>
       </div>
@@ -189,6 +189,11 @@
     </div>
   </div>
 </div>
-<div *ngIf="tableTitle">
-  <app-table [title]="tableTitle" [dataArray]="tableData" [tableColumn]="tableColumn"></app-table>
+<div class="row" *ngIf="tableTitle">
+  <div [class]="viewPanel?'transition col-md-6':'transition col-md-12'">
+    <app-table [title]="tableTitle" [dataArray]="tableData" [tableColumn]="tableColumn" [tableFor]="tableFor" (showDetail)="showDetail($event)"></app-table>
+  </div>
+  <div class="col-lg-6" *ngIf="viewPanel">
+    <app-student-info [id]="selectedStudent.id" [update]="update"></app-student-info>
+  </div>
 </div>

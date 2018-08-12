@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../../providers/dashboard/dashboard.service';
 import { Student } from '../../../modal/student';
+import { AdminService } from '../../../providers/admin/admin.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -49,7 +50,11 @@ export class DashboardComponent implements OnInit {
   staff: any;
   tableColumn: any[] = [];
   tableTitle: string;
-  constructor(private dashboardService: DashboardService) {}
+  tableFor: string;
+  selectedStudent: any = {};
+  update: boolean;
+  viewPanel: boolean;
+  constructor(private dashboardService: DashboardService, private adminService: AdminService) {}
 
   ngOnInit() {
     this.getMonthlyFee({});
@@ -58,6 +63,7 @@ export class DashboardComponent implements OnInit {
     this.getZones();
     this.getCities();
     this.getCenters();
+    this.subscribeViewPanelChange();
   }
 
   getZones() {
@@ -183,6 +189,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getFilteredStudents(filterType: any) {
+    this.tableFor = 'student';
     this.tableTitle = filterType + ' Students';
     this.tableData = [];
     this.tableColumn = [];
@@ -283,6 +290,18 @@ export class DashboardComponent implements OnInit {
         'finalFee',
         'feeDuration'
       ];
+    });
+  }
+
+  showDetail(data: any) {
+    console.log(data);
+    this.selectedStudent = data;
+    this.update = true;
+    this.adminService.viewPanel.next(true);
+  }
+  subscribeViewPanelChange = () => {
+    this.adminService.viewPanel.subscribe((val: boolean) => {
+      this.viewPanel = val;
     });
   }
 }

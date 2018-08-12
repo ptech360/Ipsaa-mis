@@ -24,7 +24,9 @@ export class StudentInfoComponent implements OnInit {
   newStudent: boolean;
   @Input()
   set id(id: number) {
+    console.log(id);
     if (id) {
+      this.newStudent = false;
       this.adminService.getStudentById(id).subscribe((student: any) => {
         this.student = student;
         this.studentForm.patchValue(student);
@@ -34,6 +36,7 @@ export class StudentInfoComponent implements OnInit {
       });
     } else {
       this.newStudent = true;
+      this.studentForm = this.getStudentForm();
     }
   }
 
@@ -47,7 +50,15 @@ export class StudentInfoComponent implements OnInit {
     this.getCenters();
     this.getPrograms();
     this.getGroups();
-    this.studentForm = this.fb.group({
+    this.studentForm = this.getStudentForm();
+    if (this.newStudent) {
+      this.studentForm.addControl('fee', this.getFeeField());
+    }
+    console.log(this.studentForm.value);
+  }
+
+  getStudentForm() {
+    return this.fb.group({
       active: [''],
       admissionDate: [''],
       admissionNumber: [''],
@@ -73,10 +84,6 @@ export class StudentInfoComponent implements OnInit {
       programId: [''],
       parents: this.fb.array([this.getParentData(), this.getParentData()])
     });
-    if (this.newStudent) {
-      this.studentForm.addControl('fee', this.getFeeField());
-    }
-    console.log(this.studentForm.value);
   }
 
   getParentData() {

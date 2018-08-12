@@ -26,7 +26,7 @@
             </li>
         </ul>
     </div>
-    <ul class="nav">
+    <ul class="nav" id="accordion">
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
             <a class="nav-link" [routerLink]="[menuItem.path]">
                 <i class="material-icons">{{menuItem.icon}}</i>
@@ -40,7 +40,7 @@
                     <b class="caret"></b>
                 </p>
             </a>
-            <div class="collapse" id="admin">
+            <div class="collapse" id="admin" data-parent="#accordion">
                 <ul class="nav">
                     <li routerLinkActive="active" class="nav-item">
                         <a class="nav-link" routerLink="admin/student">
@@ -70,7 +70,7 @@
                     <b class="caret"></b>
                 </p>
             </a>
-            <div class="collapse" [attr.id]="'id_'+item.label.split(' ').join('-')">
+            <div class="collapse" [attr.id]="'id_'+item.label.split(' ').join('-')" data-parent="#accordion">
                 <ul class="nav">
                     <li class="nav-item" *ngFor="let submenu of item.submenu">
                         <a class="nav-link" [attr.href]="submenu.state" (click)="menuClicked()">

@@ -1,4 +1,5 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 import { MISComponent } from './mis.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -23,3 +24,11 @@ export const MISRoutes: Routes = [
     ]
   }
 ];
+
+@NgModule({
+  imports: [RouterModule.forChild(MISRoutes)],
+  exports: [RouterModule]
+})
+export class MISRoutingModule {
+  constructor() {}
+}

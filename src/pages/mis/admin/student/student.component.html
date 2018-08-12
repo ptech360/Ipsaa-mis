@@ -32,7 +32,7 @@
           <i class="material-icons">content_copy</i>
         </div>
         <h3 class="card-title">Students
-          <i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="students.length"></i>
+          <i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="!loader"></i>
           <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;" (click)="addNewStudent()">Add New</button>
         </h3>
 
@@ -58,6 +58,7 @@
                   <button type="button" class="btn btn-danger btn-sm" (click)="deleteStudentSwal(student)" *ngIf="hasPrivilege('STUDENT_DELETE')">del</button>
                 </td>
               </tr>
+              <tr *ngIf="!loader && pagedItems.length === 0"><td colspan="4" class="text-center">No Student</td></tr>
               <tr>
                 <td colspan="4">
                   <!-- pager -->

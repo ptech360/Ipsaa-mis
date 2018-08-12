@@ -1,5 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
+.transition {
+    transition: all .1s linear;
+}
+
+.table-responsive {
+height: 80vh;
+}
+.table th {
+text-transform: capitalize;
+}
+
 /* .swal-footer {
     background-color: rgb(245, 248, 250);
     margin-top: 32px;

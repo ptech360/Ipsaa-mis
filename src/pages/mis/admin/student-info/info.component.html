@@ -14,10 +14,10 @@
   </div>
   <div class="card-body">
     <div class="card-profile-name">
-      <span>{{student.fullName}}</span>
+      <span *ngIf="!newStudent">{{student.fullName}}</span>
       <span *ngIf="newStudent">New Student</span>
       <br>
-      <a href="" onclick="document.getElementById('upload').click(); return false" *ngIf="student.fullName">Update Profile Pic</a>
+      <a href="" onclick="document.getElementById('upload').click(); return false" *ngIf="!newStudent">Update Profile Pic</a>
       <input type="file" id="upload" name="upload" style="display: none" (change)="uploadProfilePic(student, $event.target.files['0'])"
       />
     </div>
@@ -42,7 +42,7 @@
       <form class="tab-content" [formGroup]="studentForm">
         <div id="profile" class="container tab-pane active">
           <br>
-          <div class="row" *ngIf="student.admissionNumber">
+          <div class="row" *ngIf="!newStudent">
             <div class="col-lg-6">
               <label class="control-label">Admission Number : </label> {{student.admissionNumber}}</div>
           </div>
@@ -292,7 +292,7 @@
             </div>
           </div>
         </ng-container>
-        <div id="feeTab" class="container tab-pane" formGroupName="fee" *ngIf="newStudent">
+        <div id="feeTab" class="container tab-pane" *ngIf="newStudent">
           <br>
           <p>
             <strong>Fee Section Comming Soon</strong>

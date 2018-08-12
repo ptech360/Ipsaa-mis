@@ -1,48 +1,46 @@
 <div class="row">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs col-lg-12" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#Center" (click)="changeTab('Center')">Centers</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#Zone" (click)="changeTab('Zone')">Zones</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#City" (click)="changeTab('City')">Cities</a>
+    </li>
+  </ul>
   <div [class]="viewPanel?'col-lg-6':'col-lg-12'">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#Centers" (click)="changeTab('Centers')">Centers</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#Zones" (click)="changeTab('Zones')">Zones</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#Cities" (click)="changeTab('Cities')">Cities</a>
-      </li>
-    </ul>
-
     <!-- Tab panes -->
     <div class="tab-content">
-      <div id="Centers" class="tab-pane active"><br>
-            <br>
+      <div id="Center" class="tab-pane active">
+        <br>
         <div class="card">
           <div class="card-header card-header-warning card-header-icon">
             <div class="card-icon">
               <i class="material-icons">content_copy</i>
             </div>
             <h3 class="card-title">
-              {{tableTitle}}<i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="tableData.length"></i>
-              <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;">Add New</button>
+              {{tableTitle}}
+              <i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="tableData.length"></i>
+              <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;" (click)="showSidePanel(false,null)" >Add New</button>
             </h3>
           </div>
           <div class="card-footer">
-            <div class="table-responsive ps-child">
-              <table class="table text-center">
+            <div class="table-responsive">
+              <table class="table">
                 <thead class="text-primary" *ngIf="tableColumn">
                   <tr>
-                    <th>S No.</th>
                     <th *ngFor="let col of tableColumn;">{{col}}</th>
                     <th width="20%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of tableData;let i = index;">
-                    <td> {{i + 1}}</td>
                     <td *ngFor="let col of tableColumn;">{{row[col]}}</td>
                     <td>
-                      <button mat-raised-button class="btn btn-primary btn-sm">Edit</button>
+                      <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,row)">Edit</button>
                       <button mat-raised-button class="btn btn-danger btn-sm">Delete</button>
                     </td>
                   </tr>
@@ -55,31 +53,30 @@
           </div>
         </div>
       </div>
-      <div id="Zones" class="tab-pane fade"><br>
-            <br>
+      <div id="Zone" class="tab-pane fade">
+        <br>
         <div class="card">
           <div class="card-header card-header-warning card-header-icon">
             <div class="card-icon">
               <i class="material-icons">content_copy</i>
             </div>
             <h3 class="card-title">
-              {{tableTitle}}<i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="tableData.length"></i>
-              <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;">Add New</button>
+              {{tableTitle}}
+              <i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="tableData.length"></i>
+              <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;" (click)="showSidePanel(false,null)" >Add New</button>
             </h3>
           </div>
           <div class="card-footer">
-            <div class="table-responsive ps-child">
-              <table class="table text-center">
+            <div class="table-responsive">
+              <table class="table">
                 <thead class="text-primary" *ngIf="tableColumn">
                   <tr>
-                    <th>S No.</th>
                     <th *ngFor="let col of tableColumn;">{{col}}</th>
                     <th width="20%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of tableData;let i = index;">
-                    <td> {{i + 1}}</td>
                     <td *ngFor="let col of tableColumn;">
                       <span *ngIf="col != 'cities'">{{row[col]}}</span>
                       <ng-container *ngIf="col == 'cities'">
@@ -87,7 +84,7 @@
                       </ng-container>
                     </td>
                     <td>
-                      <button mat-raised-button class="btn btn-primary btn-sm">Edit</button>
+                      <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,row)">Edit</button>
                       <button mat-raised-button class="btn btn-danger btn-sm">Delete</button>
                     </td>
                   </tr>
@@ -100,34 +97,33 @@
           </div>
         </div>
       </div>
-      <div id="Cities" class="tab-pane fade"><br>
-            <br>
+      <div id="City" class="tab-pane fade">
+        <br>
         <div class="card">
           <div class="card-header card-header-warning card-header-icon">
             <div class="card-icon">
               <i class="material-icons">content_copy</i>
             </div>
             <h3 class="card-title">
-              {{tableTitle}}<i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="tableData.length"></i>
-              <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;">Add New</button>
+              {{tableTitle}}
+              <i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="tableData.length"></i>
+              <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;" (click)="showSidePanel(false,null)" >Add New</button>
             </h3>
           </div>
           <div class="card-footer">
-            <div class="table-responsive ps-child">
-              <table class="table text-center">
+            <div class="table-responsive">
+              <table class="table">
                 <thead class="text-primary" *ngIf="tableColumn">
                   <tr>
-                    <th>S No.</th>
                     <th *ngFor="let col of tableColumn;">{{col}}</th>
                     <th width="20%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of tableData;let i = index;">
-                    <td> {{i + 1}}</td>
                     <td *ngFor="let col of tableColumn;">{{row[col]}}</td>
                     <td>
-                      <button mat-raised-button class="btn btn-primary btn-sm">Edit</button>
+                      <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,row)"> Edit</button>
                       <button mat-raised-button class="btn btn-danger btn-sm">Delete</button>
                     </td>
                   </tr>
@@ -143,6 +139,26 @@
     </div>
   </div>
   <div class="col-lg-6" *ngIf="viewPanel">
-    
+    <br>
+    <div class="card">
+      <div class="card-header card-header-warning">
+        <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="card-title">
+          <span *ngIf="!editable;else edit">
+            Add
+          </span>
+          <ng-template #edit>
+            Edit
+          </ng-template>
+          {{selectedTab}}
+        </h4>
+      </div>
+      <div class="card-body">
+        The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main
+        night life in Barcelona...
+      </div>
+    </div>
   </div>
 </div>
