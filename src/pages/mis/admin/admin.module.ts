@@ -11,17 +11,26 @@ import { ComponentsModule } from '../../components/components.module';
 import { AppStaffComponent } from './staff/staff.component';
 import { StaffInfoComponent } from './staff-info/staffInfo.component';
 import { CenterComponent } from './center/center.component';
+import { CenterInfoComponent } from './center-info/info.component';
 
 @NgModule({
- imports: [
-  CommonModule,
-  AdminRoutingModule,
-  FormsModule,
-  ReactiveFormsModule,
-  ComponentsModule
- ],
- declarations: [AdminComponent, StudentComponent, StudentInfoComponent, AppStaffComponent, StaffInfoComponent, CenterComponent],
- exports: [StudentInfoComponent],
- providers: [AdminService]
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ComponentsModule
+  ],
+  declarations: [
+    AdminComponent,
+    StudentComponent,
+    StudentInfoComponent,
+    AppStaffComponent,
+    StaffInfoComponent,
+    CenterComponent,
+    CenterInfoComponent
+  ],
+  exports: [StudentInfoComponent, CenterInfoComponent],
+  providers: [AdminService]
 })
-export class AdminModule {}
+export class AdminModule { }

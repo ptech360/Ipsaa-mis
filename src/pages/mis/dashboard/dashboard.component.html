@@ -44,7 +44,6 @@
       </div>
       <div class="card-footer">
         <div class="stats">
-
           <a class="link"> Open: {{statsResult.openFollowups}} | Today : {{statsResult.todayFollowups}} | Due : {{statsResult.previousFollowups}}</a>
         </div>
       </div>
@@ -63,7 +62,6 @@
       </div>
       <div class="card-footer" (click)="getCenterList()">
         <div class="stats">
-
           <a class="link">Capacity:{{statsResult.capacity}} | Utilization:{{statsResult.utilisation}} %</a>
         </div>
       </div>
@@ -194,6 +192,7 @@
     <app-table [title]="tableTitle" [dataArray]="tableData" [tableColumn]="tableColumn" [tableFor]="tableFor" (showDetail)="showDetail($event)"></app-table>
   </div>
   <div class="col-lg-6" *ngIf="viewPanel">
-    <app-student-info [id]="selectedStudent.id" [update]="update"></app-student-info>
+    <app-student-info [id]="selectedStudent.id" [update]="update" *ngIf="tableFor === 'student'"></app-student-info>
+    <app-center-info [center]="selectedCenterFromList" [update]="update" *ngIf="tableFor === 'center'"></app-center-info>
   </div>
 </div>

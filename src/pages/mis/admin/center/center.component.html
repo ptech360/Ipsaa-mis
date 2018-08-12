@@ -140,7 +140,7 @@
   </div>
   <div class="col-lg-6" *ngIf="viewPanel">
     <br>
-    <div class="card">
+    <div class="card" *ngIf="selectedTab !== 'Center';else centerTab">
       <div class="card-header card-header-warning">
         <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
           <span aria-hidden="true">&times;</span>
@@ -160,5 +160,8 @@
         night life in Barcelona...
       </div>
     </div>
+    <ng-template #centerTab>
+      <app-center-info [center]="selectedCenter" [update]="editable"></app-center-info>
+    </ng-template>
   </div>
 </div>

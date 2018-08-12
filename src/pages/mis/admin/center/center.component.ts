@@ -22,6 +22,7 @@ export class CenterComponent implements OnInit {
   cityForm: any;
   editable: boolean;
   selectedTab = 'Center';
+  selectedCenter: any;
 
   constructor(
     private dashboardService: DashboardService,
@@ -30,11 +31,13 @@ export class CenterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.subscribeViewPanelChange(false);
+    this.adminService.viewPanel.subscribe((val: boolean) => {
+      this.viewPanel = val;
+    });
     this.getCenters();
     this.getZones();
     this.getCities();
-    this.changeTab('Centers');
+    this.changeTab('Center');
   }
 
   getZones() {
@@ -100,11 +103,12 @@ export class CenterComponent implements OnInit {
 
   showSidePanel(update: boolean, data: any) {
     this.viewPanel = true;
-    this.subscribeViewPanelChange(true);
+    this.subscribeViewPanelChange();
     this.editable = update;
     if (update) {
       switch (this.tableTitle) {
         case 'Centers':
+          this.selectedCenter = data;
           this.centerForm = this.getCenterForm().patchValue(data);
           break;
         case 'Zones':
@@ -169,9 +173,8 @@ export class CenterComponent implements OnInit {
     });
   }
 
-  subscribeViewPanelChange = val => {
-    this.viewPanel = val;
-    if (val && this.tableTitle === 'Centers') {
+  subscribeViewPanelChange() {
+    if (this.viewPanel && this.tableTitle === 'Centers') {
       for (let i = this.tableColumn.length - 1; i--; ) {
         if (this.tableColumn[i] === 'address') {
           this.tableColumn.splice(i, 1);
