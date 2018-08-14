@@ -61,4 +61,56 @@ export class AdminService {
   updateStudent(student: any) {
     return this.api.put('api/student/', student);
   }
+
+  saveZone(zone: any) {
+    return this.api.post('api/zone/', zone);
+  }
+
+  saveCity(city: any) {
+    return this.api.post('api/city/', city);
+  }
+
+  updateZone(zone: any) {
+    return this.api.put('api/zone/', zone);
+  }
+
+  updateCity(city: any) {
+    return this.api.put('api/city/', city);
+  }
+
+  deleteZone(zoneId: any) {
+    return this.api.delete('api/zone/' + zoneId);
+  }
+
+  deleteCenter(centerId: any) {
+    return this.api.delete('api/center/' + centerId);
+  }
+
+  deleteCity(cityId: any) {
+    return this.api.delete('api/city/' + cityId);
+  }
+
+  saveCenter(center) {
+    return this.api.post('api/center/', center);
+  }
+
+  updateCenter(center) {
+    return this.api.put('api/center/', center);
+  }
+
+  saveProgram(program: any) {
+    return this.api.post('api/program/', program);
+  }
+
+  updateProgram(program: any) {
+    return this.api.put('api/program/', program);
+  }
+
+  saveGroup(group: any) {
+    return this.api.post('api/group/', group);
+  }
+
+  updateGroup(group: any) {
+    return this.api.put('api/group/', group);
+  }
 }

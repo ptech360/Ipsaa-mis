@@ -102,9 +102,11 @@
         *Required Fields
       </div>
       <div class="form-footer text-right">
-        <button class="btn btn-rose btn-fill" >
-          <!-- <i class="fa fa-spinner fa-fw fa-pulse fa-2x" ></i> -->
-          Save
+        <button class="btn btn-rose btn-fill" (click)="saveCenter()">
+          <span *ngIf="saving;else save">
+            <i class="fa fa-spinner fa-spin"></i> Saving
+          </span>
+          <ng-template #save>Save</ng-template>
         </button>
         <button class="btn btn-default">Cancel</button>
       </div>

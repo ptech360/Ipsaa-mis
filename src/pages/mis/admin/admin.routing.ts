@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { StudentComponent } from './student/student.component';
 import { AppStaffComponent } from './staff/staff.component';
 import { CenterComponent } from './center/center.component';
+import { ProgramComponent } from './program/program.component';
 
 export const adminRoutes: Routes = [
   {
@@ -11,15 +12,20 @@ export const adminRoutes: Routes = [
     component: AdminComponent,
     children: [
       {
-        path: 'student',
-        component: StudentComponent
-      },
-      {
         path: 'center',
         component: CenterComponent
       },
       {
-          path: 'staff', component: AppStaffComponent
+        path: 'program',
+        component: ProgramComponent
+      },
+      {
+        path: 'student',
+        component: StudentComponent
+      },
+      {
+        path: 'staff',
+        component: AppStaffComponent
       }
     ]
   }

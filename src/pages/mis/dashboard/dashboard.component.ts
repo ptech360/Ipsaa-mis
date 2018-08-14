@@ -273,6 +273,7 @@ export class DashboardComponent implements OnInit {
 
   getStudentFee(feeDuration: any) {
     this.adminService.viewPanel.next(false);
+    this.tableFor = '';
     const object: any = {};
     this.tableTitle = 'Students Fee';
     this.tableData = [];
@@ -306,13 +307,15 @@ export class DashboardComponent implements OnInit {
     switch (this.tableFor) {
       case 'student':
         this.selectedStudent = data;
+        this.update = true;
+        this.adminService.viewPanel.next(true);
         break;
       case 'center':
         this.selectedCenterFromList = data;
+        this.update = true;
+        this.adminService.viewPanel.next(true);
         break;
     }
-    this.update = true;
-    this.adminService.viewPanel.next(true);
   }
   subscribeViewPanelChange = () => {
     this.adminService.viewPanel.subscribe((val: boolean) => {

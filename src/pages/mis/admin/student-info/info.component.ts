@@ -3,9 +3,11 @@ import { AdminService } from '../../../../providers/admin/admin.service';
 import {
   FormGroup,
   FormBuilder,
-  FormControl
+  FormControl,
+  Validators
 } from '../../../../../node_modules/@angular/forms';
 import * as _ from 'underscore';
+import { AlertService } from '../../../../providers/alert/alert.service';
 declare let $: any;
 
 @Component({
@@ -24,7 +26,6 @@ export class StudentInfoComponent implements OnInit {
   newStudent: boolean;
   @Input()
   set id(id: number) {
-    console.log(id);
     if (id) {
       this.newStudent = false;
       this.adminService.getStudentById(id).subscribe((student: any) => {
@@ -44,7 +45,7 @@ export class StudentInfoComponent implements OnInit {
   set update(update: boolean) {
     this.editable = update;
   }
-  constructor(private adminService: AdminService, private fb: FormBuilder) {}
+  constructor(private adminService: AdminService, private fb: FormBuilder, private alerService: AlertService) {}
 
   ngOnInit() {
     this.getCenters();
@@ -59,64 +60,64 @@ export class StudentInfoComponent implements OnInit {
 
   getStudentForm() {
     return this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      nickName: [''],
+      centerId: ['', [Validators.required]],
+      programId: ['', [Validators.required]],
+      groupId: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      bloodGroup: [''],
+      familyType: [''],
+      nationality: ['', [Validators.required]],
+      expectedIn: ['', [Validators.required]],
+      expectedOut: ['', [Validators.required]],
+      corporate: [false],
       active: [''],
       admissionDate: [''],
       admissionNumber: [''],
       approvalStatus: [''],
-      bloodGroup: [''],
-      centerId: [''],
-      corporate: [true],
       dob: [''],
-      expectedIn: [''],
-      expectedOut: [''],
-      familyType: [''],
-      firstName: [''],
-      lastName: [''],
-      nickName: [''],
       fullName: [''],
-      gender: [''],
-      groupId: [''],
       id: [''],
       imagePath: [''],
       mode: [''],
-      nationality: [''],
       profile: [''],
-      programId: [''],
       parents: this.fb.array([this.getParentData(), this.getParentData()])
     });
   }
 
   getParentData() {
     return this.fb.group({
-      account: [''],
-      designation: [''],
-      educationalQualification: [''],
-      email: [''],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      mobile: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      smsEnabled: [''],
       emailEnabled: [''],
+      educationalQualification: ['', [Validators.required]],
+      occupation: ['', [Validators.required]],
+      designation: ['', [Validators.required]],
+      residentialAddress: this.getAddressField(),
+      officeAddress: this.getAddressField(),
+      account: [''],
       emergencyContact: [''],
-      firstName: [''],
       fullName: [''],
       id: [''],
-      lastName: [''],
-      mobile: [''],
-      occupation: [''],
       organisation: [''],
       relationship: [''],
       secondaryNumbers: [''],
-      smsEnabled: [''],
-      residentialAddress: this.getAddressField(),
-      officeAddress: this.getAddressField()
     });
   }
 
   getAddressField() {
     return this.fb.group({
-      address: [''],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      state: ['', [Validators.required]],
+      zipcode: ['', [Validators.required]],
       addressType: [''],
-      city: [''],
       phone: [''],
-      state: [''],
-      zipcode: ['']
     });
   }
 
@@ -170,6 +171,8 @@ export class StudentInfoComponent implements OnInit {
           reader.onload = function(e: any) {
             $('#student-profile').attr('src', e.target.result);
           };
+        }, (error: any) => {
+          this.alerService.errorAlert(error);
         });
     }
   }
@@ -180,10 +183,8 @@ export class StudentInfoComponent implements OnInit {
         .updateStudent(this.studentForm.value)
         .subscribe((response: any) => {
           _.extend(this.student, response);
-          swal({
-            title: 'Student Info Successfully updated.',
-            icon: 'success'
-          });
+          this.alerService.successAlert('Student Info Successfully updated.');
+          this.adminService.viewPanel.next(false);
         });
     }
   }

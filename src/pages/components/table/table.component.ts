@@ -43,7 +43,7 @@ export class TableComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit() {
-    $('.table-responsive').perfectScrollbar();
+    // $('.table-responsive').perfectScrollbar();
   }
 
   showInfoInSidePanel(object: any) {

@@ -12,6 +12,7 @@ import { AppStaffComponent } from './staff/staff.component';
 import { StaffInfoComponent } from './staff-info/staffInfo.component';
 import { CenterComponent } from './center/center.component';
 import { CenterInfoComponent } from './center-info/info.component';
+import { ProgramComponent } from './program/program.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { CenterInfoComponent } from './center-info/info.component';
     AppStaffComponent,
     StaffInfoComponent,
     CenterComponent,
-    CenterInfoComponent
+    CenterInfoComponent,
+    ProgramComponent
   ],
   exports: [StudentInfoComponent, CenterInfoComponent],
   providers: [AdminService]

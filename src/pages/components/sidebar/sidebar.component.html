@@ -1,85 +1,91 @@
 <div class="logo">
-    <a ui-sref="app.home" class="simple-text">
-        <img src="/assets/img/ipsaa-logo-sm.png">
-    </a>
+  <a ui-sref="app.home" class="simple-text">
+    <img src="/assets/img/ipsaa-logo-sm.png">
+  </a>
 </div>
 <div class="sidebar-wrapper">
-    <div class="user">
-        <div class="photo">
-            <img *ngIf="!loaded" src="/assets/img/faces/default_profile_pic.png" />
-            <img *ngIf="profileImageURI" [hidden]="!loaded" (load)="loaded = true" [src]="profileImageURI" />
-        </div>
-        <div class="info">
-            <a data-toggle="collapse" class="collapsed">{{self.name}}</a>
-            <a href="{{self.name}}" style="text-transform: lowercase">{{self.email}}</a>
-        </div>
+  <div class="user">
+    <div class="photo">
+      <img *ngIf="!loaded" src="/assets/img/faces/default_profile_pic.png" />
+      <img *ngIf="profileImageURI" [hidden]="!loaded" (load)="loaded = true" [src]="profileImageURI" />
     </div>
-    <div *ngIf="isMobileMenu()">
-        <ul class="nav navbar-nav nav-mobile-menu">
-            <li class="nav-item">
-                <a class="nav-link" (click)="onLogout()" style="cursor: pointer;">
-                    <i class="material-icons">power_settings_new</i>
-                    <p>
-                        <span class="d-lg-none d-md-block">Log Out</span>
-                    </p>
-                </a>
-            </li>
-        </ul>
+    <div class="info">
+      <a data-toggle="collapse" class="collapsed">{{self.name}}</a>
+      <a href="{{self.name}}" style="text-transform: lowercase">{{self.email}}</a>
     </div>
-    <ul class="nav" id="accordion">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
-            </a>
-        </li>
-        <li routerLinkActive="active" class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#admin">
-                <i class="material-icons">settings</i>
-                <p>Admin
-                    <b class="caret"></b>
-                </p>
-            </a>
-            <div class="collapse" id="admin" data-parent="#accordion">
-                <ul class="nav">
-                    <li routerLinkActive="active" class="nav-item">
-                        <a class="nav-link" routerLink="admin/student">
-                            <span class="sidebar-mini">&nbsp;</span>
-                            <span class="sidebar-normal">Manage Student</span>
-                        </a>
-                    </li>
-                    <li routerLinkActive="active" class="nav-item">
-                        <a class="nav-link" routerLink="admin/center">
-                            <span class="sidebar-mini">&nbsp;</span>
-                            <span class="sidebar-normal">Manage Center</span>
-                        </a>
-                    </li>
-                    <li routerLinkActive="active" class="nav-item">
-                        <a class="nav-link" routerLink="admin/staff">
-                            <span class="sidebar-mini">&nbsp;</span>
-                            <span class="sidebar-normal">Manage Staff</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        <li routerLinkActive="active" *ngFor="let item of menu.items" class="nav-item">
-            <a class="nav-link" data-toggle="collapse" [attr.href]="'#id_' + item.label.split(' ').join('-')">
-                <i class="material-icons">{{item.icon}}</i>
-                <p>{{item.label}}
-                    <b class="caret"></b>
-                </p>
-            </a>
-            <div class="collapse" [attr.id]="'id_'+item.label.split(' ').join('-')" data-parent="#accordion">
-                <ul class="nav">
-                    <li class="nav-item" *ngFor="let submenu of item.submenu">
-                        <a class="nav-link" [attr.href]="submenu.state" (click)="menuClicked()">
-                            <span class="sidebar-mini">&nbsp;</span>
-                            <span class="sidebar-normal">{{submenu.label}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
+  </div>
+  <div *ngIf="isMobileMenu()">
+    <ul class="nav navbar-nav nav-mobile-menu">
+      <li class="nav-item">
+        <a class="nav-link" (click)="onLogout()" style="cursor: pointer;">
+          <i class="material-icons">power_settings_new</i>
+          <p>
+            <span class="d-lg-none d-md-block">Log Out</span>
+          </p>
+        </a>
+      </li>
     </ul>
+  </div>
+  <ul class="nav" id="accordion">
+    <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+      <a class="nav-link" [routerLink]="[menuItem.path]">
+        <i class="material-icons">{{menuItem.icon}}</i>
+        <p>{{menuItem.title}}</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#admin">
+        <i class="material-icons">settings</i>
+        <p>Admin
+          <b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse" id="admin" data-parent="#accordion">
+        <ul class="nav">
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="admin/center">
+              <span class="sidebar-mini">&nbsp;</span>
+              <span class="sidebar-normal">Manage Center</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+              <a class="nav-link" routerLink="admin/program">
+                  <span class="sidebar-mini">&nbsp;</span>
+                  <span class="sidebar-normal">Manage Program</span>
+              </a>
+          </li>          
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="admin/student">
+              <span class="sidebar-mini">&nbsp;</span>
+              <span class="sidebar-normal">Manage Student</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="admin/staff">
+              <span class="sidebar-mini">&nbsp;</span>
+              <span class="sidebar-normal">Manage Staff</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li routerLinkActive="active" *ngFor="let item of menu.items" class="nav-item">
+      <a class="nav-link" data-toggle="collapse" [attr.href]="'#id_' + item.label.split(' ').join('-')">
+        <i class="material-icons">{{item.icon}}</i>
+        <p>{{item.label}}
+          <b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse" [attr.id]="'id_'+item.label.split(' ').join('-')" data-parent="#accordion">
+        <ul class="nav">
+          <li class="nav-item" *ngFor="let submenu of item.submenu">
+            <a class="nav-link" [attr.href]="submenu.state" (click)="menuClicked()">
+              <span class="sidebar-mini">&nbsp;</span>
+              <span class="sidebar-normal">{{submenu.label}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
 </div>

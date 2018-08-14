@@ -41,7 +41,7 @@
                     <td *ngFor="let col of tableColumn;">{{row[col]}}</td>
                     <td>
                       <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,row)">Edit</button>
-                      <button mat-raised-button class="btn btn-danger btn-sm">Delete</button>
+                      <button mat-raised-button class="btn btn-danger btn-sm" (click)="deleteCenter(row)">Delete</button>
                     </td>
                   </tr>
                   <tr *ngIf="tableColumn.length && !tableData.length">
@@ -85,7 +85,7 @@
                     </td>
                     <td>
                       <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,row)">Edit</button>
-                      <button mat-raised-button class="btn btn-danger btn-sm">Delete</button>
+                      <button mat-raised-button class="btn btn-danger btn-sm" (click)="deleteCity(row)">Delete</button>
                     </td>
                   </tr>
                   <tr *ngIf="tableColumn.length && !tableData.length">
@@ -124,7 +124,7 @@
                     <td *ngFor="let col of tableColumn;">{{row[col]}}</td>
                     <td>
                       <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,row)"> Edit</button>
-                      <button mat-raised-button class="btn btn-danger btn-sm">Delete</button>
+                      <button mat-raised-button class="btn btn-danger btn-sm" (click)="delete">Delete</button>
                     </td>
                   </tr>
                   <tr *ngIf="tableColumn.length && !tableData.length">
@@ -155,9 +155,43 @@
           {{selectedTab}}
         </h4>
       </div>
-      <div class="card-body">
-        The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main
-        night life in Barcelona...
+      <div class="card-body" *ngIf="selectedTab === 'Zone'">
+        <form id="zoneForm" [formGroup]="zoneForm" novalidate>
+          <div class="form-group">
+            <label class="control-label">Name*</label>
+            <input class="form-control" name="name" type="text" formControlName="name">
+            <span class="material-input"></span>
+          </div>
+          <div class="category form-category">
+            *Required Fields
+          </div>
+          <div class="form-footer text-right">
+            <button class="btn btn-rose btn-fill" (click)="saveZone()">Save</button>
+            <button class="btn btn-default" >Cancel</button>
+          </div>
+        </form>
+      </div>
+      <div class="card-body" *ngIf="selectedTab === 'City'">
+        <form id="cityForm" [formGroup]="cityForm" novalidate>
+          <div class="form-group">
+            <label class="control-label">Name*</label>
+            <input class="form-control" name="name" type="text" formControlName="name">
+            <span class="material-input"></span>
+          </div>
+          <div class="form-group">
+            <label class="control-label">*Zone</label>
+            <select class="form-control" formControlName="zone" required>
+              <option *ngFor="let zone of zones;" [ngValue]="zone.name">{{zone.name}}</option>
+            </select>
+          </div>
+          <div class="category form-category">
+            *Required Fields
+          </div>
+          <div class="form-footer text-right">
+            <button class="btn btn-rose btn-fill" (click)="saveCity()">Save</button>
+            <button class="btn btn-default">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
     <ng-template #centerTab>
