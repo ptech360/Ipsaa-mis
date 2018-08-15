@@ -5,6 +5,7 @@ import { StudentComponent } from './student/student.component';
 import { AppStaffComponent } from './staff/staff.component';
 import { CenterComponent } from './center/center.component';
 import { ProgramComponent } from './program/program.component';
+import { RoleComponent } from './role/role.component';
 
 export const adminRoutes: Routes = [
   {
@@ -18,6 +19,10 @@ export const adminRoutes: Routes = [
       {
         path: 'program',
         component: ProgramComponent
+      },
+      {
+        path: 'role',
+        component: RoleComponent
       },
       {
         path: 'student',

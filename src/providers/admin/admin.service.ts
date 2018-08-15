@@ -113,4 +113,20 @@ export class AdminService {
   updateGroup(group: any) {
     return this.api.put('api/group/', group);
   }
+
+  getRoles() {
+    return this.api.get('api/user/roles/');
+  }
+
+  getAllPrivileges() {
+    return this.api.get('api/user/privileges/');
+  }
+
+  saveRole(role: any) {
+   return this.api.post('api/user/role/', role);
+  }
+
+  updateRole(role: any) {
+    return this.api.put('api/user/role/', role);
+   }
 }

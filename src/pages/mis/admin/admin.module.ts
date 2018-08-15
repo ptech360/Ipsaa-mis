@@ -13,6 +13,7 @@ import { StaffInfoComponent } from './staff-info/staffInfo.component';
 import { CenterComponent } from './center/center.component';
 import { CenterInfoComponent } from './center-info/info.component';
 import { ProgramComponent } from './program/program.component';
+import { RoleComponent } from './role/role.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { ProgramComponent } from './program/program.component';
     StaffInfoComponent,
     CenterComponent,
     CenterInfoComponent,
-    ProgramComponent
+    ProgramComponent,
+    RoleComponent
   ],
   exports: [StudentInfoComponent, CenterInfoComponent],
   providers: [AdminService]
