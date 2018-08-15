@@ -110,23 +110,29 @@ export class ProgramComponent implements OnInit {
 
   saveProgram() {
     if (this.editable) {
-      this.alertService.confirm('You want to update program').then(res => {
-        this.saving = true;
-        this.adminService.updateProgram(this.programForm.value).subscribe((response: any) => {
-          this.saving = false;
-          _.extend(this.selectedProgram, response);
-          this.alertService.successAlert('Program Updated');
-          this.viewPanel = false;
-          this.programForm.reset();
-        });
+      this.alertService.confirm('You want to update program').then(isConfirm => {
+        if (isConfirm) {
+          this.saving = true;
+          this.programForm.controls['groups'].patchValue(this.selectedGroups);
+          this.adminService.updateProgram(this.programForm.value).subscribe((response: any) => {
+            this.saving = false;
+            _.extend(this.selectedProgram, response);
+            this.alertService.successAlert('Program Updated');
+            this.viewPanel = false;
+            this.programForm.reset();
+            this.selectedGroups = [];
+          });
+        }
       });
     } else {
       this.saving = true;
+      this.programForm.controls['groups'].patchValue(this.selectedGroups);
       this.adminService.saveProgram(this.programForm.value).subscribe((response: any) => {
         this.saving = false;
         this.programs.push(response);
         this.viewPanel = false;
         this.programForm.reset();
+        this.selectedGroups = [];
         this.alertService.successAlert('New Program Added.');
       });
     }
