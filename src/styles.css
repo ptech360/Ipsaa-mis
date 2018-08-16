@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 .transition {
-    transition: all .1s linear;
+    transition: all .3s linear;
 }
 
 .table-responsive {
@@ -14,7 +14,12 @@ text-transform: capitalize;
 
 .margin-right-5{
     margin-right: 5px;
-  }
+}
+
+/* form-input label */
+.form-check, label {
+  font-size: 13px;
+}
 /* .swal-footer {
     background-color: rgb(245, 248, 250);
     margin-top: 32px;

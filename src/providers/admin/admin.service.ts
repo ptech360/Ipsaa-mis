@@ -20,6 +20,10 @@ export class AdminService {
     return this.api.get('api/center/');
   }
 
+  getCostCenter() {
+    return this.api.get('api/le/');
+  }
+
   getGroups() {
     return this.api.get('api/group/');
   }
@@ -48,6 +52,15 @@ export class AdminService {
   }
   deleteStaffById(staffId) {
     return this.api.delete('api/staff/' + staffId);
+  }
+  addStaff(reqBody) {
+    return this.api.post('api/staff/', reqBody);
+  }
+  updateStaff(reqbody) {
+    return this.api.put('api/staff/', reqbody);
+  }
+  updateStaffProfilePic(staffId: number, formData: FormData) {
+    return this.api.post('api/staff/' + staffId + '/profile-pic', formData);
   }
 
   getPrivileges() {
