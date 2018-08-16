@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
-import { AlertService } from '../../../../providers/alert/alert.service';
 import swal from 'sweetalert';
+import { PagerService } from '../../../../providers/pagination/pager.service';
 
 declare let $: any;
 
@@ -12,7 +12,7 @@ declare let $: any;
 export class AppStaffComponent implements OnInit {
   constructor(
     private adminService: AdminService,
-    private alertService: AlertService
+    private pagerService: PagerService
   ) {}
 
   loadingStaffList = false;
@@ -32,7 +32,10 @@ export class AppStaffComponent implements OnInit {
   viewPanel = false;
   allItems = []; // all staff list will be stored here
   staffList = []; // filtered stafflist with pagination stored here
-  filteredStaffList = []; // temp variable to store filtered staff
+  filteredByCenter = [];
+  filteredStaff = [];
+  searchedStaff = [];
+  pagedItems = [];
   searchKey: any; // search string for name
   pager: any = {}; // for pagination
   activeStatus = true;
@@ -61,38 +64,86 @@ export class AppStaffComponent implements OnInit {
     this.adminService.getStaff().subscribe(response => {
       this.allItems = response;
       this.staffList = this.allItems;
+      this.setPage(1);
+      this.staffLoaded();
     });
   }
 
+  showStaff(staff) {
+    this.update = false;
+    this.selectedStaff = staff;
+    this.adminService.viewPanel.next(true);
+  }
+  addNewStaff(staff) {
+    this.update = true;
+    this.selectedStaff = {};
+    this.adminService.viewPanel.next(true);
+  }
+
+  editStaff(staff) {
+    this.update = true;
+    this.selectedStaff = staff;
+    this.adminService.viewPanel.next(true);
+  }
+
+  // set the page of pagination after data intialized and changes
+  setPage(page: number) {
+    this.pager = this.pagerService.getPager(this.staffList.length, page);
+
+    // get current page of items
+    this.pagedItems = this.staffList.slice(
+      this.pager.startIndex,
+      this.pager.endIndex + 1
+    );
+    // console.log(this.pagedItems);
+  }
+
   searchStaff(event) {
+    let list = this.allItems;
+    if (this.filteredStaff.length) {
+      list = this.filteredStaff;
+    }
+    this.staffList = list;
     this.searchKey = event;
     const val = event.target.value;
     if (val && val.trim() !== '') {
-      this.staffList = this.allItems.filter(staff => {
-        return staff.name.toLowerCase().startsWith(val);
+      this.staffList = list.filter(staff => {
+        return staff.name.toLowerCase().startsWith(val.toLowerCase());
       });
-      //   this.setPage(1);
+      this.searchedStaff = this.staffList;
     } else {
-      this.staffList = this.allItems;
-      // this.setPage(1);
+      this.searchedStaff = [];
     }
+    this.setPage(1);
   }
 
-  filterStaffByCenter(stafflist) {
-    const list = stafflist ? stafflist : this.allItems;
+  filterStaffByCenter() {
+    let list = this.allItems;
+    if (this.filteredStaff.length) {
+      list = this.filteredStaff;
+    }
 
+    if (this.searchedStaff.length) {
+      list = this.searchedStaff;
+    }
+
+    this.staffList = list;
+    // this.filteredStaff = this.allItems;
     if (this.selectedCenter !== 'all') {
       this.staffList = list.filter(
         staff => staff.centerName === this.selectedCenter.name
       );
+      this.filteredStaff = this.staffList;
     } else {
-      this.staffList = this.allItems;
+      this.filteredByCenter = [];
     }
+    this.setPage(1);
     this.staffLoaded();
   }
 
   filterStaff() {
     this.loadingStaffList = true;
+
     const filter = {
       employeeType: this.selectedStaffType,
       active: this.selectedStaffStatus,
@@ -101,27 +152,22 @@ export class AppStaffComponent implements OnInit {
     };
     this.adminService.filterStaff(filter).subscribe(response => {
       this.staffList = response.stafflist;
-      this.filterStaffByCenter(this.staffList);
+      this.filteredStaff = this.staffList;
+      if (this.searchedStaff.length) {
+        this.searchStaff(this.searchKey);
+      }
+      if (this.selectedCenter !== 'all') {
+        this.filterStaffByCenter();
+      } else {
+        this.staffLoaded();
+      }
     });
-  }
-
-  showStaff(staff) {
-    this.selectedStaff = staff;
-    this.adminService.viewPanel.next(true);
   }
 
   staffLoaded() {
     setTimeout(() => {
       this.loadingStaffList = false;
     }, 500);
-  }
-
-  addStaff(staff) {
-    //
-  }
-
-  editStaff(staff) {
-    //
   }
 
   deleteStaffSwal(staffId) {
@@ -141,10 +187,6 @@ export class AppStaffComponent implements OnInit {
   }
 
   hasPrivilege(privilege) {}
-
-  setPage(pageNumber) {
-    // this.active = pageNumber;
-  }
 
   subscribeViewPanelChange = () => {
     this.adminService.viewPanel.subscribe((val: boolean) => {

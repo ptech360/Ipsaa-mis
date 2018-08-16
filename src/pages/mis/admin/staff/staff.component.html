@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-3">
+  <div class="col-md-3">
     <div class="form-group">
       <label for="serach">Search:</label>
       <input type="text" class="form-control" id="search" [(ngModel)]="search" (keyup)="searchStaff($event)" placeholder="Search by staff name">
@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div class="col-lg-3">
+  <div class="col-md-3">
     <div class="form-group">
       <label for="center">Center:</label>
       <select class="form-control" id="center" [(ngModel)]="selectedCenter" (ngModelChange)="filterStaffByCenter()">
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div class="col-lg-2">
+  <div class="col-md-3">
     <div class="form-group">
       <label for="staff_status">Staff Status:</label>
       <select class="form-control" id="staff_status" [(ngModel)]="selectedStaffStatus" (ngModelChange)="filterStaff()">
@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <div class="col-lg-2">
+  <div class="col-md-3">
     <div class="form-group">
       <label for="staff_type">Staff Type:</label>
       <select class="form-control" id="staff_type" [(ngModel)]="selectedStaffType" (ngModelChange)="filterStaff()">
@@ -39,23 +39,19 @@
       <span class="material-input"></span>
     </div>
   </div>
-
-  <div class="col-lg-2">
-    <div class="form-group">
-      <button type="button" class="btn btn-info col mt-4" (click)="addStaff()">Add</button>
-    </div>
-  </div>
 </div>
 
 <div class="row">
-  <div [class]="viewPanel?'transition col-md-6':'transition col-md-12'">
+  <div [class]="viewPanel?'col-lg-6':'col-md-12'" class="transition">
     <div class="card">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
           <i class="material-icons">content_copy</i>
         </div>
-        <h3 class="card-title">
-          Staff<i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="staffList.length"></i>
+        <h3 class="card-title">Staff
+          <i class="fa fa-spinner fa-fw fa-pulse text-primary" *ngIf="!allItems.length"></i>
+          <i class="fa fa-spinner fa-fw fa-pulse text-primary" *ngIf="loadingStaffList"></i>
+          <button mat-raised-button class="btn btn-primary btn-sm pull-right" (click)="addNewStaff()">Add New</button>
         </h3>
       </div>
       <div class="card-content mx-3">
@@ -63,7 +59,7 @@
           <table class="table table-condensed table-striped table-hover">
             <thead class="text-primary">
               <tr>
-                <th>Sr. No.</th>
+                <!-- <th>Sr. No.</th> -->
                 <th>EID</th>
                 <th>Center</th>
                 <th>Name</th>
@@ -74,8 +70,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let staff of staffList;let i = index" class="staff-list-row" [hidden]="loadingStaffList">
-                <td>{{i+1}}</td>
+              <tr *ngFor="let staff of pagedItems;let i = index" class="staff-list-row" [hidden]="loadingStaffList">
+                <!-- <td>{{i+1}}</td> -->
                 <td (click)="showStaff(staff)">{{staff.eid}}</td>
                 <td (click)="showStaff(staff)">{{staff.centerName}}</td>
                 <td (click)="showStaff(staff)">{{staff.name}}</td>
@@ -87,13 +83,8 @@
                   <button type="button" class="btn btn-danger btn-sm" (click)="deleteStaffSwal(staff.id)">del</button>
                 </td>
               </tr>
-              <tr *ngIf="!staffList.length" class="text-center">
+              <tr *ngIf="!loadingStaffList && !staffList.length" class="text-center">
                 <td colspan="8">No Staff to display</td>
-              </tr>
-              <tr *ngIf="loadingStaffList" class="text-center">
-                <td colspan="8">
-                  <i class="fa fa-spinner fa-fw fa-pulse fa-4x text-primary"></i>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -121,8 +112,8 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6" *ngIf="viewPanel">
-    <div class="card">
+  <div class="col-lg-6" *ngIf="viewPanel">
+    <div class="card" id="staff_info">
 
     </div>
     <app-staff-info [id]="selectedStaff.id" [update]="update"></app-staff-info>

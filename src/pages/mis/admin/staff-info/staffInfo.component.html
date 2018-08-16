@@ -1,19 +1,371 @@
 <div class="card">
-    <div class="card-header card-header-warning">
-        <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="card-title">Student Info</h4>
-        <p class="card-category">Category subtitle</p>
+  <div class="card-header card-header-warning">
+    <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <!-- <h4 class="card-title">Student Info</h4>
+        <p class="card-category">Category subtitle</p> -->
+    <div class="card-profile">
+      <div class="staff-img mx-auto rounded-circle">
+        <img class="img-fluid" *ngIf="staff && !staff.staffImageData" src="/assets/img/default-avatar.png" />
+        <img class="img-fluid" id="staff-profile" *ngIf="staff && staff.staffImageData" [hidden]="!loaded" (load)="loaded = true"
+          [src]="'data:image/PNG;base64,' + staff.staffImageData">
+      </div>
     </div>
-    <div class="card-body">
-        The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main
-        night life in Barcelona...
+
+  </div>
+  <div class="card-body">
+    <div class="card-profile-name">
+      <span *ngIf="staff && !newStaff">{{staff.name}}</span>
+      <span *ngIf="newStaff">New Staff</span>
+      <br>
+
+      <a href="" onclick="document.getElementById('upload').click(); return false" *ngIf="editable">
+        {{ newStaff ? 'Add Profile Pic' : 'Update Profile Pic' }}
+      </a>
+      <input type="file" id="upload" name="upload" style="display: none" (change)="uploadProfilePic(staff, $event.target.files['0'])"
+      />
     </div>
-    <div class="card-footer">
-        <div class="stats">
-            <button mat-raised-button class="btn btn-success" *ngIf="editable">Save</button>
-            <button mat-raised-button class="btn btn-danger" (click)="hideViewPanel()">Cancel</button>
+    <div class="card-content">
+      <!-- Nav pills -->
+      <ul class="nav nav-pills nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#address">Address</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#address2">Permanent Address</a>
+        </li>
+      </ul>
+
+      <form class="tab-content" [formGroup]="staffForm">
+        <div class="tab-pane container active mt-2" id="profile">
+          <div class="row">
+            <div class="col-md-4" [hidden]="newStaff || editable">
+              <div class="form-group">
+                <label class="control-label">Employee ID : </label>
+                <input class="form-control" value="" formControlName="eid" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">First Name : </label>
+                <input class="form-control" value="" formControlName="firstName" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Last Name : </label>
+                <input class="form-control" value="" formControlName="lastName" [readonly]="!editable">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Email : </label>
+                <input class="form-control" value="" formControlName="email" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Location : </label>
+                <select class="form-control" formControlName="costCenterId" [class.readonly]="!editable">
+                  <option value="select" selected>select</option>
+                  <option *ngFor="let center of centers;let c = index;" [ngValue]="center.id"> {{center.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Martial Status : </label>
+                <select class="form-control" formControlName="maritalStatus" [class.readonly]="!editable">
+                  <option value="select" selected>select</option>
+                  <option *ngFor="let option of martialStatusOptions;let c = index;" [ngValue]="option"> {{option}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row" formGroupName="profile">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Gender : </label>
+                <select class="form-control" formControlName="gender" [class.readonly]="!editable">
+                  <option value="none" selected>select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">DOJ(YYYY-MM-DD) : </label>
+                <input class="form-control" value="" formControlName="doj" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">DOL(YYYY-MM-DD) : </label>
+                <input class="form-control" value="" formControlName="dol" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">DOB(YYYY-MM-DD) : </label>
+                <input class="form-control" value="" formControlName="dob" [readonly]="!editable">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Employee Type : </label>
+                <select class="form-control" formControlName="type" [class.readonly]="!editable">
+                  <option value="none" selected>select</option>
+                  <option value="Teacher">Teacher</option>
+                  <option value="Staff">Staff</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Designation : </label>
+                <input class="form-control" value="" formControlName="designation" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Mobile : </label>
+                <input class="form-control" value="" formControlName="mobile" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Reporting Manager : </label>
+                <select class="form-control" formControlName="reportingManagerName" [class.readonly]="!editable" (change)="setReportingManagerId()">
+                  <option value="select" selected (click)="setReportingManagerId('')">select</option>
+                  <option *ngFor="let reportingManager of allReportingManagers" [ngValue]="reportingManager.name">{{reportingManager.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Expected In : </label>
+                <input class="form-control" value="" formControlName="expectedIn" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Expected Out : </label>
+                <input class="form-control" value="" formControlName="expectedOut" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Employee Hours : </label>
+                <input class="form-control" value="" formControlName="expectedHours" [readonly]="!editable">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Cost Center : </label>
+                <select class="form-control" formControlName="employerId" [class.readonly]="!editable">
+                  <option value="select" selected>select</option>
+                  <option *ngFor="let costCenter of costCenters;let c = index;" [ngValue]="costCenter.id"> {{costCenter.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Biometric Id : </label>
+                <input class="form-control" value="" formControlName="biometricId" [readonly]="!editable">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Aadhar Number : </label>
+                <input class="form-control" value="" formControlName="aadharNumber" [readonly]="!editable">
+              </div>
+            </div>
+          </div>
+          <div formGroupName="profile">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">PAN : </label>
+                  <input class="form-control" value="" formControlName="pan" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">UAN : </label>
+                  <input class="form-control" value="" formControlName="uan" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">ESIN : </label>
+                  <input class="form-control" value="" formControlName="esin" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">PFAN : </label>
+                  <input class="form-control" value="" formControlName="pfan" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">PRAN : </label>
+                  <input class="form-control" value="" formControlName="pran" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Bank Account No. : </label>
+                  <input class="form-control" value="" formControlName="ban" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Name As Per Bank : </label>
+                  <input class="form-control" value="" formControlName="holderName" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">IFSC Code : </label>
+                  <input class="form-control" value="" formControlName="ifscCode" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Bank Name : </label>
+                  <input class="form-control" value="" formControlName="bankName" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Branch Name : </label>
+                  <input class="form-control" value="" formControlName="branchName" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
+
+        <!-- /////////////////// -->
+        <div class="tab-pane container mt-2" id="address" formGroupName="profile">
+          <div formGroupName="address">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label class="control-label">Address : </label>
+                  <input class="form-control" value="" formControlName="address" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">City : </label>
+                  <input class="form-control" value="" formControlName="city" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">State : </label>
+                  <input class="form-control" value="" formControlName="state" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Zip Code : </label>
+                  <input class="form-control" value="" formControlName="zipcode" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Phone : </label>
+                  <input class="form-control" value="" formControlName="phone" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="tab-pane container mt-2" id="address2" formGroupName="profile">
+          <div formGroupName="permanentAddress">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label class="control-label">Address : </label>
+                  <input class="form-control" value="" formControlName="address" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">City : </label>
+                  <input class="form-control" value="" formControlName="city" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">State : </label>
+                  <input class="form-control" value="" formControlName="state" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Zip Code : </label>
+                  <input class="form-control" value="" formControlName="zipcode" [readonly]="!editable">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Phone : </label>
+                  <input class="form-control" value="" formControlName="phone" [readonly]="!editable">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </form>
     </div>
+  </div>
+
+
+
+  <div class="card-footer">
+    <div class="stats padding-left-right-30">
+      <button mat-raised-button class="btn btn-primary" (click)="saveStaff()" [hidden]="!newStaff && !editable">Save</button>
+      <button mat-raised-button class="btn btn-default" (click)="hideViewPanel()" [hidden]="!newStaff && !editable">Cancel</button>
+    </div>
+  </div>
 </div>
