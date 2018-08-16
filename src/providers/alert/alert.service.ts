@@ -4,6 +4,16 @@ import swal from 'sweetalert';
 export class AlertService {
   constructor() {}
 
+  confirm(msg: string) {
+    return swal({
+      title: 'Are you sure?',
+      text: msg,
+      icon: 'warning',
+      buttons: ['Cancel', 'Ok'],
+      dangerMode: true,
+    });
+  }
+
   successAlert(msg: string) {
     swal({
       title: 'Success',

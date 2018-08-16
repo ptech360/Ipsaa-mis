@@ -54,6 +54,7 @@ export class DashboardComponent implements OnInit {
   selectedStudent: any = {};
   update: boolean;
   viewPanel: boolean;
+  selectedCenterFromList: any;
   constructor(private dashboardService: DashboardService, private adminService: AdminService) {}
 
   ngOnInit() {
@@ -113,6 +114,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getMonthlyFee(object: any) {
+    this.adminService.viewPanel.next(false);
     if (object) {
       object = Object.assign(object, this.monthly);
     } else {
@@ -124,6 +126,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getQuarterlyFee(object: any) {
+    this.adminService.viewPanel.next(false);
     if (object) {
       object = Object.assign(object, this.quarterly);
     } else {
@@ -135,6 +138,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getStudents() {
+    this.adminService.viewPanel.next(false);
     this.tableTitle = 'Students';
     this.tableData = [];
     this.dashboardService.getStudents().subscribe((response: any) => {
@@ -155,6 +159,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getStaff() {
+    this.adminService.viewPanel.next(false);
     this.tableTitle = 'Staff';
     this.tableData = [];
     this.dashboardService.getStaff().subscribe((response: any) => {
@@ -172,6 +177,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getCenterList() {
+    this.adminService.viewPanel.next(false);
+    this.tableFor = 'center';
     this.tableTitle = 'Centers';
     this.tableData = [];
     this.dashboardService.getCenterList().subscribe((response: any) => {
@@ -189,6 +196,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getFilteredStudents(filterType: any) {
+    this.adminService.viewPanel.next(false);
     this.tableFor = 'student';
     this.tableTitle = filterType + ' Students';
     this.tableData = [];
@@ -264,6 +272,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getStudentFee(feeDuration: any) {
+    this.adminService.viewPanel.next(false);
+    this.tableFor = '';
     const object: any = {};
     this.tableTitle = 'Students Fee';
     this.tableData = [];
@@ -294,10 +304,18 @@ export class DashboardComponent implements OnInit {
   }
 
   showDetail(data: any) {
-    console.log(data);
-    this.selectedStudent = data;
-    this.update = true;
-    this.adminService.viewPanel.next(true);
+    switch (this.tableFor) {
+      case 'student':
+        this.selectedStudent = data;
+        this.update = true;
+        this.adminService.viewPanel.next(true);
+        break;
+      case 'center':
+        this.selectedCenterFromList = data;
+        this.update = true;
+        this.adminService.viewPanel.next(true);
+        break;
+    }
   }
   subscribeViewPanelChange = () => {
     this.adminService.viewPanel.subscribe((val: boolean) => {

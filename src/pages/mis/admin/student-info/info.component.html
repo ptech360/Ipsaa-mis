@@ -125,6 +125,12 @@
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
+                <label class="control-label">*Nationality</label>
+                <input class="form-control" name="nationality" type="text" formControlName="nationality">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
                 <label class="control-label">Expected In : </label>
                 <input class="form-control" formControlName="expectedIn">
               </div>
@@ -134,7 +140,9 @@
                 <label class="control-label">Expected Out : </label>
                 <input class="form-control" formControlName="expectedOut">
               </div>
-            </div>
+            </div>            
+          </div>
+          <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
                 <div class="checkbox" style="padding-top: 45px;">
@@ -304,7 +312,7 @@
 
   <div class="card-footer">
     <div class="stats padding-left-right-30">
-      <button mat-raised-button class="btn btn-primary" (click)="saveStudent()">Save</button>
+      <button mat-raised-button class="btn btn-primary" (click)="saveStudent()" [disabled]="studentForm.invalid">Save</button>
       <button mat-raised-button class="btn btn-default" (click)="hideViewPanel()">Cancel</button>
     </div>
   </div>

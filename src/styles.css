@@ -6,11 +6,15 @@
 
 .table-responsive {
 height: 80vh;
+overflow: scroll;
 }
 .table th {
 text-transform: capitalize;
 }
 
+.margin-right-5{
+    margin-right: 5px;
+  }
 /* .swal-footer {
     background-color: rgb(245, 248, 250);
     margin-top: 32px;

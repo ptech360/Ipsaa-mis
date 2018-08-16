@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import { PagerService } from '../../../../providers/pagination/pager.service';
-import swal from 'sweetalert';
+import { AlertService } from '../../../../providers/alert/alert.service';
 
 @Component({
   selector: 'app-student',
@@ -33,7 +33,8 @@ export class StudentComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private pagerService: PagerService
+    private pagerService: PagerService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -93,17 +94,13 @@ export class StudentComponent implements OnInit {
   }
 
   deleteStudentSwal(student: any) {
-    swal({
-      title: 'Are you sure want to deactivate student?',
-      text: 'You won\'t be able to revert this!',
-      icon: 'warning',
-      buttons: ['Cancel', 'OK'],
-      closeOnClickOutside: true,
-      closeOnEsc: true,
-      dangerMode: true
-    }).then(value => {
-      if (value) {
-        this.adminService.deleteStudentById(student.id);
+    this.alertService.confirm('').then(isConfirm => {
+      if (isConfirm) {
+        this.adminService.deleteStudentById(student.id).subscribe((response: any) => {
+          this.alertService.successAlert('You have deleted student record successfully');
+        }, (error: any) => {
+          this.alertService.errorAlert(error);
+        });
       }
     });
   }
