@@ -14,6 +14,8 @@ import { CenterComponent } from './center/center.component';
 import { CenterInfoComponent } from './center-info/info.component';
 import { ProgramComponent } from './program/program.component';
 import { RoleComponent } from './role/role.component';
+import { UserComponent } from './user/user.component';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 @NgModule({
   imports: [
@@ -32,7 +34,9 @@ import { RoleComponent } from './role/role.component';
     CenterComponent,
     CenterInfoComponent,
     ProgramComponent,
-    RoleComponent
+    RoleComponent,
+    UserComponent,
+    UserInfoComponent
   ],
   exports: [StudentInfoComponent, CenterInfoComponent],
   providers: [AdminService]

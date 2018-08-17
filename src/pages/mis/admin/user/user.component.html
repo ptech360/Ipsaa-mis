@@ -1,0 +1,61 @@
+<div class="row">
+  <div [class]="viewPanel?'col-lg-6':'col-lg-12'">
+    <div class="card">
+      <div class="card-header card-header-warning card-header-icon">
+        <div class="card-icon">
+          <i class="material-icons">content_copy</i>
+        </div>
+        <h3 class="card-title">
+          Users
+          <i class="fa fa-spinner fa-fw fa-pulse text-primary" [hidden]="users.length"></i>
+          <button mat-raised-button class="btn btn-primary btn-sm" style="float: right;" (click)="showSidePanel(false,null)">Add New</button>
+        </h3>
+      </div>
+      <div class="card-footer">
+        <div class="table-responsive">
+          <table class="table">
+            <colgroup>
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="25%">
+              <col width="25%">
+              <col width="10%">
+            </colgroup>
+            <thead class="text-primary">
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Type</th>
+              <th>Role(s)</th>
+              <th>Center(s)</th>
+              <th>*Action</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users;">
+              <td>{{user.name}}</td>
+              <td><span style="word-break: break-all;">{{user.email}}</span></td>
+              <td><span style="word-break: break-all;">{{user.phone}}</span></td>
+              <td><span style="word-break: break-all;">{{user.type}}</span></td>
+              <td>
+                <span class="badge badge-primary margin-right-5" *ngFor="let role of user.roles;">{{role}}</span>
+              </td>
+              <td>
+                <span class="badge badge-primary margin-right-5" *ngFor="let center of user.centers;">{{center}}</span>
+              </td>
+              <td>
+                <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,user)">Edit </button>
+                <button mat-raised-button class="btn btn-danger btn-sm" (click)="deleteRole(user)">Delete </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6" *ngIf="viewPanel">
+    <app-user-info [user]="selectedUser" [update]="editable"></app-user-info>
+  </div>
+</div>

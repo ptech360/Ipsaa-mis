@@ -83,31 +83,30 @@ export class RoleComponent implements OnInit {
 
   saveRole() {
     this.roleForm.controls['privileges'].patchValue(this.selectedPrivileges);
-      if (this.editable) {
-        this.alertService.confirm('You want to update role and privileges').then(isConfirm => {
-          if (isConfirm) {
-            this.saving = true;
-            this.adminService.updateRole(this.roleForm.value).subscribe((response) => {
-              _.extend(this.selectedRole, response);
-              this.saving = false;
-              this.roleForm.reset();
-              this.viewPanel = false;
-              this.selectedPrivileges = [];
-              this.alertService.successAlert('Role and Privileges updated');
-            });
-          }
-        });
-      } else {
-        this.saving = true;
-        this.adminService.saveRole(this.roleForm.value).subscribe((response) => {
-          this.roles.push(response);
-          this.saving = false;
-          this.roleForm.reset();
-          this.viewPanel = false;
-          this.selectedPrivileges = [];
-          this.alertService.successAlert('New Role added');
-        });
-      }
+    if (this.editable) {
+      this.alertService.confirm('You want to update role and privileges').then(isConfirm => {
+        if (isConfirm) {
+          this.saving = true;
+          this.adminService.updateRole(this.roleForm.value).subscribe((response) => {
+            _.extend(this.selectedRole, response);
+            this.saving = false;
+            this.roleForm.reset();
+            this.viewPanel = false;
+            this.selectedPrivileges = [];
+            this.alertService.successAlert('Role and Privileges updated');
+          });
+        }
+      });
+    } else {
+      this.saving = true;
+      this.adminService.saveRole(this.roleForm.value).subscribe((response) => {
+        this.roles.push(response);
+        this.saving = false;
+        this.roleForm.reset();
+        this.viewPanel = false;
+        this.selectedPrivileges = [];
+        this.alertService.successAlert('New Role added');
+      });
+    }
   }
-
 }

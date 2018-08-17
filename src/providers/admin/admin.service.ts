@@ -141,5 +141,29 @@ export class AdminService {
 
   updateRole(role: any) {
     return this.api.put('api/user/role/', role);
-   }
+  }
+
+  getUsers() {
+  return this.api.get('api/user/');
+  }
+
+  getAllCenters() {
+    return this.api.get('api/center/all');
+  }
+
+  getEmployee() {
+    return this.api.post('api/staff/filter', {'active': true} );
+  }
+
+  saveUser(user: any) {
+    return this.api.post('api/user/', user);
+  }
+
+  updateUser(user: any) {
+    return this.api.put('api/user/', user);
+  }
+
+  resetUserPassword(userIdAndPassword: any) {
+    return this.api.post('api/user/resetpwd', userIdAndPassword);
+  }
 }

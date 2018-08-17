@@ -6,6 +6,7 @@ import { AppStaffComponent } from './staff/staff.component';
 import { CenterComponent } from './center/center.component';
 import { ProgramComponent } from './program/program.component';
 import { RoleComponent } from './role/role.component';
+import { UserComponent } from './user/user.component';
 
 export const adminRoutes: Routes = [
   {
@@ -31,6 +32,10 @@ export const adminRoutes: Routes = [
       {
         path: 'staff',
         component: AppStaffComponent
+      },
+      {
+        path: 'user',
+        component: UserComponent
       }
     ]
   }
