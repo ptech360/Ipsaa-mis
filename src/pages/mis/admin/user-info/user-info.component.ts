@@ -137,7 +137,29 @@ export class UserInfoComponent implements OnInit {
     this.selectedCenterModel = '';
   }
 
-  resetPassword() {}
+  resetPassword() {
+    swal({
+      title: 'New Password',
+      buttons: ['Cancel', 'Ok'],
+      content: {
+        element: 'input',
+        attributes: {
+          placeholder: 'Type your password',
+          type: 'password',
+        },
+      },
+    }).then((value) => {
+      if (value) {
+        this.alertService.confirm('You want to change Password').then(isConfirm => {
+          if (isConfirm) {
+            this.adminService.resetUserPassword({id: this.selectedUser.id, password: value}).subscribe(success => {
+              this.alertService.successAlert('Password Changed Successfully');
+            });
+          }
+        });
+      }
+    });
+  }
 
   removeUser() {}
 

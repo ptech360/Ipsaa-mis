@@ -11,6 +11,7 @@ export class UserComponent implements OnInit {
   editable: boolean;
   viewPanel: boolean;
   selectedUser: any;
+  usersCopy: any[];
 
   constructor(private adminService: AdminService) { }
 
@@ -24,6 +25,7 @@ export class UserComponent implements OnInit {
   getUsers() {
     this.adminService.getUsers().subscribe((response: any[]) => {
       this.users = response;
+      this.usersCopy = JSON.parse(JSON.stringify(response));
     });
   }
 
@@ -32,6 +34,7 @@ export class UserComponent implements OnInit {
     this.selectedUser = user;
     // this.viewPanel = true;
     this.adminService.viewPanel.next(true);
+    this.users = JSON.parse(JSON.stringify(this.usersCopy));
   }
 
 }

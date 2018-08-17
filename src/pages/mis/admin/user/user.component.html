@@ -15,12 +15,12 @@
         <div class="table-responsive">
           <table class="table">
             <colgroup>
-              <col width="10%">
-              <col width="10%">
-              <col width="10%">
-              <col width="10%">
-              <col width="25%">
-              <col width="25%">
+              <col width="15%">
+              <col width="15%">
+              <col width="15%">
+              <col width="15%">
+              <col width="15%">
+              <col width="15%">
               <col width="10%">
             </colgroup>
             <thead class="text-primary">
@@ -39,14 +39,31 @@
               <td><span style="word-break: break-all;">{{user.phone}}</span></td>
               <td><span style="word-break: break-all;">{{user.type}}</span></td>
               <td>
-                <span class="badge badge-primary margin-right-5" *ngFor="let role of user.roles;">{{role}}</span>
+                <ng-container *ngFor="let role of user.roles;let i = index">
+                    <span class="badge badge-primary margin-right-5" *ngIf="!i">{{role}}</span>
+                  <span class="complete" *ngIf="user.role"><!--user.role is used only for show content more or less-->
+                      <span class="badge badge-primary margin-right-5">{{role}}</span>
+                  </span>
+                </ng-container>
+                <label class="more-less">
+                  <input type="checkbox" [(ngModel)]="user.role">
+                  <span class="more"></span>
+                </label>
               </td>
               <td>
-                <span class="badge badge-primary margin-right-5" *ngFor="let center of user.centers;">{{center}}</span>
+                <ng-container *ngFor="let center of user.centers;let i = index">
+                  <span class="badge badge-primary margin-right-5" *ngIf="!i">{{center}}</span>
+                  <span class="complete" *ngIf="user.center"><!--user.center is used only for show content more or less-->
+                    <span class="badge badge-primary margin-right-5">{{center}}</span>
+                  </span>
+                </ng-container>
+                <label class="more-less">
+                  <input type="checkbox" [(ngModel)]="user.center">
+                  <span class="more"></span>
+                </label>
               </td>
               <td>
                 <button mat-raised-button class="btn btn-primary btn-sm" (click)="showSidePanel(true,user)">Edit </button>
-                <button mat-raised-button class="btn btn-danger btn-sm" (click)="deleteRole(user)">Delete </button>
               </td>
             </tr>
             </tbody>
