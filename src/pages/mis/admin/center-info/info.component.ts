@@ -4,7 +4,7 @@ import { AdminService } from '../../../../providers/admin/admin.service';
 import {
   FormBuilder,
   FormGroup
-} from '../../../../../node_modules/@angular/forms';
+} from '@angular/forms';
 import { AlertService } from '../../../../providers/alert/alert.service';
 
 @Component({

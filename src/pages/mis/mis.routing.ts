@@ -20,6 +20,10 @@ export const MISRoutes: Routes = [
       {
         path: 'admin',
         loadChildren: 'pages/mis/admin/admin.module#AdminModule'
+      },
+      {
+        path: 'payroll',
+        loadChildren: 'pages/mis/payroll/payroll.module#PayrollModule'
       }
     ]
   }

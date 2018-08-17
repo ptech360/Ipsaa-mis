@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-header card-header-warning">
+    <button type="button" class="close" aria-label="Close" (click)="hideViewPanel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="card-title">
+      <span *ngIf="!editable;else edit">
+        Add
+      </span>
+      <ng-template #edit>
+        Edit
+      </ng-template>
+      Salary
+    </h4>
+  </div>
+  <div class="card-body">
+  </div>
+</div>

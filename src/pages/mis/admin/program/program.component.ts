@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
-import { FormBuilder, FormGroup } from '../../../../../node_modules/@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'underscore';
 import { AlertService } from '../../../../providers/alert/alert.service';
 
@@ -53,14 +53,14 @@ export class ProgramComponent implements OnInit {
     this.viewPanel = true;
     this.selectedGroups = [];
     if (this.selectedTab === 'Program') {
-      this.selectedProgram = object;
+      this.selectedGroup = (object) ? object : {};
       this.programForm = this.getProgramForm();
-      this.programForm.patchValue(object);
+      this.programForm.patchValue(this.selectedGroup);
       (object) ? this.selectedGroups = JSON.parse(JSON.stringify(object.groups)) : this.selectedGroups = [];
     } else {
-      this.selectedGroup = object;
+      this.selectedGroup = (object) ? object : {};
       this.groupForm = this.getGroupForm();
-      this.groupForm.patchValue(object);
+      this.groupForm.patchValue(this.selectedGroup);
     }
   }
 

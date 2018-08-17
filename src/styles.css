@@ -5,8 +5,8 @@
 }
 
 .table-responsive {
-height: 80vh;
-overflow: scroll;
+height: 60vh;
+overflow: auto;
 }
 .table th {
 text-transform: capitalize;

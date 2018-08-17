@@ -5,7 +5,7 @@ import {
   FormBuilder,
   FormControl,
   Validators
-} from '../../../../../node_modules/@angular/forms';
+} from '@angular/forms';
 import * as _ from 'underscore';
 import { AlertService } from '../../../../providers/alert/alert.service';
 declare let $: any;
