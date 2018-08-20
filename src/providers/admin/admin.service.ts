@@ -166,4 +166,12 @@ export class AdminService {
   resetUserPassword(userIdAndPassword: any) {
     return this.api.post('api/user/resetpwd', userIdAndPassword);
   }
+
+  updateSalary(salary) {
+    return this.api.post('api/employee/salary/update', salary);
+  }
+
+  getNewEmployees() {
+    return this.api.get('api/staff/new');
+  }
 }
