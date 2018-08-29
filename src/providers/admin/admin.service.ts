@@ -174,4 +174,37 @@ export class AdminService {
   getNewEmployees() {
     return this.api.get('api/staff/new');
   }
+
+  getPaySlips(object: any) {
+    return this.api.post('api/employee/payslip?month=' + object.month + '&year=' + object.year + '&employerId=' + object.employer, {});
+  }
+
+  updatePaySlip(salary: any) {
+    return this.api.put('api/employee/payslip/', salary);
+  }
+
+  downloadPaySlip(salary: any) {
+    return this.api.get('api/employee/payslip/pdf/' + salary.id);
+  }
+
+  regeneratePaySlip(salary: any) {
+    return this.api.put('api/employee/payslip/regenerate/', salary);
+  }
+
+  lockPayslip(paySlip: any) {
+    return this.api.put('api/employee/payslip/lock', {id: paySlip.id,
+      lock : true});
+  }
+
+  getStudentAttendance() {
+    return this.api.get('api/attendance/student/');
+  }
+
+  clockInStudent(student: any) {
+    return this.api.post('api/attendance/student/clockin/', {studentId: student.id});
+  }
+
+  clockOutStudent(student: any) {
+    return this.api.post('api/attendance/student/clockout/', {studentId: student.id});
+  }
 }

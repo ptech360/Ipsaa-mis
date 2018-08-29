@@ -35,8 +35,8 @@ export class SalaryInfoComponent implements OnInit {
   }
 
   constructor(
-    private adminService: AdminService,
     private fb: FormBuilder,
+    private adminService: AdminService,
     private alertService: AlertService
   ) {}
 

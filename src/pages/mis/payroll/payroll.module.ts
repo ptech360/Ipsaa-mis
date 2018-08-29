@@ -6,6 +6,7 @@ import { PayrollRoutingModule } from './payroll-routing.module';
 import { SalaryComponent } from './salary/salary.component';
 import { SalaryInfoComponent } from './salary-info/salary-info.component';
 import { PayrollService } from '../../../providers/payroll/payroll.service';
+import { GenerateMonthlySalaryComponent } from './generate-monthly-salary/generate-monthly-salary.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { PayrollService } from '../../../providers/payroll/payroll.service';
     ReactiveFormsModule,
     PayrollRoutingModule
   ],
-  declarations: [PayrollComponent, SalaryComponent, SalaryInfoComponent],
+  declarations: [PayrollComponent, SalaryComponent, SalaryInfoComponent, GenerateMonthlySalaryComponent],
   providers: [PayrollService]
 })
 export class PayrollModule { }

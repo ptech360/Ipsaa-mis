@@ -82,23 +82,53 @@
       </div>
     </li>
     <li routerLinkActive="active" class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#payroll">
-          <i class="material-icons">attach_money</i>
-          <p>Pay Roll
+        <a class="nav-link" data-toggle="collapse" href="#attendance">
+          <i class="material-icons">equalizer</i>
+          <p>Attendance
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="payroll" data-parent="#accordion">
+        <div class="collapse" id="attendance" data-parent="#accordion">
           <ul class="nav">
             <li routerLinkActive="active" class="nav-item">
-              <a class="nav-link" routerLink="payroll/salary">
+              <a class="nav-link" routerLink="attendance/student-attendance">
                 <span class="sidebar-mini">&nbsp;</span>
-                <span class="sidebar-normal">Manage Salary</span>
+                <span class="sidebar-normal">Student Attendance</span>
+              </a>
+            </li>
+            <li routerLinkActive="active" class="nav-item">
+              <a class="nav-link" routerLink="attendance/staff-attendance">
+                <span class="sidebar-mini">&nbsp;</span>
+                <span class="sidebar-normal">Staff Attendance</span>
               </a>
             </li>
           </ul>
         </div>
       </li>
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#payroll">
+        <i class="material-icons">attach_money</i>
+        <p>Pay Roll
+          <b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse" id="payroll" data-parent="#accordion">
+        <ul class="nav">
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="payroll/salary">
+              <span class="sidebar-mini">&nbsp;</span>
+              <span class="sidebar-normal">Manage Salary</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="payroll/generate-monthly-salary">
+              <span class="sidebar-mini">&nbsp;</span>
+              <span class="sidebar-normal">Generate Monthly Salary</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
     <li routerLinkActive="active" *ngFor="let item of menu.items" class="nav-item">
       <a class="nav-link" data-toggle="collapse" [attr.href]="'#id_' + item.label.split(' ').join('-')">
         <i class="material-icons">{{item.icon}}</i>
