@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-sm-4">
+    <mat-form-field>
+      <mat-select placeholder="Center" [(ngModel)]="selectedCenter" (ngModelChange)="centerChanged()">
+        <mat-option *ngFor="let center of centers" [value]="center.name">
+          {{center.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div class="col-sm-4">
+    <mat-form-field>
+      <input matInput placeholder="Search" [(ngModel)]="searchedStudent" (ngModelChange)="searchStudent()">
+    </mat-form-field>
+  </div>
+  
+</div>
+
+<div class="row">
+  <!-- <mat-spinner class="mx-auto mt-5"></mat-spinner> -->
+
+</div>
+  
