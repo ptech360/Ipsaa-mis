@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Page404Component } from '../pages/404/page404.component';
 import { LoginComponent } from '../pages/login/login.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { LoginComponent } from '../pages/login/login.component';
     LoginComponent,
     Page404Component
   ],
-  providers: [Api, User, StorageService],
+  providers: [Api, User, StorageService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
