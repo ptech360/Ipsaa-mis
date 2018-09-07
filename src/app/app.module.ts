@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Page404Component } from '../pages/404/page404.component';
 import { LoginComponent } from '../pages/login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
 
 @NgModule({
@@ -17,7 +18,8 @@ import { DatePipe } from '@angular/common';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,

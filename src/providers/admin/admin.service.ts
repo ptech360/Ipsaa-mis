@@ -216,6 +216,10 @@ export class AdminService {
     return this.api.post('api/attendance/student/clockout/', {studentId: student.id});
   }
 
+  // student fee service
+  loadStudentFeeByCenterId(centerId) {
+    return this.api.get('api/student/fee?centerId=' + centerId);
+  }
   getProgramFee(programNgroup: any) {
     return this.api.post('api/center/fee/', programNgroup);
   }
