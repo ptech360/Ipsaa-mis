@@ -38,7 +38,7 @@ import { UserInfoComponent } from './user-info/user-info.component';
     UserComponent,
     UserInfoComponent
   ],
-  exports: [StudentInfoComponent, CenterInfoComponent],
+  exports: [StudentInfoComponent, StaffInfoComponent, CenterInfoComponent],
   providers: [AdminService]
 })
 export class AdminModule { }

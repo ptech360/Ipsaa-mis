@@ -55,9 +55,12 @@ export class DashboardComponent implements OnInit {
   update: boolean;
   viewPanel: boolean;
   selectedCenterFromList: any;
+  selectedStaff: any = {};
+  dashboardTabs: any[] = [];
   constructor(private dashboardService: DashboardService, private adminService: AdminService) {}
 
   ngOnInit() {
+    this.getDashboardTabs();
     this.getMonthlyFee({});
     this.getQuarterlyFee({});
     this.getStatsResult();
@@ -65,6 +68,12 @@ export class DashboardComponent implements OnInit {
     this.getCities();
     this.getCenters();
     this.subscribeViewPanelChange();
+  }
+
+  getDashboardTabs() {
+    this.dashboardService.getDashboardTabs().subscribe((response: any[]) => {
+      this.dashboardTabs = response;
+    });
   }
 
   getZones() {
@@ -160,6 +169,7 @@ export class DashboardComponent implements OnInit {
 
   getStaff() {
     this.adminService.viewPanel.next(false);
+    this.tableFor = 'staff';
     this.tableTitle = 'Staff';
     this.tableData = [];
     this.dashboardService.getStaff().subscribe((response: any) => {
@@ -332,11 +342,20 @@ export class DashboardComponent implements OnInit {
         this.update = true;
         this.adminService.viewPanel.next(true);
         break;
+      case 'staff':
+        this.selectedStaff = data;
+        this.update = true;
+        this.adminService.viewPanel.next(true);
+        break;
     }
   }
   subscribeViewPanelChange = () => {
     this.adminService.viewPanel.subscribe((val: boolean) => {
       this.viewPanel = val;
     });
+  }
+
+  isAccessible(tab: string) {
+    return (this.dashboardTabs.indexOf(tab) === -1);
   }
 }

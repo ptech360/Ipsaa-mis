@@ -31,13 +31,13 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-4 col-sm-4">
+  <div class="col-md-4 col-sm-4" [hidden]="isAccessible('followup')">
     <div class="card card-stats">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
           <i class="material-icons">content_copy</i>
         </div>
-        <p class="card-category">Inuiries</p>
+        <p class="card-category">Inquiries</p>
         <h3 class="card-title">{{statsResult.monthInquiries}}
         </h3>
       </div>
@@ -48,7 +48,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4 col-sm-4">
+  <div class="col-md-4 col-sm-4" [hidden]="isAccessible('center')">
     <div class="card card-stats">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
@@ -65,7 +65,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4 col-sm-4">
+  <div class="col-md-4 col-sm-4" [hidden]="isAccessible('staff')">
     <div class="card card-stats">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
@@ -87,7 +87,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4 col-sm-4">
+  <div class="col-md-4 col-sm-4" [hidden]="isAccessible('student')">
     <div class="card card-stats">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
@@ -143,7 +143,7 @@
       </div>
     </div>
   </div> -->
-  <div class="col-md-4 col-sm-4">
+  <div class="col-md-4 col-sm-4" [hidden]="isAccessible('fee')">
     <div class="card card-stats">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
@@ -188,5 +188,7 @@
   <div class="col-lg-6" *ngIf="viewPanel">
     <app-student-info [id]="selectedStudent.id" [update]="update" *ngIf="tableFor === 'student'"></app-student-info>
     <app-center-info [center]="selectedCenterFromList" [update]="update" *ngIf="tableFor === 'center'"></app-center-info>
+    <app-staff-info [id]="selectedStaff.id" [update]="update"></app-staff-info>
+
   </div>
 </div>

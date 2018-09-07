@@ -35,6 +35,7 @@ export class StaffInfoComponent implements OnInit {
 
   @Input()
   set id(id: number) {
+    console.log(id);
     if (id) {
       // if id exist then show staff details
       this.newStaff = false;

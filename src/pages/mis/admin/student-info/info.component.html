@@ -402,7 +402,8 @@
                 <div class="form-group">
                   <label class="control-label">Final Annual Charges
                   </label>
-                  <input class="form-control" type="number" formControlName="finalAnnualFee" required [readonly]="!newStudent" min="0" (ngModelChange)="calculateDiscount('annualFee','finalAnnualFee', 'discountAnnualCharges')">
+                  <input class="form-control" type="number" formControlName="finalAnnualFee" required 
+                  min="0" (ngModelChange)="calculateDiscount('annualFee','finalAnnualFee', 'discountAnnualCharges')">
                 </div>
               </div>
               <div class="col-md-4">
@@ -422,7 +423,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="control-label">Final Admission Charges</label>
-                  <input class="form-control" type="number" formControlName="finalAdmissionCharges" required [readonly]="!newStudent || studentForm.controls.fee.controls.admissionFee.value <= 0"
+                  <input class="form-control" type="number" formControlName="finalAdmissionCharges" required 
                     min="0" (ngModelChange)="calculateDiscount('admissionFee', 'finalAdmissionCharges', 'discountAdmissionCharges')"
                     [disabled]="!studentForm.controls.fee.controls.admissionFee.value">
                 </div>
@@ -447,7 +448,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="control-label">Final Monthly Fees Amount</label>
-                  <input class="form-control" type="text" formControlName="finalBaseFee" required [readonly]="!newStudent || studentForm.controls.fee.controls.baseFee.value <= 0"
+                  <input class="form-control" type="text" formControlName="finalBaseFee" required 
                     [disabled]="!studentForm.controls.fee.controls.baseFee.value" min="0" (ngModelChange)="calculateDiscount('baseFee', 'finalBaseFee', 'discountBaseFee')">
                 </div>
               </div>
@@ -471,7 +472,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="control-label">Final Security Deposit Fees</label>
-                  <input class="form-control" type="number" formControlName="finalSecurityDeposit" required [readonly]="!newStudent || studentForm.controls.fee.controls.deposit.value <= 0"
+                  <input class="form-control" type="number" formControlName="finalSecurityDeposit" required 
                     [disabled]="!studentForm.controls.fee.controls.deposit.value" min="0" (ngModelChange)="calculateDiscount('deposit', 'finalSecurityDeposit', 'discountSecurityDeposit')">
                 </div>
               </div>
@@ -479,21 +480,21 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Monthly Transport Fees</label>
-                  <input class="form-control" type="number" formControlName="transportFee" [readonly]="!newStudent" (ngModelChange)="monthlyTransportFeesChanged(studentForm.controls.fee.value)">
+                  <input class="form-control" type="number" formControlName="transportFee" (ngModelChange)="monthlyTransportFeesChanged(studentForm.controls.fee.value)">
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Uniform Charges</label>
-                  <input class="form-control" type="number" formControlName="uniformCharges" [readonly]="!newStudent" (ngModelChange)="monthlyUniformChargesChanged(studentForm.controls.fee.value)">
+                  <input class="form-control" type="number" formControlName="uniformCharges" (ngModelChange)="monthlyUniformChargesChanged(studentForm.controls.fee.value)">
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Stationery Charges</label>
-                  <input class="form-control" type="number" formControlName="stationary" [readonly]="!newStudent" (ngModelChange)="monthlyStationeryChargesChanged(studentForm.controls.fee.value)">
+                  <input class="form-control" type="number" formControlName="stationary" (ngModelChange)="monthlyStationeryChargesChanged(studentForm.controls.fee.value)">
                 </div>
               </div>
 
@@ -503,7 +504,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label class="control-label">Comment*</label>
-                  <input class="form-control" type="text" formControlName="comment" [readonly]="!newStudent">
+                  <input class="form-control" type="text" formControlName="comment">
                 </div>
               </div>
             </div>
@@ -538,17 +539,19 @@
         </div>
         <div id="payment-history" class="container tab-pane" *ngIf="!newStudent">
             <table class="table">
-                <thead class="text-danger">
-                  <th>Invoice Date</th>
+                <thead class="text-primary">
                   <th>Quarter</th>
+                  <th>Invoice Date</th>
                   <th>Total Fee</th>
-                  <th>Total Paid Amount</th>
+                  <th>Payable Amount</th>
+                  <th>Status</th>
                 </thead>
                   <tr *ngFor="let history of paymentHistory;">
-                    <td>{{history.invoiceDate}}</td>
-                    <td>{{quarters[history.quarter]}}</td>
+                    <td>{{history.year}} {{quarters[history.quarter-1]}}</td>
+                    <td>{{history.invoiceDate | date}}</td>
                     <td>{{history.totalFee}}</td>
-                    <td class="text-danger">{{history.totalPaidAmount}}</td>
+                    <td>{{history.payableAmount}}</td>
+                    <td>{{history.status}}</td>
                   </tr>
                 </tbody>
               </table>
