@@ -7,23 +7,37 @@ import { AdminService } from '../../../../providers/admin/admin.service';
   styleUrls: ['./student-fee.component.css']
 })
 export class StudentFeeComponent implements OnInit {
-
-  constructor( private adminService: AdminService ) {}
+  constructor(private adminService: AdminService) {}
   searchedStudent = '';
-  selectedCenter = 'ALL';
+  selectedCenter = {id: 0};
   centers = [];
-  centerChanged() {
-    // this.adminService.getStudents
-  }
-
-  searchStudent() { }
-
-  initiallize() {
-    this.adminService.getCenters()
-    .subscribe( centers => this.centers = centers);
-  }
+  studentFeeList = [];
+  viewPanel = false;
+  loadingFeeList = false;
 
   ngOnInit() {
     this.initiallize();
+  }
+
+  initiallize() {
+    this.adminService
+      .getCenters()
+      .subscribe(centers => (this.centers = centers));
+  }
+
+  loadStudentFeeByCenter() {
+    console.log(this.selectedCenter);
+    this.loadingFeeList = true;
+    this.adminService.loadStudentFeeByCenterId(this.selectedCenter.id)
+    .subscribe(res => {
+      this.studentFeeList = res;
+      this.loadingFeeList = false;
+    });
+  }
+
+  searchStudent() {}
+
+  getStudentFee(student, mode) {
+    //
   }
 }

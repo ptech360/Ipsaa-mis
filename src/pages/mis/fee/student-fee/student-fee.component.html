@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-sm-4">
     <mat-form-field>
-      <mat-select placeholder="Center" [(ngModel)]="selectedCenter" (ngModelChange)="centerChanged()">
-        <mat-option *ngFor="let center of centers" [value]="center.name">
+      <mat-select placeholder="Center" [(ngModel)]="selectedCenter" (ngModelChange)="loadStudentFeeByCenter()">
+        <mat-option *ngFor="let center of centers" [value]="center">
           {{center.name}}
         </mat-option>
       </mat-select>
@@ -18,7 +18,90 @@
 </div>
 
 <div class="row">
-  <!-- <mat-spinner class="mx-auto mt-5"></mat-spinner> -->
+  <!--  student fee table starts -->
+  <div [class]="viewPanel?'transition col-lg-6':'transition col-md-12'">
+    <div class="card">
+      <div class="card-header card-header-warning card-header-icon">
+        <div class="card-icon">
+          <i class="material-icons">content_copy</i>
+        </div>
+        <h3 class="card-title">Student Fee
+          <i class="fa fa-spinner fa-fw fa-pulse text-primary" *ngIf="loadingFeeList"></i>
+          <!-- <button mat-raised-button class="btn btn-primary btn-sm pull-right" (click)="addNewStaff()">Add New</button> -->
+        </h3>
+      </div>
+      <div class="card-content mx-3">
+        <div class="table-responsive">
+          <table class="table table-condensed table-striped table-hover">
+            <colgroup>
+              <col width="20%">
+              <col width="20%">
+              <col width="10%">
+              <col width="20%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+            </colgroup>
+            <thead class="text-primary">
+              <tr>
+                <!-- <th>Sr. No.</th> -->
+                <th>Name</th>
+                <th>Program</th>
+                <th>Group</th>
+                <th>Center</th>
+                <th>Base Fee</th>
+                <th>Final Fee</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of studentFeeList" class="staff-list-row" [hidden]="loadingFeeList" (click)="getStudentFee(student, 'view')">
+                <td>{{student.fullName}}</td>
+                <td>{{student.program.description}}</td>
+                <td>{{student.group.description}}</td>
+                <td>{{student.center.name}}</td>
+                <td>{{student.baseFee}}</td>
+                <td>{{student.finalFee}}</td>
+                <td class="action-buttons">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="getStudentFee(student, 'edit')">edit</button>
+                </td>
+              </tr>
+              <tr *ngIf="!loadingFeeList && !studentFeeList.length" class="text-center">
+                <td colspan="8">No Fee to display</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <div class="card-footer">
+        <!-- <ul class="pagination pagination-info">
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(1)">First</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="setPage(page)">{{page}}</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+        </ul> -->
+      </div>
+    </div>
+  </div>
+  <!-- student fee table ends -->
 
+  <div class="col-lg-6" *ngIf="viewPanel">
+    <div class="card" id="studentFee_info">
+  
+    </div>
+    <!-- <app-student-fee-info [id]="selectedStaff.id" [update]="update"></app-student-fee-info> -->
+  </div>
 </div>
   
