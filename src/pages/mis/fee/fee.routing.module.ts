@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { StudentFeeComponent } from './student-fee/student-fee.component';
 const feeRoutes: Routes = [
   {
-    path: 'student-fee',
+    path: 'studentfeemanagement',
     component: StudentFeeComponent
-  },
+  }
 ];
 
 @NgModule({
