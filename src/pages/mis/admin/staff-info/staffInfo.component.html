@@ -38,6 +38,12 @@
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#address2">Permanent Address</a>
         </li>
+        <li class="nav-item" *ngIf="!newStaff">
+          <a class="nav-link" data-toggle="tab" href="#salary">Salary</a>
+        </li>
+        <li class="nav-item" *ngIf="!newStaff">
+          <a class="nav-link" data-toggle="tab" href="#payslips">Payslip</a>
+        </li>
       </ul>
 
       <form class="tab-content" [formGroup]="staffForm">
@@ -354,6 +360,16 @@
             </div>
           </div>
 
+        </div>
+
+        <div class="tab-pane container mt-2" id="salary" *ngIf="!newStaff">
+          <br>
+          <h3>Salary Detail Coming Soon</h3>
+        </div>
+
+        <div class="tab-pane container mt-2" id="payslips" *ngIf="!newStaff">
+          <br>
+          <h3>PaySlips Detail Coming Soon</h3>
         </div>
 
       </form>
