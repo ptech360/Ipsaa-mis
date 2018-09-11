@@ -229,6 +229,7 @@ export class StudentInfoComponent implements OnInit {
   }
 
   saveStudent() {
+    this.studentForm.value['dob'] = this.datePipe.transform(this.studentForm.controls['dob'].value, 'yyyy-MM-dd');
     if (this.editable) {
       this.adminService
         .updateStudent(this.studentForm.value)

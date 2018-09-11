@@ -188,7 +188,6 @@
   <div class="col-lg-6" *ngIf="viewPanel">
     <app-student-info [id]="selectedStudent.id" [update]="update" *ngIf="tableFor === 'student'"></app-student-info>
     <app-center-info [center]="selectedCenterFromList" [update]="update" *ngIf="tableFor === 'center'"></app-center-info>
-    <app-staff-info [id]="selectedStaff.id" [update]="update"></app-staff-info>
-
+    <app-staff-info [id]="selectedStaff.id" *ngIf="tableFor === 'staff'" [update]="update"></app-staff-info>
   </div>
 </div>

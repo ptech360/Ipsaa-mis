@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AdminService } from '../../../../providers/admin/admin.service';
+import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { AdminService } from '../../../../providers/admin/admin.service';
 import * as _ from 'underscore';
 import { AlertService } from '../../../../providers/alert/alert.service';
 declare let $: any;
@@ -14,7 +15,8 @@ export class StaffInfoComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private datePipe: DatePipe
   ) {}
 
   staff: any = {};
@@ -224,6 +226,9 @@ export class StaffInfoComponent implements OnInit {
     // if (this.staffForm.status) {
     //   return;
     // }
+    this.staffForm.value['doj'] = this.datePipe.transform(this.staffForm.controls['doj'].value, 'yyyy-MM-dd');
+    this.staffForm.value['dob'] = this.datePipe.transform(this.staffForm.controls['dob'].value, 'yyyy-MM-dd');
+    this.staffForm.value['dol'] = this.datePipe.transform(this.staffForm.controls['dol'].value, 'yyyy-MM-dd');
     if (this.newStaff) {
       // for new staff add request
       console.log(this.staffForm.value);

@@ -32,6 +32,10 @@ export const MISRoutes: Routes = [
       {
         path: 'fee',
         loadChildren: 'pages/mis/fee/fee.module#FeeModule'
+      },
+      {
+        path: 'comms',
+        loadChildren: 'pages/mis/message/message.module#MessageModule'
       }
     ]
   }

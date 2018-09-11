@@ -47,8 +47,6 @@
       </ul>
       <!-- Nav pills of staff card -->
 
-      <p class="text-right">(*) Required Fields</p>
-
       <!-- staff form starts -->
       <form class="tab-content" [formGroup]="staffForm">
         <div class="tab-pane container active mt-2" id="profile">
@@ -131,27 +129,22 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="control-label">DOJ : <sup>*</sup></label>
-                <input class="form-control" value="" formControlName="doj" placeholder="YYYY-MM-DD">
+                <input type="date" class="form-control" value="" formControlName="doj" placeholder="YYYY-MM-DD">
                 <div *ngIf="doj.invalid && (doj.dirty || doj.touched)" class="text-danger position-absolute">
                   <div *ngIf="doj.errors.required">Required</div>
                 </div>
-                <!-- <mat-form-field>
-                  <input matInput placeholder="Choose a date">
-                  <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field> -->
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label class="control-label">DOL : </label>
-                <input class="form-control" value="" formControlName="dol" placeholder="YYYY-MM-DD">
+                <input type="date" class="form-control" value="" formControlName="dol" placeholder="YYYY-MM-DD">
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label class="control-label">DOB : <sup>*</sup></label>
-                <input class="form-control" value="" formControlName="dob" placeholder="YYYY-MM-DD">
+                <input type="date" class="form-control" value="" formControlName="dob" placeholder="YYYY-MM-DD">
                 <div *ngIf="dob.invalid && (dob.dirty || dob.touched)" class="text-danger position-absolute">
                   <div *ngIf="dob.errors.required">Required</div>
                 </div>
