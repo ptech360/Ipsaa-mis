@@ -4,6 +4,7 @@ import { StudentMessageComponent } from './student-message/student-message.compo
 import { StaffMessageComponent } from './staff-message/staff-message.component';
 import { MessageRoutingModule } from './/message-routing.module';
 import { FormsModule, ReactiveFormsModule } from '../../../../node_modules/@angular/forms';
+import { EmailMessageDirectiveComponent } from './email-message-directive/email-message-directive.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '../../../../node_modules/@angu
     ReactiveFormsModule,
     MessageRoutingModule
   ],
-  declarations: [StudentMessageComponent, StaffMessageComponent]
+  declarations: [StudentMessageComponent, StaffMessageComponent, EmailMessageDirectiveComponent]
 })
 export class MessageModule { }

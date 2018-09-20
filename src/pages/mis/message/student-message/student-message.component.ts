@@ -34,6 +34,7 @@ export class StudentMessageComponent implements OnInit {
   files: any[] = [];
   selectAllStudent: boolean;
   sending: boolean;
+  emailData: any;
 
   constructor(
     private adminService: AdminService,
@@ -52,6 +53,10 @@ export class StudentMessageComponent implements OnInit {
 
   hideViewPanel() {
     this.adminService.viewPanel.next(false);
+    this.smsContent = '';
+    this.emailcontent = '';
+    this.emailsubject = '';
+    this.files = [];
   }
 
   getCenters() {
@@ -145,7 +150,7 @@ export class StudentMessageComponent implements OnInit {
   smsApi() {
     const object = {ids: this.ids, smscontent: this.smsContent};
     this.sending = true;
-    this.smsService.sendSMS(object).subscribe((response: any) => {
+    this.smsService.sendStudentSMS(object).subscribe((response: any) => {
       this.sending = false;
       this.alertService.successAlert('Succesfully sent');
       this.hideViewPanel();
@@ -172,8 +177,16 @@ export class StudentMessageComponent implements OnInit {
     for (const file of this.files) {
       formData.append('files', file);
     }
+
+    this.emailData.files.forEach(file => {
+      formData.append('files', file);
+    });
+    this.emailData.images.forEach(image => {
+      formData.append('images', image);
+    });
+    
     this.sending = true;
-    this.smsService.sendEmail(formData).subscribe((response: any) => {
+    this.smsService.sendStudentEmail(formData).subscribe((response: any) => {
       this.sending = false;
       this.alertService.successAlert('Succesfully sent');
       this.hideViewPanel();
@@ -198,6 +211,9 @@ export class StudentMessageComponent implements OnInit {
         this.ids.push(id);
       }
     });
+    if (!this.ids.length) {
+      this.hideViewPanel();
+    }
   }
 
   getFiles(event: any) {
@@ -206,5 +222,10 @@ export class StudentMessageComponent implements OnInit {
 
   removeAttachment(index: number) {
     this.files.splice(index, 1);
+  }
+
+  dropped(event) {
+    this.emailData = event;
+    this.emailcontent = event.textContent;
   }
 }

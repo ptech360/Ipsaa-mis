@@ -18,7 +18,7 @@
       <span *ngIf="newStudent">New Student</span>
       <br>
       <a href="" onclick="document.getElementById('upload').click(); return false" *ngIf="!newStudent">Update Profile Pic</a>
-      <input type="file" id="upload" name="upload" style="display: none" (ngModelChange)="uploadProfilePic(student, $event.target.files['0'])"
+      <input type="file" id="upload" name="upload" style="display: none" (change)="uploadProfilePic(student, $event.target.files['0'])"
       />
     </div>
     <div class="card-content">

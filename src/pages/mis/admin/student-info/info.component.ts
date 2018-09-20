@@ -87,6 +87,7 @@ export class StudentInfoComponent implements OnInit {
       corporate: [false],
       formalSchool: [false],
       schoolName: [''],
+      siblingId: [null],
       active: [''],
       admissionDate: [this.datePipe.transform(new Date(), 'yyyy-MM-dd')],
       admissionNumber: [''],
@@ -210,6 +211,7 @@ export class StudentInfoComponent implements OnInit {
   }
 
   uploadProfilePic(student: any, file: any) {
+    console.log('asdfdsf', file);
     const formData = new FormData();
     formData.append('file', file);
     if (file) {
@@ -391,6 +393,7 @@ export class StudentInfoComponent implements OnInit {
   siblingSelected(siblingStudent: any) {
     this.adminService.getStudentById(siblingStudent.id).subscribe((student: any) => {
       this.studentForm.controls['parents'].patchValue(student.parents);
+      this.studentForm.controls['siblingId'].patchValue(student.id);
     });
   }
 
