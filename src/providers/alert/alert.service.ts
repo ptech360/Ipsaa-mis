@@ -4,7 +4,7 @@ import swal from 'sweetalert';
 export class AlertService {
   constructor() {}
 
-  confirm(msg: string) {
+  public confirm(msg: string) {
     return swal({
       title: 'Are you sure?',
       text: msg,
@@ -14,7 +14,7 @@ export class AlertService {
     });
   }
 
-  successAlert(msg: string) {
+  public successAlert(msg: string) {
     swal({
       title: 'Success',
       text: msg,
@@ -22,7 +22,7 @@ export class AlertService {
     });
   }
 
-  errorAlert(msg: string) {
+  public errorAlert(msg: string) {
     swal({
       title: 'Error',
       text: msg,

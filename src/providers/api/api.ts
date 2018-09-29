@@ -22,7 +22,7 @@ import { AlertService } from '../alert/alert.service';
 export class Api {
   url: string = environment.api;
 
-  constructor(public http: HttpClient, public storage: StorageService, public errService: AlertService) {}
+  constructor(public http: HttpClient, public storage: StorageService, public alertService: AlertService) {}
 
   getHeaders(optHeaders?: HttpHeaders) {
     let headers = new HttpHeaders();
@@ -96,7 +96,7 @@ export class Api {
     return response.body || response.status;
   }
 
-  handleError(errorResponse: HttpErrorResponse) {
+  handleError = (errorResponse: HttpErrorResponse) => {
     const err: any = {};
     err.status = errorResponse.error
       ? errorResponse.error.status
@@ -106,6 +106,7 @@ export class Api {
         ? errorResponse.error.message
         : errorResponse.error.toString()
       : 'Something went wrong';
+      this.alertService.errorAlert(err.message);
     return Observable.throw(err);
   }
 }
