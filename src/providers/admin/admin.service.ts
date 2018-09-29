@@ -216,6 +216,26 @@ export class AdminService {
     return this.api.post('api/attendance/student/clockout/', {studentId: student.id});
   }
 
+  getStaffAttendance() {
+    return this.api.get('api/attendance/staff/');
+  }
+
+  clockInStaff(staff: any) {
+    return this.api.post('api/attendance/staff/clockin/', {staffId: staff.id});
+  }
+
+  clockOutStaff(staff: any) {
+    return this.api.post('api/attendance/staff/clockout/', {staffId: staff.id});
+  }
+
+  staffFullLeave(eid: any) {
+    return this.api.post('api/staff/leave/single-day-leave?eid=' + eid, {});
+  }
+
+  staffHalfLeave(eid: any, halfLeave: boolean) {
+    return this.api.post('api/staff/leave/single-day-leave?eid=' + eid + '&halfLeave=' + halfLeave, {});
+  }
+
   // student fee service
   loadStudentFeeByCenterId(centerId) {
     return this.api.get('api/student/fee?centerId=' + centerId);

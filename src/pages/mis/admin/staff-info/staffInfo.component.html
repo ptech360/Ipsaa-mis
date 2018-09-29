@@ -244,7 +244,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="control-label">Biometric Id : <sup>*</sup></label>
-                <input class="form-control" value="" formControlName="biometricId" [readonly]="!editable">
+                <input type="number" class="form-control" value="" formControlName="biometricId" [readonly]="!editable">
                 <div *ngIf="biometricId.invalid && (biometricId.dirty || biometricId.touched)" class="text-danger position-absolute">
                   <div *ngIf="biometricId.errors.required">Required</div>
                 </div>

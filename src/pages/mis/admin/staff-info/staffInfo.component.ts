@@ -147,7 +147,7 @@ export class StaffInfoComponent implements OnInit {
       expectedOut: ['', Validators.required],
       maritalStatus: [null, Validators.required],
       profile: this.getProfile(),
-      biometricId: ['', Validators.required],
+      biometricId: [''],
       approvalStatus: [''],
       expectedHours: ['', Validators.required],
       aadharNumber: [''],
@@ -223,12 +223,6 @@ export class StaffInfoComponent implements OnInit {
   get phone2() { return this.staffForm.get('profile').get('permanentAddress').get('phone'); }
 
   saveStaff() {
-    // if (this.staffForm.status) {
-    //   return;
-    // }
-    this.staffForm.value['doj'] = this.datePipe.transform(this.staffForm.controls['doj'].value, 'yyyy-MM-dd');
-    this.staffForm.value['dob'] = this.datePipe.transform(this.staffForm.controls['dob'].value, 'yyyy-MM-dd');
-    this.staffForm.value['dol'] = this.datePipe.transform(this.staffForm.controls['dol'].value, 'yyyy-MM-dd');
     if (this.newStaff) {
       // for new staff add request
       console.log(this.staffForm.value);
@@ -258,6 +252,7 @@ export class StaffInfoComponent implements OnInit {
       });
     } else {
       // for update staff record
+      this.staffForm.controls['mode'].patchValue('Edit');
       this.adminService.updateStaff(this.staffForm.value).subscribe(res => {
         if (res.error) {
           this.alertService.errorAlert(res.error);
