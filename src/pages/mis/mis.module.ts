@@ -12,7 +12,6 @@ import { AdminModule } from './admin/admin.module';
 @NgModule({
   imports: [
     CommonModule,
-    // RouterModule.forChild(MISRoutes),
     MISRoutingModule,
     FormsModule,
     ComponentsModule,

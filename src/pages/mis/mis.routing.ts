@@ -36,6 +36,26 @@ export const MISRoutes: Routes = [
       {
         path: 'comms',
         loadChildren: 'pages/mis/message/message.module#MessageModule'
+      },
+      {
+        path: 'approval',
+        loadChildren: 'pages/mis/approval/approval.module#ApprovalModule'
+      },
+      {
+        path: 'report',
+        loadChildren: 'pages/mis/report/report.module#ReportModule'
+      },
+      {
+        path: 'crm',
+        loadChildren: 'pages/mis/crm/crm.module#CrmModule'
+      },
+      {
+        path: 'center',
+        loadChildren: 'pages/mis/center/center.module#CenterModule'
+      },
+      {
+        path: 'support',
+        loadChildren: 'pages/mis/support/support.module#SupportModule'
       }
     ]
   }

@@ -4,6 +4,7 @@ import { StudentAttendanceComponent } from './student-attendance/student-attenda
 import { StaffAttendanceComponent } from './staff-attendance/staff-attendance.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AttendanceRoutingModule } from './attendance-routing.module';
+import { StaffAttendanceLogsComponent } from './staff-attendance-logs/staff-attendance-logs.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { AttendanceRoutingModule } from './attendance-routing.module';
     ReactiveFormsModule,
     AttendanceRoutingModule
   ],
-  declarations: [StudentAttendanceComponent, StaffAttendanceComponent]
+  declarations: [StudentAttendanceComponent, StaffAttendanceComponent, StaffAttendanceLogsComponent]
 })
 export class AttendanceModule { }

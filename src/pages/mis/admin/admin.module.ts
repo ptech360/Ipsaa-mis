@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminRoutingModule } from './admin.routing';
-import { AdminComponent } from './admin.component';
 import { StudentComponent } from './student/student.component';
 import { AdminService } from '../../../providers/admin/admin.service';
 import { StudentInfoComponent } from './student-info/info.component';
@@ -15,6 +14,7 @@ import { ProgramComponent } from './program/program.component';
 import { RoleComponent } from './role/role.component';
 import { UserComponent } from './user/user.component';
 import { UserInfoComponent } from './user-info/user-info.component';
+import { ImportDataComponent } from './import-data/import-data.component';
 
 @NgModule({
   imports: [
@@ -25,7 +25,6 @@ import { UserInfoComponent } from './user-info/user-info.component';
     ComponentsModule
   ],
   declarations: [
-    AdminComponent,
     StudentComponent,
     StudentInfoComponent,
     AppStaffComponent,
@@ -35,7 +34,8 @@ import { UserInfoComponent } from './user-info/user-info.component';
     ProgramComponent,
     RoleComponent,
     UserComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    ImportDataComponent
   ],
   exports: [StudentInfoComponent, StaffInfoComponent, CenterInfoComponent],
   providers: [AdminService]

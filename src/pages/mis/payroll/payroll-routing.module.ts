@@ -1,24 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { PayrollComponent } from './payroll.component';
 import { SalaryComponent } from './salary/salary.component';
 import { GenerateMonthlySalaryComponent } from './generate-monthly-salary/generate-monthly-salary.component';
+import { StaffLeavesComponent } from './staff-leaves/staff-leaves.component';
 
-export const payrollRoutes: Routes = [{
-  path: '',
-  component: PayrollComponent,
-  children: [
-    {
-      path: 'salary',
-      component: SalaryComponent
-    },
-    {
-      path: 'generate-monthly-salary',
-      component: GenerateMonthlySalaryComponent
-    }
-  ]
-}];
+export const payrollRoutes: Routes = [
+  {
+    path: 'salary',
+    component: SalaryComponent
+  },
+  {
+    path: 'generate-monthly-salary',
+    component: GenerateMonthlySalaryComponent
+  },
+  {
+    path: 'staffleaves',
+    component: StaffLeavesComponent
+  }];
 
 @NgModule({
   imports: [RouterModule.forChild(payrollRoutes)],
