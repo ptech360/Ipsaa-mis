@@ -103,6 +103,12 @@ export class StudentInfoComponent implements OnInit {
     });
   }
 
+  getProgramsByCenter(centerId: number){
+    this.adminService.getProgramsByCenterId(centerId).subscribe((response:any)=>{
+      this.programs = response;
+    })
+  }
+
   getParentData() {
     return this.fb.group({
       firstName: ['', [Validators.required]],
@@ -185,6 +191,7 @@ export class StudentInfoComponent implements OnInit {
   }
 
   getFee(programId: number) {
+    this.groups =  this.programs.find(program => program.id === programId).groups;
     this.adminService
       .getProgramFee({
         centerId: this.studentForm.controls['centerId'].value,
