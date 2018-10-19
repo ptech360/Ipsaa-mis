@@ -16,6 +16,10 @@ export class AdminService {
     return this.api.get('api/program/');
   }
 
+  getProgramsByCenterId(centerId:number){
+    return this.api.get('api/center/programs/'+ centerId);
+  }
+
   getCenters() {
     return this.api.get('api/center/');
   }
@@ -243,5 +247,110 @@ export class AdminService {
   getProgramFee(programNgroup: any) {
     return this.api.post('api/center/fee/', programNgroup);
   }
+
+
+
+  // generate  fee slip
+  getProgramCenter(){
+    return this.api.get("api/center/")
+  }
+
+  getCenterFee(centerId){
+    return this.api.get("api/center/" + centerId+"/fee/")
+  }
+
+getProgramsList(){
+  return this.api.get("api/program/")
+}
+
+getChargesList(){
+  return this.api.get("api/charge/")
+}
+
+getcharge(centerId){
+  return this.api.get('api/center/'+ centerId +'/charge/')
+}
+
+addNewCharge(fd){
+  return this.api.post("api/center/charge",fd)
+}
+
+editCharge(fd){
+  return this.api.put("api/center/charge",fd)
+
+}
+
+editProgramFee(fd){
+  return this.api.put("api/center/program/fee/",fd)
+}
+
+addProgramFee(fd){
+  return this.api.post("api/center/program/fee/",fd)
+
+}
+
+deleteProgramFee(programId){
+  return this.api.delete("api/center/program/fee/"+programId+"/")
+}
+
+deleteAdditionalCharge(chargeId){
+  return this.api.delete("api/center/charge/"+chargeId+"/")
+}
+
+editChargeList(fd){
+  return this.api.put("api/charge/",fd)
+}
+
+addNewChargeInList(fd){
+  return this.api.post("api/charge/",fd)
+}
+
+generateStudentFeeSlip(fd){
+  return this.api.post("api/student/feeslip/generate/",fd)
+
+}
+
+regenerateStudentsFeeSlips(fd,value){
+  return this.api.post("api/student/feeslip/"+value+"/",fd)
+
+}
+
+lockStudentsFeeSlips(fd){
+  return this.api.post("api/student/feeslip/generate-all/",fd)
+
+}
+
+saveFeeSlipChanges(fd){
+  return this.api.post("api/student/feeslip/",fd)
+
+}
+
+downloadFeeSlips(fd){
+  return this.api.getPDF("api/student/feeslips/pdf",fd);
+}
+
+
+sendEmails(fd){
+  return this.api.post("api/student/paymentLink/",fd)
+
+}
+
+
+// generate fee receipt
+
+getStudentFeeList(fd){
+  return this.api.post("api/student/feeslip/list/",fd)
+
+}
+
+payStudentFee(fd){
+  return this.api.post("api/student/payfee/",fd)
+
+}
+
+downloadReceipt(id){
+  return this.api.get("api/student/download/receipt/"+id)
+
+}
 
 }
