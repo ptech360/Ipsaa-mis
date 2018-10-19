@@ -9,7 +9,7 @@ export class MenuService {
   constructor(public api: Api, public storage: StorageService) {}
 
   getMenus() {
-    return this.api.get('api/user/menu');
+    return this.api.get('api/user/menus');
   }
 
   getUserProfile() {

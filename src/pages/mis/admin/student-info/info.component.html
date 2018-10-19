@@ -73,7 +73,7 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label class="control-label">Center : </label>
-                <select class="form-control" formControlName="centerId">
+                <select class="form-control" formControlName="centerId" (ngModelChange)="getProgramsByCenter($event)">
                   <option *ngFor="let center of centers;let c = index;" [ngValue]="center.id"> {{center.name}}</option>
                 </select>
               </div>
@@ -244,6 +244,7 @@
                 <div class="form-group">
                   <label class="control-label">First Name : </label>
                   <input class="form-control" value=" Pankaj" formControlName="firstName">
+                  <input formControlName="relationship" [value]="i?'Mother':'Father'">
                 </div>
               </div>
               <div class="col-lg-6">
