@@ -48,6 +48,14 @@ export class Api {
       .catch(this.handleError);
   }
 
+  getPDF(endpoint: string, optHeaders?: HttpHeaders) {
+    const headers = this.getHeaders(optHeaders);
+    return this.http
+      .get(this.url + '/' + endpoint, { headers: headers, observe: 'response', responseType: 'blob' })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   post(endpoint: string, body: any, optHeaders?: HttpHeaders) {
     const headers = this.getHeaders(optHeaders);
     return this.http
@@ -97,16 +105,19 @@ export class Api {
   }
 
   handleError = (errorResponse: HttpErrorResponse) => {
-    const err: any = {};
-    err.status = errorResponse.error
-      ? errorResponse.error.status
-      : errorResponse.status;
-    err.message = errorResponse.error
-      ? errorResponse.error.message
-        ? errorResponse.error.message
-        : errorResponse.error.toString()
-      : 'Something went wrong';
-      this.alertService.errorAlert(err.message);
-    return Observable.throw(err);
+    console.log(errorResponse);
+    switch (errorResponse.status) {
+      case 401:
+        this.alertService.errorAlert('Session Expired');
+        this.storage.clearData();
+        break;
+      case 0:
+        this.alertService.errorAlert('You don\'t seem to have an active internet connection. Please connect and try again.');
+        break;
+      default:
+        this.alertService.errorAlert(errorResponse.message);
+        break;
+    }
+    return Observable.throw(errorResponse);
   }
 }
