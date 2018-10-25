@@ -48,14 +48,6 @@ export class Api {
       .catch(this.handleError);
   }
 
-  getPDF(endpoint: string, optHeaders?: HttpHeaders) {
-    const headers = this.getHeaders(optHeaders);
-    return this.http
-      .get(this.url + '/' + endpoint, { headers: headers, observe: 'response', responseType: 'blob' })
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
   post(endpoint: string, body: any, optHeaders?: HttpHeaders) {
     const headers = this.getHeaders(optHeaders);
     return this.http
@@ -67,7 +59,7 @@ export class Api {
       .catch(this.handleError);
   }
 
-  getPDF(endpoint: string, body: any, optHeaders?: HttpHeaders){
+  getPDF(endpoint: string, body: any, optHeaders?: HttpHeaders) {
     const headers = this.getHeaders(optHeaders);
     return this.http
       .post(this.url + '/' + endpoint, body, {
@@ -113,7 +105,6 @@ export class Api {
   }
 
   extractData(response: HttpResponse<any>) {
-    
     return response.body || response.status;
   }
 

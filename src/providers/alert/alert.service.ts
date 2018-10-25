@@ -1,7 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import swal from 'sweetalert';
+import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AlertService {
+  public loading: Subject<boolean> = new Subject<boolean>();
   constructor() {}
 
   public confirm(msg: string) {

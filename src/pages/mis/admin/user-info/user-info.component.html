@@ -107,7 +107,7 @@
           </span>
           <ng-template #save>Save</ng-template>
         </button>
-        <button class="btn btn-default">Cancel</button>
+        <button class="btn btn-default" (click)="hideViewPanel()">Cancel</button>
         <button class="btn btn-default" (click)="resetPassword()">Reset Password</button>
         <button class="btn btn-default" (click)="removeUser()">Deactivate</button>
       </div>

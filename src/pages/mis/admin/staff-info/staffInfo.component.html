@@ -453,8 +453,31 @@
         </div>
 
         <div class="tab-pane container mt-2" id="payslips" *ngIf="!newStaff">
-          <br>
-          <h3>PaySlips Detail Coming Soon</h3>
+          <h3>PaySlips Detail</h3>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="text-primary">
+                <tr>
+                  <th>Date</th>
+                  <th>CTC</th>
+                  <th>Present Days</th>
+                  <th>Other Allowances</th>
+                  <th>Other Deductions</th>
+                  <th>Net Salary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let paySlip of paySlips">
+                  <td>{{months[ paySlip.month - 1 ]}} {{paySlip.year}}</td>
+                  <td>{{paySlip.ctc}}</td>
+                  <td>{{paySlip.presents}}</td>
+                  <td>{{paySlip.otherAllowances}}</td>
+                  <td>{{paySlip.otherDeductions}}</td>
+                  <td>{{paySlip.netSalary}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </form>

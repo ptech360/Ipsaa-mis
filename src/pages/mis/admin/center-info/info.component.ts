@@ -1,11 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { DashboardService } from '../../../../providers/dashboard/dashboard.service';
 import { AdminService } from '../../../../providers/admin/admin.service';
-import {
-  FormBuilder,
-  FormGroup
-} from '@angular/forms';
+import {FormBuilder, FormGroup } from '@angular/forms';
 import { AlertService } from '../../../../providers/alert/alert.service';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-center-info',
@@ -47,20 +45,20 @@ export class CenterInfoComponent {
 
   getCenterForm() {
     return this.fb.group({
-      active: [],
-      address: [],
-      addressType: [],
-      capacity: [],
-      city: [],
-      code: [],
-      id: [],
-      mode: [],
-      name: [],
-      phone: [],
-      state: [],
-      type: [],
-      zipcode: [],
-      zone: []
+      active: [''],
+      address: [''],
+      addressType: [''],
+      capacity: [''],
+      city: [''],
+      code: [''],
+      id: [''],
+      mode: [''],
+      name: [''],
+      phone: [''],
+      state: [''],
+      type: [''],
+      zipcode: [''],
+      zone: ['']
     });
   }
 
@@ -81,9 +79,11 @@ export class CenterInfoComponent {
   }
 
   getCitiesByZone(zone: any) {
-    this.cities = this.zones.find(element => {
-      return element.name === zone;
-    }).cities;
+    if (zone) {
+      this.cities = this.zones.find(element => {
+        return element.name === zone;
+      }).cities;
+    }
   }
 
   saveCenter() {
@@ -92,10 +92,13 @@ export class CenterInfoComponent {
       this.alertService.confirm('You want to update center').then( res => {
         this.saving = true;
         this.adminService.updateCenter(this.centerForm.value).subscribe((response: any) => {
+          _.extend(this.selectedCenter, response);
           this.alertService.successAlert('Center Updated');
           this.saving = false;
           this.adminService.viewPanel.next(false);
           this.centerForm.reset();
+        }, error => {
+          this.saving = false;
         });
       });
     } else {
@@ -105,6 +108,8 @@ export class CenterInfoComponent {
           this.saving = false;
           this.adminService.viewPanel.next(false);
           this.centerForm.reset();
+        }, error => {
+          this.saving = false;
         });
     }
   }

@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let staff of attendance;">
+  <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let staff of attendance;let i =index;">
     <div class="card">
       <div class="card-header card-header-warning">
-        <img *ngIf="!staff.img" src="/assets/img/default-avatar.png" />
-        <img *ngIf="staff.img" [attr.src]="'http://ipsaaprod.s3-website.ap-south-1.amazonaws.com/' + staff.img" />
+        <img *ngIf="imgLaod[i]" src="/assets/img/default-avatar.png" />
+        <img [hidden]="imgLaod[i]" (load)="imgLaod[i] = false" [attr.src]="'http://ipsaaprod.s3-website.ap-south-1.amazonaws.com/' + staff.img" />
         <h4 class="card-profile-name">{{staff.fullName}}</h4>
       </div>
       <div class="card-body">

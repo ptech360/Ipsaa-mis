@@ -12,13 +12,7 @@ declare let $: any;
   styleUrls: ['./staffInfo.component.css']
 })
 export class StaffInfoComponent implements OnInit {
-  constructor(
-    private adminService: AdminService,
-    private fb: FormBuilder,
-    private alertService: AlertService,
-    private datePipe: DatePipe
-  ) {}
-
+  paySlips: any = [];
   staff: any = {};
   editable: boolean;
   staffForm: FormGroup;
@@ -26,8 +20,28 @@ export class StaffInfoComponent implements OnInit {
   centers = [];
   costCenters = [];
   allReportingManagers = [];
-
   martialStatusOptions = ['Married', 'Unmarried', 'Widowed', 'Divorced'];
+  months: any[] = [
+    'Jan',
+    'Feb',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'Aug',
+    'Sept',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+  constructor(
+    private adminService: AdminService,
+    private fb: FormBuilder,
+    private alertService: AlertService,
+    private datePipe: DatePipe
+  ) {}
+
   ngOnInit() {
     this.staffForm = this.getStaffForm();
     this.getCenters();
@@ -42,6 +56,7 @@ export class StaffInfoComponent implements OnInit {
       // if id exist then show staff details
       this.newStaff = false;
       this.getStaff(id);
+      this.getPaySlipByEmployee(id);
     } else {
       // no staff id so add new staff
       this.staff = {};
@@ -264,5 +279,11 @@ export class StaffInfoComponent implements OnInit {
         this.adminService.viewPanel.next(false);
       });
     }
+  }
+
+  getPaySlipByEmployee(employeeId) {
+    this.adminService.getPaySlipByEmoployee(employeeId).subscribe(response => {
+      this.paySlips = response;
+    });
   }
 }

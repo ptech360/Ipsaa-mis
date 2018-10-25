@@ -10,6 +10,7 @@ import { AlertService } from '../../../../providers/alert/alert.service';
 export class StaffAttendanceComponent implements OnInit {
 
   attendance: any[] = [];
+  imgLaod: boolean[] = [];
 
   constructor(private adminService: AdminService, private alertService: AlertService) { }
 
@@ -18,8 +19,12 @@ export class StaffAttendanceComponent implements OnInit {
   }
 
   getStaffAttendance() {
+    this.alertService.loading.next(true);
     this.adminService.getStaffAttendance().subscribe((response: any[]) => {
       this.attendance = response;
+      this.alertService.loading.next(false);
+    }, error => {
+      this.alertService.loading.next(false);
     });
   }
 
@@ -65,6 +70,5 @@ export class StaffAttendanceComponent implements OnInit {
         staff.fullLeave = false;
       });
     }
-}
-
+  }
 }
