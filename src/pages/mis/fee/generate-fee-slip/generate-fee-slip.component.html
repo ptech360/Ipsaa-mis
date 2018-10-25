@@ -342,7 +342,7 @@
                 <div class="form-group">
                   <label class="control-label">Annual-Fee-GST</label> &nbsp; <a data-toggle="tooltip" title="18% if applicable ">
                     <b>i</b></a>
-                  <input class="form-control" type="number" readonly [value]="regenerateSlipForm.get('finalAnnualCharges').value *.18">
+                  <input class="form-control" type="number" readonly [value]=" regenerateSlipForm.get('gstAmount').value >0?  regenerateSlipForm.get('finalAnnualCharges').value *.18 : 0">
                   <span class="material-input"></span>
                 </div>
               </div>
@@ -350,7 +350,7 @@
                 <div class="form-group">
                   <label class="control-label">Quarterly-Program-Fee-GST</label> &nbsp; <a data-toggle="tooltip" title="18% if applicable ">
                     <b>i</b></a>
-                  <input class="form-control"  type="number" readonly [value]="regenerateSlipForm.get('finalBaseFee').value *.18">
+                  <input class="form-control"  type="number" readonly [value]=" regenerateSlipForm.get('gstAmount').value >0 ? regenerateSlipForm.get('finalBaseFee').value *.18 : 0">
                   <span class="material-input"></span>
                 </div>
               </div>
@@ -381,7 +381,7 @@
               <div class="col-lg-6 col-md-3 col-sm-3">
                   <div  class="form-group">
                     <label class="control-label"> Fee</label>
-                    <input  class="form-control" type="number"     name="finalFee"  readonly formControlName="finalFee">
+                    <input  class="form-control" type="number" [value]="regenerateSlipForm.get('finalFee').value + regenerateSlipForm.get('gstAmount').value"    name="finalFee"  readonly>
                     <span class="material-input"></span>
                   </div>
                 </div>

@@ -9,13 +9,15 @@ import { MISComponent } from './mis.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagerService } from '../../providers/pagination/pager.service';
 import { AdminModule } from './admin/admin.module';
+import { FeeModule } from './fee/fee.module';
 @NgModule({
   imports: [
     CommonModule,
     MISRoutingModule,
     FormsModule,
     ComponentsModule,
-    AdminModule
+    AdminModule,
+    FeeModule
   ],
   declarations: [MISComponent, DashboardComponent],
   providers: [PagerService],

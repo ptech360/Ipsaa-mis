@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import {
   FormGroup,
@@ -55,12 +55,14 @@ export class StudentInfoComponent implements OnInit {
   set update(update: boolean) {
     this.editable = update;
   }
+
+  @Output() getPayReceiptHistory: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
     private alerService: AlertService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getStudents();
@@ -103,10 +105,10 @@ export class StudentInfoComponent implements OnInit {
     });
   }
 
-  getProgramsByCenter(centerId: number){
-    this.adminService.getProgramsByCenterId(centerId).subscribe((response:any)=>{
+  getProgramsByCenter(centerId: number) {
+    this.adminService.getProgramsByCenterId(centerId).subscribe((response: any) => {
       this.programs = response;
-    })
+    });
   }
 
   getParentData() {
@@ -191,7 +193,7 @@ export class StudentInfoComponent implements OnInit {
   }
 
   getFee(programId: number) {
-    this.groups =  this.programs.find(program => program.id === programId).groups;
+    this.groups = this.programs.find(program => program.id === programId).groups;
     this.adminService
       .getProgramFee({
         centerId: this.studentForm.controls['centerId'].value,
@@ -226,7 +228,7 @@ export class StudentInfoComponent implements OnInit {
         (response: any) => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
-          reader.onload = function(e: any) {
+          reader.onload = function (e: any) {
             $('#student-profile').attr('src', e.target.result);
           };
         },
@@ -376,10 +378,10 @@ export class StudentInfoComponent implements OnInit {
 
   formalClicked(formalSchool: boolean) {
     if (this.studentForm.contains('fee')) {
-    const feeConrol = <FormGroup>this.studentForm.controls['fee'];
-    feeConrol.controls['formalSchool'].patchValue(formalSchool);
-    this.calculateGstFee(feeConrol.value, this.studentForm.value);
-    this.calculateFinalFee(feeConrol.value);
+      const feeConrol = <FormGroup>this.studentForm.controls['fee'];
+      feeConrol.controls['formalSchool'].patchValue(formalSchool);
+      this.calculateGstFee(feeConrol.value, this.studentForm.value);
+      this.calculateFinalFee(feeConrol.value);
     }
   }
 
@@ -409,5 +411,10 @@ export class StudentInfoComponent implements OnInit {
       this.paymentHistory = response.payments;
       console.log(response);
     });
+  }
+
+
+  selectedPaymentHistoryDetails(history) {
+   this.getPayReceiptHistory.emit(history);
   }
 }

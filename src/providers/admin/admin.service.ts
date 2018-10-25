@@ -10,14 +10,14 @@ export class AdminService {
   students: Student[];
   public viewPanel = new Subject<boolean>();
 
-  constructor(public api: Api) {}
+  constructor(public api: Api) { }
 
   getPrograms() {
     return this.api.get('api/program/');
   }
 
-  getProgramsByCenterId(centerId:number){
-    return this.api.get('api/center/programs/'+ centerId);
+  getProgramsByCenterId(centerId: number) {
+    return this.api.get('api/center/programs/' + centerId);
   }
 
   getCenters() {
@@ -148,7 +148,7 @@ export class AdminService {
   }
 
   saveRole(role: any) {
-   return this.api.post('api/user/role/', role);
+    return this.api.post('api/user/role/', role);
   }
 
   updateRole(role: any) {
@@ -156,7 +156,7 @@ export class AdminService {
   }
 
   getUsers() {
-  return this.api.get('api/user/');
+    return this.api.get('api/user/');
   }
 
   getAllCenters() {
@@ -164,7 +164,7 @@ export class AdminService {
   }
 
   getEmployee() {
-    return this.api.post('api/staff/filter', {'active': true} );
+    return this.api.post('api/staff/filter', { 'active': true });
   }
 
   saveUser(user: any) {
@@ -204,8 +204,10 @@ export class AdminService {
   }
 
   lockPayslip(paySlip: any) {
-    return this.api.put('api/employee/payslip/lock', {id: paySlip.id,
-      lock : true});
+    return this.api.put('api/employee/payslip/lock', {
+      id: paySlip.id,
+      lock: true
+    });
   }
 
   getStudentAttendance() {
@@ -213,11 +215,11 @@ export class AdminService {
   }
 
   clockInStudent(student: any) {
-    return this.api.post('api/attendance/student/clockin/', {studentId: student.id});
+    return this.api.post('api/attendance/student/clockin/', { studentId: student.id });
   }
 
   clockOutStudent(student: any) {
-    return this.api.post('api/attendance/student/clockout/', {studentId: student.id});
+    return this.api.post('api/attendance/student/clockout/', { studentId: student.id });
   }
 
   getStaffAttendance() {
@@ -225,11 +227,11 @@ export class AdminService {
   }
 
   clockInStaff(staff: any) {
-    return this.api.post('api/attendance/staff/clockin/', {staffId: staff.id});
+    return this.api.post('api/attendance/staff/clockin/', { staffId: staff.id });
   }
 
   clockOutStaff(staff: any) {
-    return this.api.post('api/attendance/staff/clockout/', {staffId: staff.id});
+    return this.api.post('api/attendance/staff/clockout/', { staffId: staff.id });
   }
 
   staffFullLeave(eid: any) {
@@ -251,106 +253,117 @@ export class AdminService {
 
 
   // generate  fee slip
-  getProgramCenter(){
-    return this.api.get("api/center/")
+  getProgramCenter() {
+    return this.api.get('api/center/');
   }
 
-  getCenterFee(centerId){
-    return this.api.get("api/center/" + centerId+"/fee/")
+  getCenterFee(centerId) {
+    return this.api.get('api/center/' + centerId + '/fee/');
   }
 
-getProgramsList(){
-  return this.api.get("api/program/")
-}
+  getProgramsList() {
+    return this.api.get('api/program/');
+  }
 
-getChargesList(){
-  return this.api.get("api/charge/")
-}
+  getChargesList() {
+    return this.api.get('api/charge/');
+  }
 
-getcharge(centerId){
-  return this.api.get('api/center/'+ centerId +'/charge/')
-}
+  getcharge(centerId) {
+    return this.api.get('api/center/' + centerId + '/charge/');
+  }
 
-addNewCharge(fd){
-  return this.api.post("api/center/charge",fd)
-}
+  addNewCharge(fd) {
+    return this.api.post('api/center/charge', fd);
+  }
 
-editCharge(fd){
-  return this.api.put("api/center/charge",fd)
+  editCharge(fd) {
+    return this.api.put('api/center/charge', fd);
 
-}
+  }
 
-editProgramFee(fd){
-  return this.api.put("api/center/program/fee/",fd)
-}
+  editProgramFee(fd) {
+    return this.api.put('api/center/program/fee/', fd);
+  }
 
-addProgramFee(fd){
-  return this.api.post("api/center/program/fee/",fd)
+  addProgramFee(fd) {
+    return this.api.post('api/center/program/fee/', fd);
 
-}
+  }
 
-deleteProgramFee(programId){
-  return this.api.delete("api/center/program/fee/"+programId+"/")
-}
+  deleteProgramFee(programId) {
+    return this.api.delete('api/center/program/fee/' + programId + '/');
+  }
 
-deleteAdditionalCharge(chargeId){
-  return this.api.delete("api/center/charge/"+chargeId+"/")
-}
+  deleteAdditionalCharge(chargeId) {
+    return this.api.delete('api/center/charge/' + chargeId + '/');
+  }
 
-editChargeList(fd){
-  return this.api.put("api/charge/",fd)
-}
+  editChargeList(fd) {
+    return this.api.put('api/charge/', fd);
+  }
 
-addNewChargeInList(fd){
-  return this.api.post("api/charge/",fd)
-}
+  addNewChargeInList(fd) {
+    return this.api.post('api/charge/', fd);
+  }
 
-generateStudentFeeSlip(fd){
-  return this.api.post("api/student/feeslip/generate/",fd)
+  generateStudentFeeSlip(fd) {
+    return this.api.post('api/student/feeslip/generate/', fd);
 
-}
+  }
 
-regenerateStudentsFeeSlips(fd,value){
-  return this.api.post("api/student/feeslip/"+value+"/",fd)
+  regenerateStudentsFeeSlips(fd, value) {
+    return this.api.post('api/student/feeslip/' + value + '/', fd);
 
-}
+  }
 
-lockStudentsFeeSlips(fd){
-  return this.api.post("api/student/feeslip/generate-all/",fd)
+  lockStudentsFeeSlips(fd) {
+    return this.api.post('api/student/feeslip/generate-all/', fd);
 
-}
+  }
 
-saveFeeSlipChanges(fd){
-  return this.api.post("api/student/feeslip/",fd)
+  saveFeeSlipChanges(fd) {
+    return this.api.post('api/student/feeslip/', fd);
 
-}
+  }
 
-downloadFeeSlips(fd){
-  return this.api.getPDF("api/student/feeslips/pdf",fd);
-}
-
-
-sendEmails(fd){
-  return this.api.post("api/student/paymentLink/",fd)
-
-}
+  downloadFeeSlips(fd) {
+    return this.api.getPDF('api/student/feeslips/pdf', fd);
+  }
 
 
-// generate fee receipt
+  sendEmails(fd) {
+    return this.api.post('api/student/paymentLink/', fd);
 
-getStudentFeeList(fd){
-  return this.api.post("api/student/feeslip/list/",fd)
+  }
 
-}
 
-payStudentFee(fd){
-  return this.api.post("api/student/payfee/",fd)
+  // generate fee receipt
 
-}
+  getStudentFeeList(fd) {
+    return this.api.post('api/student/feeslip/list/', fd);
 
-downloadReceipt(id){
-  return this.api.get("api/student/download/receipt/"+id)
+  }
 
-}
+  payStudentFee(fd) {
+    return this.api.post('api/student/payfee/', fd);
+
+  }
+
+  downloadReceipt(id) {
+    return this.api.getPDFByGetMethod('api/student/download/receipt/' + id);
+
+  }
+
+
+  studentFeeUpdate(feeDetails) {
+    return this.api.put('api/student/fee/' , feeDetails);
+
+  }
+
+
+
+
+
 
 }
