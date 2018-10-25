@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import { PagerService } from '../../../../providers/pagination/pager.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-student-fee',
@@ -11,21 +12,20 @@ import { PagerService } from '../../../../providers/pagination/pager.service';
 export class StudentFeeComponent implements OnInit {
   constructor(
     private adminService: AdminService,
-    private pagerService: PagerService
-  ) {}
+
+  ) { }
 
   searchedStudent = '';
-  selectedCenter = {id: 0};
+  selectedCenter = { id: 0 };
   centers = [];
-  studentFeeList = [];
+  selectedStudentDetails: any = {};
+  studentFeeDetails = [];
   viewPanel = false;
   loadingFeeList = false;
-  pager: any = []; // object for pagination config generated from service
-  pagedItems = []; // paginated items will be stored here
-
-
+  allItems = [];
   ngOnInit() {
     this.initiallize();
+    this.subscribSidePanel();
   }
 
   initiallize() {
@@ -38,15 +38,44 @@ export class StudentFeeComponent implements OnInit {
     console.log(this.selectedCenter);
     this.loadingFeeList = true;
     this.adminService.loadStudentFeeByCenterId(this.selectedCenter.id)
-    .subscribe(res => {
-      this.studentFeeList = res;
-      this.loadingFeeList = false;
+      .subscribe(res => {
+        this.studentFeeDetails = res;
+        this.allItems = res;
+        this.loadingFeeList = false;
+      });
+  }
+
+  searchStudent(event: any) {
+    const val = event.target.value.toLowerCase();
+    if (val && val.trim() !== '') {
+      this.studentFeeDetails = this.allItems.filter(student => {
+        return student.fullName.toLowerCase().startsWith(val);
+      });
+    } else {
+      this.studentFeeDetails = this.allItems;
+    }
+  }
+
+  getStudentFee(student) {
+    this.selectedStudentDetails = (student) ? student : {};
+    this.showSidePanel();
+
+  }
+
+
+
+
+  showSidePanel() {
+
+    this.adminService.viewPanel.next(true);
+  }
+
+
+  subscribSidePanel = () => {
+    this.adminService.viewPanel.subscribe(value => {
+      this.viewPanel = value;
+      console.log(value + 'subscribe');
     });
   }
 
-  searchStudent() {}
-
-  getStudentFee(student, mode) {
-    //
-  }
 }
