@@ -71,11 +71,7 @@
             </h3>
           </div>
         </div>
-        <div class="card-title">
-          <p>*Downloading slips may take several minutes.
-          </p>
-
-        </div>
+        
       </div>
         <div style=" text-align: center;" class="row">
 
@@ -83,24 +79,29 @@
               <div class="row">
 
             <div class="col-lg-6 col-md-6 ">        
-            <button mat-raised-button class="btn btn-primary btn-md" [disabled]="ids.length ==0" (click)="downloadSlips()">
+            <button mat-raised-button class="btn btn-primary btn-sm" [disabled]="ids.length ==0" (click)="downloadSlips()">
               <span *ngIf=" downloadingSlips ;else Download">
-                <i class="fa fa-spinner fa-spin"></i> Downloading Slips
+                <i class="fa fa-spinner fa-spin"></i> Downloading 
               </span>
-              <ng-template #Download>Download Slips</ng-template>
+              <ng-template #Download>Download </ng-template>
             </button>
           </div>
           <div class="col-lg-6 col-md-6 ">
-            <button mat-raised-button class="btn btn-primary btn-md" [disabled]="ids.length ==0" (click)="sendMailPanel(true)">
+            <button mat-raised-button class="btn btn-primary btn-sm" [disabled]="ids.length ==0" (click)="sendMailPanel(true)">
               Send Mail
             </button>
           </div>
+          <div class=" col-lg-12 col-md-12 card-title">
+              <p>*Downloading slips may take several minutes.
+              </p>
+    
+            </div>
         </div>
         </div>
           <div class="col-lg-6 col-md-6 ">
             <div class="row">
             <div class="col-lg-6 col-md-6 ">
-            <button mat-raised-button class="btn btn-primary btn-md" [disabled]="!(unlockIds.length >0) || (unlockIds.length != ids.length)" (click)="lockFee()">
+            <button mat-raised-button class="btn btn-primary btn-sm" [disabled]="!(unlockIds.length >0) || (unlockIds.length != ids.length)" (click)="lockFee()">
               <span *ngIf=" lockSlip ;else Lock">
                 <i class="fa fa-spinner fa-spin"></i>Lock
               </span>
@@ -108,7 +109,7 @@
             </button>
           </div>
           <div class="col-lg-6 col-md-6 ">
-            <button mat-raised-button class="btn btn-primary btn-md" [disabled]="!(unlockIds.length >0 )|| (unlockIds.length != ids.length)" (click)="regenerateSlips()">
+            <button mat-raised-button class="btn btn-primary btn-sm" [disabled]="!(unlockIds.length >0 )|| (unlockIds.length != ids.length)" (click)="regenerateSlips()">
 
               <span *ngIf=" regeneratingSlip ;else Regenerate">
                 <i class="fa fa-spinner fa-spin"></i>Regenerating
