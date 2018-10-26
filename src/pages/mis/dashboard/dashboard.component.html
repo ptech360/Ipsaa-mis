@@ -43,7 +43,8 @@
       </div>
       <div class="card-footer" (click)="getFolloups()">
         <div class="stats">
-          <a class="link"> Open: {{statsResult.openFollowups}} | Today : {{statsResult.todayFollowups}} | Due : {{statsResult.previousFollowups}}</a>
+          <a class="link"> Open: {{statsResult.openFollowups}} | Today : {{statsResult.todayFollowups}} | Due :
+            {{statsResult.previousFollowups}}</a>
         </div>
       </div>
     </div>
@@ -78,10 +79,10 @@
       </div>
       <div class="card-footer" (click)="getStaff()">
         <div class="stats">
-          <a class="link" >Present</a>
+          <a class="link">Present</a>
           : {{statsResult.staffPresent}} | &nbsp;
-          <a class="link" >New Joiners</a> : {{statsResult.newJoinings}} | &nbsp;
-          <a class="link" >Leavers</a>
+          <a class="link">New Joiners</a> : {{statsResult.newJoinings}} | &nbsp;
+          <a class="link">Leavers</a>
           : {{statsResult.newLeavings}} &nbsp;&nbsp;&nbsp;
         </div>
       </div>
@@ -99,9 +100,12 @@
       </div>
       <div class="card-footer">
         <div class="stats">
-          <a class="link" (click)="getFilteredStudents('Present')"> Present</a> : {{statsResult.studentPresent | number}} | &nbsp;
-          <a class="link" (click)="getFilteredStudents('Corporate')"> Corporate</a> : {{statsResult.corporateStudents | number}} | &nbsp;
-          <a class="link" (click)="getFilteredStudents('Non-corporate')"> Non-Corporate</a> : {{(statsResult.students - statsResult.corporateStudents) | number}}
+          <a class="link" (click)="getFilteredStudents('Present')"> Present</a> : {{statsResult.studentPresent |
+          number}} | &nbsp;
+          <a class="link" (click)="getFilteredStudents('Corporate')"> Corporate</a> : {{statsResult.corporateStudents |
+          number}} | &nbsp;
+          <a class="link" (click)="getFilteredStudents('Non-corporate')"> Non-Corporate</a> : {{(statsResult.students -
+          statsResult.corporateStudents) | number}}
         </div>
       </div>
     </div>
@@ -150,7 +154,8 @@
           <i class="material-icons">content_copy</i>
         </div>
         <p class="card-category">Quarterly Fee</p>
-        <h3 class="card-title" *ngIf="quarterlyFee.expectedFee">{{quarterlyFee.expectedFee.quarterly ? quarterlyFee.expectedFee.quarterly : 0}}
+        <h3 class="card-title" *ngIf="quarterlyFee.expectedFee">{{quarterlyFee.expectedFee.quarterly ?
+          quarterlyFee.expectedFee.quarterly : 0}}
         </h3>
         <div class="row">
           <div class="col-md-6">
@@ -175,19 +180,29 @@
       </div>
       <div class="card-footer">
         <div class="stats">
-          <a class="link" *ngIf="quarterlyFee.collectedFee" (click)="getStudentFee(quarterly.feeDuration)">Collected : {{quarterlyFee.collectedFee.quarterly?quarterlyFee.collectedFee.quarterly:0}}</a>
+          <a class="link" *ngIf="quarterlyFee.collectedFee" (click)="getStudentFee(quarterly.feeDuration)">Collected :
+            {{quarterlyFee.collectedFee.quarterly?quarterlyFee.collectedFee.quarterly:0}}</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 <div class="row" *ngIf="tableTitle">
-  <div [class]="viewPanel?'transition col-md-6':'transition col-md-12'">
-    <app-table [title]="tableTitle" [dataArray]="tableData" [tableColumn]="tableColumn" [tableFor]="tableFor" (showDetail)="showDetail($event)"></app-table>
+  <div [class]="history?'transition col-lg-8':'transition col-lg-12'" style="padding: 0px">
+    <div class="row" style="margin: 0px">
+      <div [class]="viewPanel?'transition col-lg-6':'transition col-lg-12'">
+        <app-table [title]="tableTitle" [dataArray]="tableData" [tableColumn]="tableColumn" [tableFor]="tableFor"
+          (showDetail)="showDetail($event)"></app-table>
+      </div>
+      <div class="col-lg-6" *ngIf="viewPanel">
+        <app-student-info [id]="selectedStudent.id" [update]="update" *ngIf="tableFor === 'student'"
+          (getPayReceiptHistory)="getHistory($event)"></app-student-info>
+        <app-center-info [center]="selectedCenterFromList" [update]="update" *ngIf="tableFor === 'center'"></app-center-info>
+        <app-staff-info [id]="selectedStaff.id" *ngIf="tableFor === 'staff'" [update]="update"></app-staff-info>
+      </div>
+    </div>
   </div>
-  <div class="col-lg-6" *ngIf="viewPanel">
-    <app-student-info [id]="selectedStudent.id" [update]="update" *ngIf="tableFor === 'student'"></app-student-info>
-    <app-center-info [center]="selectedCenterFromList" [update]="update" *ngIf="tableFor === 'center'"></app-center-info>
-    <app-staff-info [id]="selectedStaff.id" *ngIf="tableFor === 'staff'" [update]="update"></app-staff-info>
+  <div class="col-lg-4" *ngIf="viewPanel && history">
+    <app-fee-receipt-info [studentReceipt]="history"></app-fee-receipt-info>
   </div>
 </div>

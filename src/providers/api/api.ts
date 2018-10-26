@@ -71,6 +71,17 @@ export class Api {
       .catch(this.handleError);
   }
 
+  getPDFByGetMethod(endpoint: string, optHeaders?: HttpHeaders) {
+    const headers = this.getHeaders(optHeaders);
+    return this.http
+      .get(this.url + '/' + endpoint, {
+        headers: headers,
+        observe: 'response',
+        responseType: 'arraybuffer'
+      })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
   put(endpoint: string, body: any, optHeaders?: HttpHeaders) {
     const headers = this.getHeaders(optHeaders);
     return this.http

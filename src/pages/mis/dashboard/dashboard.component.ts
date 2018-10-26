@@ -57,7 +57,8 @@ export class DashboardComponent implements OnInit {
   selectedCenterFromList: any;
   selectedStaff: any = {};
   dashboardTabs: any[] = [];
-  constructor(private dashboardService: DashboardService, private adminService: AdminService) {}
+  history: any;
+  constructor(private dashboardService: DashboardService, private adminService: AdminService) { }
 
   ngOnInit() {
     this.getDashboardTabs();
@@ -352,10 +353,17 @@ export class DashboardComponent implements OnInit {
   subscribeViewPanelChange = () => {
     this.adminService.viewPanel.subscribe((val: boolean) => {
       this.viewPanel = val;
+      if (!val) {
+        this.history = null;
+      }
     });
   }
 
   isAccessible(tab: string) {
     return (this.dashboardTabs.indexOf(tab) === -1);
+  }
+
+  getHistory(history: any) {
+    this.history = history;
   }
 }

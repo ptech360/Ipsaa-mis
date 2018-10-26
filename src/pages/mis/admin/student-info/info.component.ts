@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import {
   FormGroup,
@@ -55,6 +55,8 @@ export class StudentInfoComponent implements OnInit {
   set update(update: boolean) {
     this.editable = update;
   }
+
+  @Output() getPayReceiptHistory: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -194,24 +196,30 @@ export class StudentInfoComponent implements OnInit {
 
   getFee(programId: number) {
     if (programId && this.studentForm.controls['centerId'].value) {
-      this.adminService
-        .getProgramFee({
-          centerId: this.studentForm.controls['centerId'].value,
-          programId: programId
-        })
-        .subscribe((response: any) => {
-          this.programFee = response;
-          if (this.studentForm.contains('fee')) {
-            const feeControlForm = <FormGroup>this.studentForm.controls['fee'];
-            feeControlForm.patchValue(response);
-            feeControlForm.controls['baseFee'].patchValue(response.fee); // Monthly Fees
-            feeControlForm.controls['finalBaseFee'].patchValue(response.fee); // Final Monthly Fees
-            feeControlForm.controls['finalAnnualFee'].patchValue(response.annualFee);
-            feeControlForm.controls['finalAdmissionCharges'].patchValue(response.admissionFee);
-            feeControlForm.controls['finalSecurityDeposit'].patchValue(response.deposit);
-            this.groups = this.programs.find(program => program.id === programId).groups;
-          }
-        });
+    this.adminService
+      .getProgramFee({
+        centerId: this.studentForm.controls['centerId'].value,
+        programId: programId
+      })
+      .subscribe((response: any) => {
+        this.programFee = response;
+        if (this.studentForm.contains('fee')) {
+          const feeControlForm = <FormGroup>this.studentForm.controls['fee'];
+          feeControlForm.patchValue(response);
+          feeControlForm.controls['baseFee'].patchValue(response.fee); // Monthly Fees
+          feeControlForm.controls['finalBaseFee'].patchValue(response.fee); // Final Monthly Fees
+          feeControlForm.controls['finalAnnualFee'].patchValue(
+            response.annualFee
+          );
+          feeControlForm.controls['finalAdmissionCharges'].patchValue(
+            response.admissionFee
+          );
+          feeControlForm.controls['finalSecurityDeposit'].patchValue(
+            response.deposit
+          );
+          this.groups = this.programs.find(program => program.id === programId).groups;
+        }
+      });
     }
   }
 
@@ -407,5 +415,10 @@ export class StudentInfoComponent implements OnInit {
       this.paymentHistory = response.payments;
       console.log(response);
     });
+  }
+
+
+  selectedPaymentHistoryDetails(history) {
+   this.getPayReceiptHistory.emit(history);
   }
 }

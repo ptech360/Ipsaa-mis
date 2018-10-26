@@ -355,6 +355,7 @@ export class AdminService {
 
   getStudentFeeList(fd) {
     return this.api.post('api/student/feeslip/list/', fd);
+<<<<<<< HEAD
 
   }
 
@@ -367,5 +368,30 @@ export class AdminService {
     return this.api.get('api/student/download/receipt/' + id);
 
   }
+=======
+
+  }
+
+  payStudentFee(fd) {
+    return this.api.post('api/student/payfee/', fd);
+
+  }
+
+  downloadReceipt(id) {
+    return this.api.getPDFByGetMethod('api/student/download/receipt/' + id);
+
+  }
+
+
+  studentFeeUpdate(feeDetails) {
+    return this.api.put('api/student/fee/' , feeDetails);
+
+  }
+
+
+
+
+
+>>>>>>> e42fb5204427f8a9f34ba1cffe0467c8c9717887
 
 }

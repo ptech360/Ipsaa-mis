@@ -1,23 +1,26 @@
 <div class="row">
   <div class="col-sm-4">
-    <mat-form-field>
-      <mat-select placeholder="Center" [(ngModel)]="selectedCenter" (ngModelChange)="loadStudentFeeByCenter()">
-        <mat-option *ngFor="let center of centers" [value]="center">
+    <div class="form-group">
+      <label class="control-label" for="center">Select Center</label>
+      <select class="form-control" id="center" placeholder="Center" [(ngModel)]="selectedCenter" (ngModelChange)="loadStudentFeeByCenter()">
+        <option *ngFor="let center of centers" [ngValue]="center">
           {{center.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+        </option>
+        <option value="" disabled>Select Center</option>
+      </select>
+    </div>
   </div>
   
   <div class="col-sm-4">
-    <mat-form-field>
-      <input matInput placeholder="Search" [(ngModel)]="searchedStudent" (ngModelChange)="searchStudent()">
-    </mat-form-field>
+      <div class="form-group">
+      <label class="control-label" for="search">Search</label>
+      <input id="search" class="form-control"  (keyup)="searchStudent($event)">
+      </div>
   </div>
   
 </div>
 
-<div class="row">
+<div class="row" >
   <!--  student fee table starts -->
   <div [class]="viewPanel?'transition col-lg-6':'transition col-md-12'">
     <div class="card">
@@ -27,7 +30,6 @@
         </div>
         <h3 class="card-title">Student Fee
           <i class="fa fa-spinner fa-fw fa-pulse text-primary" *ngIf="loadingFeeList"></i>
-          <!-- <button mat-raised-button class="btn btn-primary btn-sm pull-right" (click)="addNewStaff()">Add New</button> -->
         </h3>
       </div>
       <div class="card-content mx-3">
@@ -41,6 +43,7 @@
               <col width="10%">
               <col width="10%">
               <col width="10%">
+
             </colgroup>
             <thead class="text-primary">
               <tr>
@@ -55,7 +58,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let student of studentFeeList" class="staff-list-row" [hidden]="loadingFeeList" (click)="getStudentFee(student, 'view')">
+              <tr *ngFor="let student of studentFeeDetails" class="staff-list-row" [hidden]="loadingFeeList" (click)="getStudentFee(student)">
                 <td>{{student.fullName}}</td>
                 <td>{{student.program.description}}</td>
                 <td>{{student.group.description}}</td>
@@ -63,10 +66,10 @@
                 <td>{{student.baseFee}}</td>
                 <td>{{student.finalFee}}</td>
                 <td class="action-buttons">
-                  <button type="button" class="btn btn-primary btn-sm" (click)="getStudentFee(student, 'edit')">edit</button>
+                  <button type="button" class="btn btn-primary btn-sm" (click)="getStudentFee(student)">edit</button>
                 </td>
               </tr>
-              <tr *ngIf="!loadingFeeList && !studentFeeList.length" class="text-center">
+              <tr *ngIf="!loadingFeeList && !studentFeeDetails.length" class="text-center">
                 <td colspan="8">No Fee to display</td>
               </tr>
             </tbody>
@@ -74,34 +77,12 @@
         </div>
       </div>
   
-      <div class="card-footer">
-        <!-- <ul class="pagination pagination-info">
-          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
-            <a class="page-link" (click)="setPage(1)">First</a>
-          </li>
-          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
-            <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
-          </li>
-          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-            <a class="page-link" (click)="setPage(page)">{{page}}</a>
-          </li>
-          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
-          </li>
-          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
-          </li>
-        </ul> -->
-      </div>
-    </div>
+          </div>
   </div>
   <!-- student fee table ends -->
 
   <div class="col-lg-6" *ngIf="viewPanel">
-    <div class="card" id="studentFee_info">
-  
-    </div>
-    <!-- <app-student-fee-info [id]="selectedStaff.id" [update]="update"></app-student-fee-info> -->
+    <app-student-fee-info [studentFee]="selectedStudentDetails" ></app-student-fee-info>
   </div>
 </div>
   
