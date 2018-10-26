@@ -145,14 +145,14 @@ export class GenerateFeeSlipComponent implements OnInit {
   updateFinalFee() {
     const val = this.regenerateSlipForm.get('balance').value + this.regenerateSlipForm.get('adjust').value +
       this.regenerateSlipForm.get('latePaymentCharge').value + this.regenerateSlipForm.get('extraCharge').value +
-      this.regenerateSlipForm.get('stationary').value + this.regenerateSlipForm.get('uniformCharges').value ;
+      this.regenerateSlipForm.get('stationary').value + this.regenerateSlipForm.get('uniformCharges').value;
 
 
 
 
 
 
-    const v =  this.regenerateSlipForm.get('finalFee').value +  this.regenerateSlipForm.get('gstAmount').value + val;
+    const v = this.regenerateSlipForm.get('finalFee').value + this.regenerateSlipForm.get('gstAmount').value + val;
     this.regenerateSlipForm.get('totalFee').setValue(v);
   }
 
@@ -228,17 +228,15 @@ export class GenerateFeeSlipComponent implements OnInit {
 
 
 
-        this.studentDetails.forEach(element  => {
-          if (element.id === id) {
+        this.studentDetails.forEach(element => {
 
-            if (!element.generateActive) {
 
-              this.unlockIds.push(id);
 
-            }
+          if (element.id === Number(id)  && !element.generateActive) {
+
+            this.unlockIds.push(id);
           }
         });
-        console.log(this.unlockIds);
       }
     });
 

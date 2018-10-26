@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import { PagerService } from '../../../../providers/pagination/pager.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlertService } from '../../../../providers/alert/alert.service';
 
 @Component({
   selector: 'app-student-fee',
@@ -10,19 +11,23 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 
 export class StudentFeeComponent implements OnInit {
-  constructor(
-    private adminService: AdminService,
 
-  ) { }
-
+  showTable = false;
   searchedStudent = '';
-  selectedCenter = { id: 0 };
+  selectedCenter: number;
   centers = [];
   selectedStudentDetails: any = {};
   studentFeeDetails = [];
   viewPanel = false;
   loadingFeeList = false;
   allItems = [];
+
+  constructor(
+    private adminService: AdminService,
+    private alertService: AlertService,
+
+  ) { }
+
   ngOnInit() {
     this.initiallize();
     this.subscribSidePanel();
@@ -35,13 +40,16 @@ export class StudentFeeComponent implements OnInit {
   }
 
   loadStudentFeeByCenter() {
-    console.log(this.selectedCenter);
     this.loadingFeeList = true;
-    this.adminService.loadStudentFeeByCenterId(this.selectedCenter.id)
+    this.adminService.loadStudentFeeByCenterId(this.selectedCenter)
       .subscribe(res => {
         this.studentFeeDetails = res;
         this.allItems = res;
+        this.showTable = true;
         this.loadingFeeList = false;
+      }, (err) => {
+
+        this.alertService.errorAlert(err);
       });
   }
 
@@ -74,7 +82,6 @@ export class StudentFeeComponent implements OnInit {
   subscribSidePanel = () => {
     this.adminService.viewPanel.subscribe(value => {
       this.viewPanel = value;
-      console.log(value + 'subscribe');
     });
   }
 
