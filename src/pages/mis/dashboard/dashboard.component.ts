@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
   selectedStaff: any = {};
   dashboardTabs: any[] = [];
   history: any;
+  viewPanelForFee: boolean;
   constructor(private dashboardService: DashboardService, private adminService: AdminService) { }
 
   ngOnInit() {
@@ -356,6 +357,9 @@ export class DashboardComponent implements OnInit {
       if (!val) {
         this.history = null;
       }
+    });
+    this.adminService.viewPanelForFee.subscribe(value => {
+      this.viewPanelForFee = value;
     });
   }
 

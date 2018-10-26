@@ -164,7 +164,7 @@ export class FeeReceiptInfoComponent implements OnInit {
 
   }
   hideSidePanel() {
-    this.adminService.viewPanel.next(false);
+    this.adminService.viewPanelForFee.next(false);
   }
 
 }

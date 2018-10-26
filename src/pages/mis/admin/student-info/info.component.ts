@@ -217,7 +217,8 @@ export class StudentInfoComponent implements OnInit {
           feeControlForm.controls['finalSecurityDeposit'].patchValue(
             response.deposit
           );
-          this.groups = this.programs.find(program => program.id === programId).groups;
+          const sprogram = this.programs.find(program => program.id === programId);
+          this.groups = (sprogram) ? sprogram.groups : [];
         }
       });
     }
@@ -420,5 +421,6 @@ export class StudentInfoComponent implements OnInit {
 
   selectedPaymentHistoryDetails(history) {
    this.getPayReceiptHistory.emit(history);
+   this.adminService.viewPanelForFee.next(true);
   }
 }

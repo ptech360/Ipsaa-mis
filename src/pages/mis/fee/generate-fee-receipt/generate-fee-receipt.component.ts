@@ -57,7 +57,7 @@ export class GenerateFeeReceiptComponent implements OnInit {
 
   getCenterStudentFeeDetails() {
     this.downloadinData = false;
-
+    this.alertService.loading.next(true);
     this.adminService.getStudentFeeList({
       'centerCode': this.generateSlipForm.value.center,
       'period': 'Quarterly',
@@ -65,7 +65,7 @@ export class GenerateFeeReceiptComponent implements OnInit {
       'year': this.generateSlipForm.value.year
     })
       .subscribe((res) => {
-        console.log(res);
+        this.alertService.loading.next(false);
 
         this.showtable = true;
         this.downloadinData = true;
@@ -75,7 +75,7 @@ export class GenerateFeeReceiptComponent implements OnInit {
       }, (err) => {
         this.downloadinData = true;
         this.showtable = true;
-
+        this.alertService.loading.next(false);
         this.alertService.errorAlert(err);
       });
 
@@ -101,13 +101,13 @@ this.showSidePanel();
 
 
   showSidePanel() {
-    this.adminService.viewPanel.next(true);
+    this.adminService.viewPanelForFee.next(true);
 
 
   }
 
   subscribSidePanel = () => {
-    this.adminService.viewPanel.subscribe(value => {
+    this.adminService.viewPanelForFee.subscribe(value => {
       this.viewPanel = value;
     });
   }

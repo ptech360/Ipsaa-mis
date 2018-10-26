@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 export class AdminService {
   students: Student[];
   public viewPanel = new Subject<boolean>();
+  public viewPanelForFee = new Subject<boolean>();
 
   constructor(public api: Api) { }
 
@@ -355,20 +356,6 @@ export class AdminService {
 
   getStudentFeeList(fd) {
     return this.api.post('api/student/feeslip/list/', fd);
-<<<<<<< HEAD
-
-  }
-
-  payStudentFee(fd) {
-    return this.api.post('api/student/payfee/', fd);
-
-  }
-
-  downloadReceipt(id) {
-    return this.api.get('api/student/download/receipt/' + id);
-
-  }
-=======
 
   }
 
@@ -392,6 +379,5 @@ export class AdminService {
 
 
 
->>>>>>> e42fb5204427f8a9f34ba1cffe0467c8c9717887
 
 }

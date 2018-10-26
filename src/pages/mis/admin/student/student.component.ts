@@ -122,8 +122,6 @@ export class StudentComponent implements OnInit {
       this.pager.startIndex,
       this.pager.endIndex + 1
     );
-
-    console.log(this.pagedItems.length);
   }
 
   subscribeViewPanelChange = () => {

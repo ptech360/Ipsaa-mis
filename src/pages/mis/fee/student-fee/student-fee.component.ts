@@ -41,14 +41,16 @@ export class StudentFeeComponent implements OnInit {
 
   loadStudentFeeByCenter() {
     this.loadingFeeList = true;
+    this.alertService.loading.next(true);
     this.adminService.loadStudentFeeByCenterId(this.selectedCenter)
       .subscribe(res => {
+        this.alertService.loading.next(false);
         this.studentFeeDetails = res;
         this.allItems = res;
         this.showTable = true;
         this.loadingFeeList = false;
       }, (err) => {
-
+        this.alertService.loading.next(false);
         this.alertService.errorAlert(err);
       });
   }

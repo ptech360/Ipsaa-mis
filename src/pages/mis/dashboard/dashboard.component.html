@@ -188,7 +188,7 @@
   </div>
 </div>
 <div class="row" *ngIf="tableTitle">
-  <div [class]="history?'transition col-lg-8':'transition col-lg-12'" style="padding: 0px">
+  <div [class]="viewPanelForFee?'transition col-lg-8':'transition col-lg-12'" style="padding: 0px">
     <div class="row" style="margin: 0px">
       <div [class]="viewPanel?'transition col-lg-6':'transition col-lg-12'">
         <app-table [title]="tableTitle" [dataArray]="tableData" [tableColumn]="tableColumn" [tableFor]="tableFor"
@@ -202,7 +202,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-4" *ngIf="viewPanel && history">
+  <div class="col-lg-4" *ngIf="viewPanelForFee">
     <app-fee-receipt-info [studentReceipt]="history"></app-fee-receipt-info>
   </div>
 </div>

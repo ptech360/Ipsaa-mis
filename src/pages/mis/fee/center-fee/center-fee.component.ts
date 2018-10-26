@@ -101,7 +101,7 @@ export class CenterFeeComponent implements OnInit {
 
     }
 
-    if (this.selectedTab === 'Charge List') {
+    if (this.selectedTab === 'Charge') {
       this.selectedDetails = (object) ? object : {};
       this.chargeListForm = this.getChargeListForm();
       this.chargeListForm.patchValue(this.selectedDetails);
@@ -398,7 +398,7 @@ export class CenterFeeComponent implements OnInit {
     }
 
 
-    if (this.selectedTab === 'Charge List') {
+    if (this.selectedTab === 'Charge') {
 
       if (this.editable) {
 

@@ -73,7 +73,7 @@ export class GenerateFeeSlipComponent implements OnInit {
 
   generate() {
     this.downloadinData = false;
-
+    this.alertService.loading.next(true);
     this.adminService.generateStudentFeeSlip({
       'centerCode': this.generateSlipForm.value.center,
       'period': 'Quarterly',
@@ -81,12 +81,14 @@ export class GenerateFeeSlipComponent implements OnInit {
       'year': this.generateSlipForm.value.year
     })
       .subscribe((res) => {
+        this.alertService.loading.next(false);
         this.showtable = true;
         this.downloadinData = true;
 
         this.studentDetails = res;
         this.allItems = res.slice(0);
       }, (err) => {
+        this.alertService.loading.next(false);
         this.downloadinData = true;
         this.showtable = true;
 
