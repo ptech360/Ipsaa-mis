@@ -19,7 +19,7 @@
 
 </div>
 
-<div class="row" *ngIf="showTable" >
+<div class="row" *ngIf="showTable">
   <!--  student fee table starts -->
   <div [class]="viewPanel?'transition col-lg-6':'transition col-md-12'">
     <div class="card">
@@ -57,18 +57,18 @@
         <div class="table-responsive">
           <table class="table table-condensed table-striped table-hover">
             <colgroup>
-              <col width="20%">
-              <col width="20%">
               <col width="10%">
+              <col width="15%">
               <col width="20%">
-              <col width="10%">
+              <col width="15%">
+              <col width="20%">
               <col width="10%">
               <col width="10%">
 
             </colgroup>
-            <thead class="text-primary">
+            <thead class="text-primary" *ngIf="studentFeeDetails?.length>0">
               <tr>
-                <!-- <th>Sr. No.</th> -->
+                <th>Sr. No.</th>
                 <th>Name</th>
                 <th>Program</th>
                 <th>Group</th>
@@ -78,8 +78,10 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody *ngIf="studentFeeDetails?.length>0">
-              <tr *ngFor="let student of studentFeeDetails" class="staff-list-row" [hidden]="loadingFeeList" (click)="getStudentFee(student)">
+            <tbody>
+              <tr *ngFor="let student of studentFeeDetails let i = index;" class="staff-list-row" [hidden]="loadingFeeList"
+                (click)="getStudentFee(student)">
+                <td>{{i+1}}</td>
                 <td>{{student.fullName}}</td>
                 <td>{{student.program.description}}</td>
                 <td>{{student.group.description}}</td>
@@ -91,12 +93,14 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot>
-                  <tr *ngIf="!loadingFeeList && !studentFeeDetails.length" class="text-center">
-                    <td colspan="8">No Fee to display</td>
-                  </tr>
 
+            <tfoot *ngIf="!loadingFeeList && !studentFeeDetails.length" style="border: 1px groove #e8e8e8;">
+              <tr>
+                <td class="text-center">No Content</td>
+              </tr>
             </tfoot>
+
+
           </table>
         </div>
       </div>

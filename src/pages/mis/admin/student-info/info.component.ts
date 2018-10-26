@@ -174,6 +174,7 @@ export class StudentInfoComponent implements OnInit {
 
   hideViewPanel() {
     this.adminService.viewPanel.next(false);
+    this.adminService.viewPanelForFee.next(false);
   }
 
   getCenters() {

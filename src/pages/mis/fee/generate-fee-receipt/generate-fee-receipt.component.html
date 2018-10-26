@@ -73,8 +73,8 @@
 
       </div>
       <div class="card-body">
-        <div *ngIf="downloadinData" class="table-responsive">
-          <table class="table ">
+        <div *ngIf="downloadinData" >
+          <table class="table table-responsive">
             <colgroup>
               <col width="10%">
               <col width="15%">
@@ -85,7 +85,7 @@
               <col width="10%">
 
             </colgroup>
-            <thead style="text-align: center" class="text-primary">
+            <thead style="text-align: center" *ngIf=" studentDetails?.length >0" class="text-primary">
 
 
               <th> Sr.No</th>
@@ -97,7 +97,7 @@
               <th>Status</th>
 
             </thead>
-            <tbody style="text-align: center" *ngIf=" studentDetails?.length >0">
+            <tbody style="text-align: center" >
               <tr *ngFor="let student of studentDetails; let i= index" >
 
                 <td (click)="getStudentReceipt(student)">{{i+1}}</td>
@@ -113,16 +113,12 @@
               </tr>
 
             </tbody>
-            <tfoot>
-              <tr *ngIf=" studentDetails.length == 0">
-                <td colspan="100%">
-                  <div style="text-align: center">
 
-                    nothing to show
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
+            <tfoot *ngIf=" studentDetails.length == 0" style="border: 1px groove #e8e8e8;">
+                <tr>
+                  <td class="text-center">No Content</td>
+                </tr>
+              </tfoot>
           </table>
         </div>
       </div>

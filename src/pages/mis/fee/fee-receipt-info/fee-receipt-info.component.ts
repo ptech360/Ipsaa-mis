@@ -4,8 +4,7 @@ import { AdminService } from '../../../../providers/admin/admin.service';
 import { AlertService } from '../../../../providers/alert/alert.service';
 import * as FileSaver from 'file-saver';
 import * as _ from 'underscore';
-import { log } from 'util';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-fee-receipt-info',

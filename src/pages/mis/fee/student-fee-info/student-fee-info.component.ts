@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import { AlertService } from '../../../../providers/alert/alert.service';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-student-fee-info',
@@ -19,8 +20,11 @@ export class StudentFeeInfoComponent implements OnInit {
   studentFeeDetails = [];
   loadingFeeList = false;
   studentFeeForm: FormGroup;
+  updateFee: any;
 
   @Input() set studentFee(studentFee: any) {
+    this.updateFee = studentFee;
+
     this.getStudentFee(studentFee);
   }
 
@@ -120,8 +124,8 @@ export class StudentFeeInfoComponent implements OnInit {
 
     this.adminService.studentFeeUpdate(this.studentFeeForm.value)
       .subscribe((res: any) => {
-        console.log(res);
-this.alertService.successAlert(' ');
+        _.extend(this.updateFee, res);
+        this.alertService.successAlert(' ');
       }, (err) => {
         this.alertService.errorAlert(err);
       });
@@ -150,6 +154,7 @@ this.alertService.successAlert(' ');
 
   updateDiscount() {
     this.studentFeeForm.get('baseFeeGst').setValue((this.studentFeeForm.get('finalBaseFee').value * 3 * .18).toFixed(2));
+    this.studentFeeForm.get('gstFee').setValue((this.studentFeeForm.get('finalAnnualFee').value * .18).toFixed(2)); // annual-fee-gst
 
     const val = this.studentFeeForm.get('finalAnnualFee').value + this.studentFeeForm.get('finalAdmissionCharges').value +
       this.studentFeeForm.get('finalSecurityDeposit').value + (this.studentFeeForm.get('finalBaseFee').value * 3) +
