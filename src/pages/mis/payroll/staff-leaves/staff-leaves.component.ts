@@ -142,9 +142,9 @@ export class StaffLeavesComponent implements OnInit {
     this.disableApprove = true;
     this.payrollService.approveLeave(details.leaveId)
       .subscribe((res) => {
+        this.getEmployeeAttendance();
         this.disableApprove = false;
-        console.log(res);
-
+this.alertService.successAlert('Leave Approve');
       }, (err) => {
         this.disableApprove = false;
         this.alertService.errorAlert(err);
@@ -156,6 +156,8 @@ export class StaffLeavesComponent implements OnInit {
     this.disableApprove = true;
     this.payrollService.rejectLeave(details.leaveId)
     .subscribe((res) => {
+      this.alertService.successAlert('Leave Reject');
+this.getEmployeeAttendance();
       this.disableApprove = false;
       console.log(res);
 
