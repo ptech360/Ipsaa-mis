@@ -486,14 +486,14 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Monthly Transport Fees</label>
-                  <input class="form-control" type="number" formControlName="transportFee" (ngModelChange)="monthlyTransportFeesChanged(studentForm.controls.fee.value)">
+                  <input class="form-control" type="number" formControlName="transportFee" (ngModelChange)="monthlyTransportFeesChanged(!!studentForm.controls.fee.value)">
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Uniform Charges</label>
-                  <input class="form-control" type="number" formControlName="uniformCharges" (ngModelChange)="monthlyUniformChargesChanged(studentForm.controls.fee.value)">
+                  <input class="form-control" type="number" formControlName="uniformCharges" (ngModelChange)="monthlyUniformChargesChanged(!!studentForm.controls.fee.value)">
                 </div>
               </div>
 
