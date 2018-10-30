@@ -11,4 +11,12 @@ export class PayrollService {
   getSalary() {
     return this.api.get('api/employee/salary');
   }
+
+  getEmployee() {
+    return this.api.get('api/staff/reporting/');
+  }
+
+  getAttendance(employeeId) {
+    return this.api.post('api/attendance/staff/', employeeId);
+  }
 }

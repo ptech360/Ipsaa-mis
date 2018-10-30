@@ -1,3 +1,129 @@
-<p>
-  staff-leaves works!
-</p>
+<div class="row">
+<div class="col-md-4">
+    <div class="form-group">
+      <label class="control-label" for="employee"> *Employee:</label>
+      <select class="form-control" id="employee" [(ngModel)]="selectedId"  name="employee" >
+        <option value="" disabled="true">Employee</option>
+        <option *ngFor="let employee of employeeList; " [value]="employee.id" >{{employee.name}}</option>
+      </select>
+      <span class="material-input"></span>
+    </div>
+  </div>
+  <div class="col-sm-4">
+      <button type="submit" mat-raised-button class="btn btn-warning btn-lg" [disabled]="!selectedId" (click)="getEmployeeAttendance()">
+        Get
+      </button>
+</div>
+
+
+<div class="card">
+  <div class="card-body">
+    <h3>Leave Summary</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+
+      <colgroup>
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+      </colgroup>
+      <thead>
+        <!-- <tr> -->
+        <th scope="col">
+          <b>MONTH </b>
+        </th>
+        <th scope="col">
+          <b>CASUAL </b>
+        </th>
+        <th scope="col">
+          <b>SICK </b>
+        </th>
+        <th scope="col">
+          <b>PAID</b>
+        </th>
+        <th scope="col">
+          <b>UNPAID </b>
+        </th>
+        <th scope="col">
+          <b>ADOPTION </b>
+        </th>
+        <th scope="col">
+          <b>MATERNITY </b>
+        </th>
+        <th scope="col">
+          <b>BEREAVEMENT </b>
+        </th>
+        <th scope="col">
+          <b>TOTAL </b>
+        </th>
+        <th scope="col">
+          <b>TOTAL(yearly) </b>
+        </th>
+        <!-- </tr> -->
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"> October </th>
+          <td>22</td>
+          <td>215</td>
+          <td>212</td>
+          <td>215</td>
+          <td>212</td>
+          <td>215</td>
+          <td>212</td>  
+          <td>215</td>
+          <td>212</td>
+        </tr>
+
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Attendance Summary</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+      <thead>
+        <!-- <tr> -->
+        <th scope="col">
+          <b>Date </b>
+        </th>
+        <th scope="col">
+          <b>Day </b>
+        </th>
+        <th scope="col">
+          <b>Status </b>
+        </th>
+        <th scope="col">
+          <b>ClockIn</b>
+        </th>
+        <th scope="col">
+          <b>ClockOut </b>
+        </th>
+        <th scope="col">
+          <b>Action </b>
+        </th>
+        
+        <!-- </tr> -->
+      </thead>
+      <tbody *ngFor= "let attendanceDetails of selectedEmployeeAttendanceDetails;">
+        <tr [class]="rowColour">
+          <td>{{attendanceDetails.date | date : 'dd/MM/y'}}</td>
+          <td>{{attendanceDetails.date | date :'EEEE'}}</td>
+          <td>{{attendanceDetails.status}}</td>
+          <td>{{attendanceDetails.actualIn}}</td>
+          <td>{{attendanceDetails.actualOut}}</td>
+          <th >  </th>
+        </tr>
+
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
