@@ -7,9 +7,11 @@ import { StaffSalaryMonthlyReportComponent } from './staff-salary-monthly-report
 import { StudentAttendanceReportComponent } from './student-attendance-report/student-attendance-report.component';
 import { StaffAttendanceReportComponent } from './staff-attendance-report/staff-attendance-report.component';
 import { FeeCollectionReportComponent } from './fee-collection-report/fee-collection-report.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, ReportRoutingModule],
+  imports: [CommonModule,    FormsModule,
+    ReportRoutingModule],
   declarations: [
     InquiryReportComponent,
     StudentFeeReportComponent,

@@ -2,8 +2,7 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Api } from '../api/api';
 import { Student } from '../../modal/student';
-import { Observable, Subject } from 'rxjs';
-import { of } from 'rxjs';
+import {  Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -217,7 +216,7 @@ export class AdminService {
   }
 
   getStudentAttendance() {
-      return this.api.get('api/attendance/student/');
+    return this.api.get('api/attendance/student/');
   }
 
   clockInStudent(student: any) {
@@ -371,13 +370,42 @@ export class AdminService {
 
 
   studentFeeUpdate(feeDetails) {
-    return this.api.put('api/student/fee/' , feeDetails);
+    return this.api.put('api/student/fee/', feeDetails);
 
   }
 
+  inquiryReportDownload(centerId_and_range) {
+    return this.api.post('api/report/inquiry/', centerId_and_range);
+  }
 
+  feeCollectionReportDownload(centerId_and_range) {
+    return this.api.post('api/report/inquiry/', centerId_and_range);
 
+  }
 
+  studentsFeeReportdownload(centerId_and_range) {
+    return this.api.post('api/report/studentfee/excel/', centerId_and_range);
 
+  }
+
+  studentsAttendanceReportDownload(centerId_and_range) {
+    return this.api.post('api/report/studentattendance/', centerId_and_range);
+
+  }
+
+  getEmployeeForSalaryReport() {
+    return this.api.get('api/le/');
+
+  }
+
+  staffSalaryMonthlyReportDownload(centerId_and_range) {
+    return this.api.post('api/report/staffCollection/excel/', centerId_and_range);
+
+  }
+
+  staffsAttendanceReportDownload(centerId_and_range) {
+    return this.api.post('api/report/staffattendance/', centerId_and_range);
+
+  }
 
 }

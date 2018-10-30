@@ -8,9 +8,9 @@ describe('InquiryReportComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InquiryReportComponent ]
+      declarations: [InquiryReportComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

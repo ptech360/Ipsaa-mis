@@ -174,8 +174,8 @@
 
             </div>
             <div class="form-group">
-              <label class="control-label">* Fee</label>
-              <input class="form-control" name="fee" type="text" formControlName="fee">
+              <label class="control-label" for="fee">* Fee</label>
+              <input class="form-control" id="fee" name="fee" type="text" formControlName="fee">
               <span class="material-input"></span>
               <div *ngIf="fee.invalid && (fee.dirty || fee.touched)" class="text-danger position-absolute">
                 <div *ngIf="fee.errors.required">Required</div>
@@ -183,18 +183,18 @@
             </div>
             <div class="form-group">
               <label class="control-label">*Annual Fee</label>
-              <input class="form-control" name="annualFee" type="text" formControlName="annualFee">
+              <input class="form-control" name="annualFee" type="text" required formControlName="annualFee">
               <span class="material-input"></span>
               <div *ngIf="annualFee.invalid && (annualFee.dirty || annualFee.touched)" class="text-danger position-absolute">
-                <div *ngIf="annualFee.errors.required">Required</div>
+                <div *ngIf="!!annualFee.errors.required">Required</div>
               </div>
             </div>
             <div class="form-group">
               <label class="control-label">*security Deposit</label>
-              <input class="form-control" name="securityDeposit" type="" formControlName="deposit" rows="3">
+              <input class="form-control" name="securityDeposit" type="number" formControlName="deposit" rows="3">
               <span class="material-input"></span>
               <div *ngIf="deposit.invalid && (deposit.dirty || deposit.touched)" class="text-danger position-absolute">
-                <div *ngIf="deposit.errors.required">Required</div>
+                <div *ngIf="!!deposit.errors.required">Required</div>
               </div>
             </div>
 
@@ -203,7 +203,7 @@
               <input class="form-control" name="admissionFee" type="text" formControlName="admissionFee">
               <span class="material-input"></span>
               <div *ngIf="admissionFee.invalid && (admissionFee.dirty || admissionFee.touched)" class="text-danger position-absolute">
-                <div *ngIf="admissionFee.errors.required">Required</div>
+                <div *ngIf="!!admissionFee.errors.required">Required</div>
               </div>
             </div>
             <div class="category form-category">
@@ -246,7 +246,7 @@
               <input class="form-control" name="amount" type="text" formControlName="amount">
               <span class="material-input"></span>
               <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="text-danger position-absolute">
-                <div *ngIf="amount.errors.required">Required</div>
+                <div *ngIf="!!amount.errors.required">Required</div>
               </div>
             </div>
 

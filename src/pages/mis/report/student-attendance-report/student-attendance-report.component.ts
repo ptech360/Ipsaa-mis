@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from '../../../../providers/alert/alert.service';
+import { AdminService } from '../../../../providers/admin/admin.service';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-student-attendance-report',
@@ -7,9 +10,54 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentAttendanceReportComponent implements OnInit {
 
-  constructor() { }
+
+  centerList: Array<any>;
+  SelectedCenterId: any;
+  formDate: Date;
+  toDate: Date;
+  studentAttendanceFor = {};
+  currentDate: Date;
+  downloadData = false;
+  constructor(
+    private alertService: AlertService,
+    private adminService: AdminService,
+  ) {
+    this.currentDate = new Date();
+  }
 
   ngOnInit() {
+    this.getCenter();
   }
+
+  getCenter() {
+    this.adminService.getAllCenters()
+      .subscribe((res: any) => {
+        this.centerList = res;
+      }, (err) => {
+        this.alertService.errorAlert(err);
+      });
+  }
+  studentAttendanceReportDownload() {
+    this.downloadData = true;
+
+      this.studentAttendanceFor['centerId'] = this.SelectedCenterId;
+      this.studentAttendanceFor['from'] = this.formDate;
+      this.studentAttendanceFor['to'] = this.toDate;
+console.log(this.studentAttendanceFor);
+
+    this.adminService.studentsAttendanceReportDownload(this.studentAttendanceFor)
+      .subscribe((res) => {
+        this.studentAttendanceFor = {};
+ const blob = new Blob([res.data], {
+        type: 'application/octet-stream'
+    });
+    FileSaver.saveAs(blob, res.headers('fileName'));
+        this.downloadData = false;
+      }, (err) => {
+        this.alertService.errorAlert(err);
+        this.downloadData = false;
+      });
+  }
+
 
 }
