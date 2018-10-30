@@ -11,4 +11,8 @@ export class PayrollService {
   getSalary() {
     return this.api.get('api/employee/salary');
   }
+
+  getSalaryByEmployee(eid: any) {
+    return this.api.get('api/employee/' + eid + '/salary');
+  }
 }
