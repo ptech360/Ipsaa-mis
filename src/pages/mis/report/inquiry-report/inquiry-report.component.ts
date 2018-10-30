@@ -49,11 +49,17 @@ export class InquiryReportComponent implements OnInit {
     this.inquiryFor['from'] = this.formDate;
       this.inquiryFor['to'] = this.toDate;
     this.adminService.inquiryReportDownload(this.inquiryFor)
-      .subscribe((res) => {
-        const blob = new Blob([res.data], {
-          type: 'application/octet-stream'
-      });
-      FileSaver.saveAs(blob, res.headers('fileName'));
+      // .subscribe((res) => {
+      //   const blob = new Blob([res.data], {
+      //     type: 'application/octet-stream'
+      // });
+      // FileSaver.saveAs(blob, res.headers('fileName'));
+      .subscribe((res: ArrayBuffer) => {
+        // const headers = res.headers;
+        const blob = new Blob([res], {
+        });
+        FileSaver.saveAs(blob, 'Inquiry_Report.pdf');
+
         this.downloadData = false;
       }, (err) => {
         this.alertService.errorAlert(err);

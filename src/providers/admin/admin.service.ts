@@ -375,21 +375,21 @@ export class AdminService {
   }
 
   inquiryReportDownload(centerId_and_range) {
-    return this.api.post('api/report/inquiry/', centerId_and_range);
+    return this.api.getPDF('api/report/inquiry/', centerId_and_range);
   }
 
   feeCollectionReportDownload(centerId_and_range) {
-    return this.api.post('api/report/inquiry/', centerId_and_range);
+    return this.api.getPDF('api/report/inquiry/', centerId_and_range);
 
   }
 
   studentsFeeReportdownload(centerId_and_range) {
-    return this.api.post('api/report/studentfee/excel/', centerId_and_range);
+    return this.api.getPDF('api/report/studentfee/excel/', centerId_and_range);
 
   }
 
   studentsAttendanceReportDownload(centerId_and_range) {
-    return this.api.post('api/report/studentattendance/', centerId_and_range);
+    return this.api.getPDF('api/report/studentattendance/', centerId_and_range);
 
   }
 
@@ -399,12 +399,12 @@ export class AdminService {
   }
 
   staffSalaryMonthlyReportDownload(centerId_and_range) {
-    return this.api.post('api/report/staffCollection/excel/', centerId_and_range);
+    return this.api.getPDF('api/report/staffCollection/excel/', centerId_and_range);
 
   }
 
   staffsAttendanceReportDownload(centerId_and_range) {
-    return this.api.post('api/report/staffattendance/', centerId_and_range);
+    return this.api.getPDF('api/report/staffattendance/', centerId_and_range);
 
   }
 

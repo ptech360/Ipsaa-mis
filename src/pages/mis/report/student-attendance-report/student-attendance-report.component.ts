@@ -45,14 +45,20 @@ export class StudentAttendanceReportComponent implements OnInit {
       this.studentAttendanceFor['to'] = this.toDate;
 console.log(this.studentAttendanceFor);
 
-    this.adminService.studentsAttendanceReportDownload(this.studentAttendanceFor)
-      .subscribe((res) => {
-        this.studentAttendanceFor = {};
- const blob = new Blob([res.data], {
-        type: 'application/octet-stream'
-    });
-    FileSaver.saveAs(blob, res.headers('fileName'));
-        this.downloadData = false;
+this.adminService.studentsAttendanceReportDownload(this.studentAttendanceFor)
+// .subscribe((res) => {
+//   const blob = new Blob([res.data], {
+//     type: 'application/octet-stream'
+//   });
+//   FileSaver.saveAs(blob, res.headers('fileName'));
+.subscribe((res: ArrayBuffer) => {
+  // const headers = res.headers;
+  const blob = new Blob([res], {
+  });
+  FileSaver.saveAs(blob, 'Fee_Attendance_Report.pdf');
+
+  this.downloadData = false;
+  this.studentAttendanceFor = {};
       }, (err) => {
         this.alertService.errorAlert(err);
         this.downloadData = false;
