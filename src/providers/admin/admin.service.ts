@@ -408,4 +408,48 @@ export class AdminService {
 
   }
 
+
+
+  getParentsQueries(ForAll?: string) {
+    if (ForAll) {
+
+      return this.api.get('api/support/all/' );
+    } else {
+      return this.api.get('api/support/' );
+
+    }
+  }
+
+  getSelectedParentQueries(ParentId) {
+    return this.api.get('api/support/' + ParentId );
+
+  }
+
+  closeQuery(queryId) {
+    return this.api.post('/api/support/' + queryId + '/close' , {});
+  }
+
+  replyToQuery(queryId , replyText) {
+    return this.api.post('/api/support/' + queryId + '/reply' , replyText);
+
+  }
+
+getAllCenterStaffApprovalCount() {
+  return this.api.get('/api/staff/approvals/count');
+}
+
+getSelectedCenterStaffApprovalCount(centerId: number) {
+  return this.api.get('/api/staff/approvals/' + centerId);
+}
+
+getAllCenterStudentsApprovalCount() {
+  return this.api.get('/api/student/approvals/count');
+}
+
+getSelectedCenterStudentsApprovalCount(centerId: number) {
+  return this.api.get('/api/student/approvals/' + centerId);
+}
+
+
+
 }

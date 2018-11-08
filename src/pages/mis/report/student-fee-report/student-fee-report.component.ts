@@ -40,7 +40,7 @@ selectedQuater: any;
   }
 
   getCenter() {
-    this.adminService.getAllCenters()
+    this.adminService.getCenters()
       .subscribe((res: any) => {
         this.centerList = res;
       }, (err) => {

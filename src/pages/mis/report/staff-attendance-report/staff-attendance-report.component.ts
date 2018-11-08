@@ -29,7 +29,7 @@ export class StaffAttendanceReportComponent implements OnInit {
   }
 
   getCenter() {
-    this.adminService.getAllCenters()
+    this.adminService.getCenters()
       .subscribe((res: any) => {
         this.centerList = res;
       }, (err) => {
