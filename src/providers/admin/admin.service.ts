@@ -450,6 +450,17 @@ getSelectedCenterStudentsApprovalCount(centerId: number) {
   return this.api.get('/api/student/approvals/' + centerId);
 }
 
+// center
+
+getZones() {
+  return this.api.get('/api/zone');
+}
 
 
+getStatesByZone(zoneId) {
+  return this.api.get('/api/state/zone/' + zoneId);
+}
+getCitiesByStateByZone(stateId) {
+  return this.api.get('/api/ctty/state/' + stateId);
+}
 }
