@@ -375,21 +375,21 @@ export class AdminService {
   }
 
   inquiryReportDownload(centerId_and_range) {
-    return this.api.post('api/report/inquiry/', centerId_and_range);
+    return this.api.getPDF('api/report/inquiry/', centerId_and_range);
   }
 
   feeCollectionReportDownload(centerId_and_range) {
-    return this.api.post('api/report/inquiry/', centerId_and_range);
+    return this.api.getPDF('api/report/inquiry/', centerId_and_range);
 
   }
 
   studentsFeeReportdownload(centerId_and_range) {
-    return this.api.post('api/report/studentfee/excel/', centerId_and_range);
+    return this.api.getPDF('api/report/studentfee/excel/', centerId_and_range);
 
   }
 
   studentsAttendanceReportDownload(centerId_and_range) {
-    return this.api.post('api/report/studentattendance/', centerId_and_range);
+    return this.api.getPDF('api/report/studentattendance/', centerId_and_range);
 
   }
 
@@ -399,13 +399,57 @@ export class AdminService {
   }
 
   staffSalaryMonthlyReportDownload(centerId_and_range) {
-    return this.api.post('api/report/staffCollection/excel/', centerId_and_range);
+    return this.api.getPDF('api/report/staffCollection/excel/', centerId_and_range);
 
   }
 
   staffsAttendanceReportDownload(centerId_and_range) {
-    return this.api.post('api/report/staffattendance/', centerId_and_range);
+    return this.api.getPDF('api/report/staffattendance/', centerId_and_range);
 
   }
+
+
+
+  getParentsQueries(ForAll?: string) {
+    if (ForAll) {
+
+      return this.api.get('api/support/all/' );
+    } else {
+      return this.api.get('api/support/' );
+
+    }
+  }
+
+  getSelectedParentQueries(ParentId) {
+    return this.api.get('api/support/' + ParentId );
+
+  }
+
+  closeQuery(queryId) {
+    return this.api.post('/api/support/' + queryId + '/close' , {});
+  }
+
+  replyToQuery(queryId , replyText) {
+    return this.api.post('/api/support/' + queryId + '/reply' , replyText);
+
+  }
+
+getAllCenterStaffApprovalCount() {
+  return this.api.get('/api/staff/approvals/count');
+}
+
+getSelectedCenterStaffApprovalCount(centerId: number) {
+  return this.api.get('/api/staff/approvals/' + centerId);
+}
+
+getAllCenterStudentsApprovalCount() {
+  return this.api.get('/api/student/approvals/count');
+}
+
+getSelectedCenterStudentsApprovalCount(centerId: number) {
+  return this.api.get('/api/student/approvals/' + centerId);
+}
+
+
 
 }

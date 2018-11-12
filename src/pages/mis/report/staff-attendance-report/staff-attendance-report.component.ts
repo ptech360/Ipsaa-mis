@@ -29,7 +29,7 @@ export class StaffAttendanceReportComponent implements OnInit {
   }
 
   getCenter() {
-    this.adminService.getAllCenters()
+    this.adminService.getCenters()
       .subscribe((res: any) => {
         this.centerList = res;
       }, (err) => {
@@ -45,13 +45,19 @@ export class StaffAttendanceReportComponent implements OnInit {
 console.log(this.staffAttendanceFor);
 
     this.adminService.staffsAttendanceReportDownload(this.staffAttendanceFor)
-      .subscribe((res) => {
-        this.staffAttendanceFor = {};
- const blob = new Blob([res.data], {
-        type: 'application/octet-stream'
-    });
-    FileSaver.saveAs(blob, res.headers('fileName'));
+      // .subscribe((res) => {
+      //   const blob = new Blob([res.data], {
+      //     type: 'application/octet-stream'
+      //   });
+      //   FileSaver.saveAs(blob, res.headers('fileName'));
+      .subscribe((res: ArrayBuffer) => {
+        // const headers = res.headers;
+        const blob = new Blob([res], {
+        });
+        FileSaver.saveAs(blob, 'Staff_Attendance_Report.pdf');
+
         this.downloadData = false;
+        this.staffAttendanceFor = {};
       }, (err) => {
         this.alertService.errorAlert(err);
         this.downloadData = false;

@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     StudentAttendanceReportComponent,
     StaffAttendanceReportComponent,
     FeeCollectionReportComponent
-  ]
+  ],
+  exports: [InquiryReportComponent],
 })
 export class ReportModule {}

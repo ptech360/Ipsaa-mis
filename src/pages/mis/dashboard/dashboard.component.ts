@@ -344,6 +344,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showDetail(data: any) {
+    console.log(data);
     switch (this.tableFor) {
       case 'student':
         this.selectedStudent = data;
@@ -357,6 +358,7 @@ export class DashboardComponent implements OnInit {
         break;
       case 'staff':
         this.selectedStaff = data;
+        console.log(this.selectedStaff);
         this.update = true;
         this.adminService.viewPanel.next(true);
         break;
