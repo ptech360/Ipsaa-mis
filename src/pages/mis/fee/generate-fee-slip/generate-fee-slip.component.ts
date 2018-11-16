@@ -304,7 +304,7 @@ export class GenerateFeeSlipComponent implements OnInit {
         const blob = new Blob([res], {
           // type: 'application/octet-stream'
         });
-        FileSaver.saveAs(blob, 'abc.pdf');
+        FileSaver.saveAs(blob, 'abc.pdf' );
 
         this.downloadingSlips = false;
         this.alertService.successAlert('');

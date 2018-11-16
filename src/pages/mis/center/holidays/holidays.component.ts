@@ -19,13 +19,16 @@ export class HolidaysComponent implements OnInit {
   selectedCity: any;
   centers: Array<any>;
   selectedCenter: any;
-  viewPanel = false;
+  holidays: Array<any> = [];
+  mode: string;
+  show: boolean;
+  viewPanel = true;
   showtable = false;
   downloadinData: boolean;
   hollidayForm = this.fb.group({
-    center: ['', Validators.required],
-    month: ['', Validators.required],
-    year: ['', Validators.required]
+    name: ['', Validators.required],
+    date: ['', Validators.required],
+    centers: ['', Validators.required]
   });
   constructor(
     private adminService: AdminService,
@@ -51,13 +54,14 @@ export class HolidaysComponent implements OnInit {
     this.adminService.getZones()
       .subscribe((res: any) => {
         this.zones = res;
+        console.log(res);
       }, (err) => {
         this.alertService.errorAlert(err);
       });
   }
 
-  getSelectedZoneStates() {
-    this.adminService.getStatesByZone(94)
+  getSelectedZoneStates(zoneId) {
+    this.adminService.getStatesByZone(zoneId)
       .subscribe((res: any) => {
         this.states = res;
       }, (err) => {
@@ -65,8 +69,8 @@ export class HolidaysComponent implements OnInit {
       });
   }
 
-  getSelectedStateCities() {
-    this.adminService.getCitiesByStateByZone(94)
+  getSelectedStateCities(stateId) {
+    this.adminService.getCitiesByStateByZone(stateId)
       .subscribe((res: any) => {
         this.cities = res;
       }, (err) => {
@@ -97,8 +101,28 @@ export class HolidaysComponent implements OnInit {
         this.alertService.errorAlert(err);
       });
 
+
+
   }
 
 
+  showHoliday(x, y) {
 
+  }
+  editHoliday(f) {
+
+  }
+  delHoliday(g) {
+  }
+
+  removeCenter(s) {
+
+  }
+
+  saveHoliday() {
+  }
+
+  cancelHoliday() {
+
+  }
 }
