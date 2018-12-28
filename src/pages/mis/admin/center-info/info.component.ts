@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DashboardService } from '../../../../providers/dashboard/dashboard.service';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import {FormBuilder, FormGroup } from '@angular/forms';
@@ -16,7 +16,7 @@ export class CenterInfoComponent {
   selectedCenter: any;
   centerForm: FormGroup;
   saving: boolean;
-
+  @Output() addCenter: EventEmitter<any> = new EventEmitter<any>();
   @Input()
   set center(center: any) {
     if (center) {
@@ -79,6 +79,8 @@ export class CenterInfoComponent {
   }
 
   getCitiesByZone(zone: any) {
+    this.centerForm.controls['city'].patchValue('');
+    this.centerForm.controls['state'].patchValue(null);
     if (zone) {
       this.cities = this.zones.find(element => {
         return element.name === zone;
@@ -104,6 +106,9 @@ export class CenterInfoComponent {
     } else {
       this.saving = true;
         this.adminService.saveCenter(this.centerForm.value).subscribe((response: any) => {
+          response['zone'] = response.zone.name;
+          response['city'] = response.address.city;
+          this.addCenter.emit(response);
           this.alertService.successAlert('New Center added');
           this.saving = false;
           this.adminService.viewPanel.next(false);
@@ -111,6 +116,15 @@ export class CenterInfoComponent {
         }, error => {
           this.saving = false;
         });
+    }
+  }
+
+  setState(city) {
+    const cty: any = this.cities.find(element => {
+      return element.name === city;
+    });
+    if (cty) {
+      this.centerForm.controls['state'].patchValue(cty.state);
     }
   }
 }

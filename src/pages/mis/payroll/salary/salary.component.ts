@@ -20,6 +20,7 @@ export class SalaryComponent implements OnInit {
   searchKey: any;
   centers: any[];
   salaries: any[] = [];
+  SALARY_WRITE: boolean;
 
   constructor(
     private payrollService: PayrollService,
@@ -28,6 +29,7 @@ export class SalaryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.SALARY_WRITE = this.adminService.hasPrivilage('SALARY_WRITE');
     this.adminService.viewPanel.subscribe((val: boolean) => {
       this.viewPanel = val;
     });
@@ -97,15 +99,15 @@ export class SalaryComponent implements OnInit {
 
   searchEmployee(event: any) {
     this.searchKey = event;
-    const val = event.target.value;
+    const val = event.target.value.toLowerCase();
     if (val && val.trim() !== '') {
       this.salaryList = (this.salaries.length) ? this.salaries : this.salaryList;
       this.allItems = this.salaryList.filter((sal: any) => {
         return (
-          sal.eid.startsWith(val) ||
-          (sal.employerCode && sal.employerCode.startsWith(val)) ||
-          (sal.firstName && sal.firstName.startsWith(val)) ||
-          (sal.lastName && sal.lastName.startsWith(val)) ||
+          sal.eid.toLowerCase().startsWith(val) ||
+          (sal.employerCode && sal.employerCode.toLowerCase().startsWith(val)) ||
+          (sal.firstName && sal.firstName.toLowerCase().startsWith(val)) ||
+          (sal.lastName && sal.lastName.toLowerCase().startsWith(val)) ||
           (sal.netSalary && sal.netSalary.toString().startsWith(val))
         );
       });

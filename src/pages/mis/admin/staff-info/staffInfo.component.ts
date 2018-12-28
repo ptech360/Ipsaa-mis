@@ -19,8 +19,12 @@ export class StaffInfoComponent implements OnInit {
   staffForm: FormGroup;
   newStaff: boolean;
   centers = [];
+  picFile: any;
+  formSave: boolean;
   costCenters = [];
   allReportingManagers = [];
+  filterReportingManager = [];
+  searchEmpName: string;
   martialStatusOptions = ['Married', 'Unmarried', 'Widowed', 'Divorced'];
   months: any[] = [
     'Jan',
@@ -37,24 +41,25 @@ export class StaffInfoComponent implements OnInit {
     'Dec'
   ];
   salary: any;
+  states: any;
   constructor(
     private adminService: AdminService,
     private payrollService: PayrollService,
     private fb: FormBuilder,
     private alertService: AlertService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.staffForm = this.getStaffForm();
     this.getCenters();
+    this.getStates();
     this.getCostCenters();
     this.getReportingManagers();
   }
 
   @Input()
   set id(id: number) {
-    console.log(id);
     if (id) {
       // if id exist then show staff details
       this.newStaff = false;
@@ -79,8 +84,9 @@ export class StaffInfoComponent implements OnInit {
     this.adminService.getStaffById(id).subscribe((staff: any) => {
       this.staff = staff;
       this.staffForm.patchValue(staff);
+      this.searchEmpName = this.staffForm.value.reportingManagerName;
       this.staffForm.controls['costCenterId'].patchValue(
-        staff.costCenter ? staff.costCenter.id + '' : ''
+        staff.costCenter ? staff.costCenter.id : ''
       );
       this.payrollService.getSalaryByEmployee(staff.eid).subscribe(response => {
         this.salary = response;
@@ -94,6 +100,12 @@ export class StaffInfoComponent implements OnInit {
     });
   }
 
+  getStates() {
+    this.adminService.getStates().subscribe(response => {
+      this.states = response;
+    });
+  }
+
   getCostCenters() {
     this.adminService.getCostCenter().subscribe(res => {
       this.costCenters = res;
@@ -103,38 +115,59 @@ export class StaffInfoComponent implements OnInit {
   getReportingManagers() {
     this.adminService.getStaff().subscribe(res => {
       res.forEach(staff => {
-          this.allReportingManagers.push({id: staff.id, name: staff.name});
-      });
-    });
-  }
-  setReportingManagerId() {
-    if (this.staffForm.value['reportingManagerName'] !== 'select') {
 
-      this.allReportingManagers.filter( staff => {
-        if (this.staffForm.value['reportingManagerName'] === staff.name) {
-          this.staffForm.controls['reportingManagerId'].patchValue(staff.id);
+        // this.staffList = this.allItems.filter(staff => {
+        //   console.log(status);
+
+        //   return staff.active === status;
+        if (staff.active === true) {
+          this.allReportingManagers.push({ id: staff.id, name: staff.name, designation: staff.designation });
+
         }
       });
-    } else {
-      this.staffForm.controls['reportingManagerId'].patchValue('');
-    }
+      console.log(this.allReportingManagers);
+
+      this.filterReportingManager = this.allReportingManagers;
+    });
+  }
+  setReportingManagerId(reportingManagerName) {
+    this.searchEmpName = reportingManagerName.name;
+    this.allReportingManagers.filter(staff => {
+      if (reportingManagerName.name === staff.name) {
+        this.staffForm.controls['reportingManagerId'].patchValue(staff.id);
+        this.staffForm.controls['reportingManagerName'].patchValue(staff.name);
+
+      }
+    });
+
   }
 
   hideViewPanel() {
     this.adminService.viewPanel.next(false);
   }
   uploadProfilePic(staff: any, file: any) {
+    this.picFile = file;
     const formData = new FormData();
     formData.append('file', file);
-    this.adminService
-      .updateStaffProfilePic(staff.id, formData)
-      .subscribe((response: any) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function(e: any) {
-          $('#staff-profile').attr('src', e.target.result);
-        };
-      });
+    if (!staff.id) {
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (e: any) {
+        $('#new-Staff-profile').attr('src', e.target.result);
+      };
+    } else {
+      this.adminService
+        .updateStaffProfilePic(staff.id, formData)
+        .subscribe((response: any) => {
+
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = function (e: any) {
+            $('#staff-profile').attr('src', e.target.result);
+          };
+        });
+    }
   }
 
   getStaffForm() {
@@ -154,26 +187,25 @@ export class StaffInfoComponent implements OnInit {
       reportingManagerName: [null, Validators.required],
       name: [''],
       firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      lastName: [''],
       mobile: ['', [Validators.required]],
       secondaryNumbers: [''],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.email]],
       payrollEnabled: [''],
       attendanceEnabled: [''],
       designation: ['', Validators.required],
       type: [null, Validators.required],
       active: [''],
-      expectedIn: ['', Validators.required],
-      expectedOut: ['', Validators.required],
-      maritalStatus: [null, Validators.required],
+      expectedIn: [''],
+      expectedOut: [''],
+      maritalStatus: [null],
       profile: this.getProfile(),
       biometricId: [''],
       approvalStatus: [''],
-      expectedHours: ['', Validators.required],
+      expectedHours: [''],
       aadharNumber: [''],
       costCenterId: [null, Validators.required],
       mode: [''],
-      searchReportingManager: ['']
     });
   }
 
@@ -189,7 +221,7 @@ export class StaffInfoComponent implements OnInit {
         city: ['', Validators.required],
         state: ['', Validators.required],
         zipcode: ['', Validators.required],
-        phone: ['', Validators.required],
+        phone: [''],
         addressType: ['']
       }),
       permanentAddress: this.fb.group({
@@ -197,7 +229,7 @@ export class StaffInfoComponent implements OnInit {
         city: ['', Validators.required],
         state: ['', Validators.required],
         zipcode: ['', Validators.required],
-        phone: ['', Validators.required],
+        phone: [''],
         addressType: ['']
       }),
       pan: [''],
@@ -209,12 +241,13 @@ export class StaffInfoComponent implements OnInit {
       ifscCode: [''],
       bankName: [''],
       branchName: [''],
-      holderName: ['']
+      holderName: [''],
+      pState: ['']
     });
   }
 
   // getter methods for template
-  get email() { return this.staffForm.get('email'); }
+  // get email() { return this.staffForm.get('email'); }
   get firstName() { return this.staffForm.get('firstName'); }
   get lastName() { return this.staffForm.get('lastName'); }
   get dob() { return this.staffForm.controls['profile'].get('dob'); }
@@ -226,11 +259,11 @@ export class StaffInfoComponent implements OnInit {
   get designation() { return this.staffForm.get('designation'); }
   get mobile() { return this.staffForm.get('mobile'); }
   get reportingManagerName() { return this.staffForm.get('reportingManagerName'); }
-  get expectedIn() { return this.staffForm.get('expectedIn'); }
-  get expectedOut() { return this.staffForm.get('expectedOut'); }
-  get expectedHours() { return this.staffForm.get('expectedHours'); }
+  // get expectedIn() { return this.staffForm.get('expectedIn'); }
+  // get expectedOut() { return this.staffForm.get('expectedOut'); }
+  // get expectedHours() { return this.staffForm.get('expectedHours'); }
   get employerId() { return this.staffForm.get('employerId'); }
-  get biometricId() { return this.staffForm.get('biometricId'); }
+  // get biometricId() { return this.staffForm.get('biometricId'); }
   get address() { return this.staffForm.get('profile').get('address').get('address'); }
   get city() { return this.staffForm.get('profile').get('address').get('city'); }
   get state() { return this.staffForm.get('profile').get('address').get('state'); }
@@ -243,10 +276,11 @@ export class StaffInfoComponent implements OnInit {
   get phone2() { return this.staffForm.get('profile').get('permanentAddress').get('phone'); }
 
   saveStaff() {
+    this.formSave = true;
     if (this.newStaff) {
       // for new staff add request
       console.log(this.staffForm.value);
-      delete this.staffForm.value['costCenter'];
+      // delete this.staffForm.value['costCenter'];
       delete this.staffForm.value['aadharNumber'];
       delete this.staffForm.value['active'];
       delete this.staffForm.value['approvalStatus'];
@@ -257,7 +291,7 @@ export class StaffInfoComponent implements OnInit {
       delete this.staffForm.value['expectedHours'];
       delete this.staffForm.value['expectedIn'];
       delete this.staffForm.value['expectedOut'];
-      delete this.staffForm.value['reportingManagerName'];
+      // delete this.staffForm.value['reportingManagerName'];
       delete this.staffForm.value['payrollEnabled'];
       delete this.staffForm.value['name'];
       delete this.staffForm.value['mode'];
@@ -265,9 +299,14 @@ export class StaffInfoComponent implements OnInit {
 
       this.adminService.addStaff(this.staffForm.value).subscribe(res => {
         if (res.error) {
+          this.formSave = false;
           this.alertService.errorAlert(res.error);
         } else {
+          this.formSave = false;
+          this.staffForm.reset();
           this.alertService.successAlert('New Staff Added');
+          this.hideViewPanel();
+          this.uploadProfilePic(res, this.picFile);
         }
       });
     } else {
@@ -275,8 +314,12 @@ export class StaffInfoComponent implements OnInit {
       this.staffForm.controls['mode'].patchValue('Edit');
       this.adminService.updateStaff(this.staffForm.value).subscribe(res => {
         if (res.error) {
+          this.formSave = false;
+
           this.alertService.errorAlert(res.error);
         } else {
+          this.formSave = false;
+
           this.alertService.successAlert('Staff Details Updated');
         }
         this.id = null;
@@ -286,10 +329,28 @@ export class StaffInfoComponent implements OnInit {
     }
   }
 
+
+
+
+
   getPaySlipByEmployee(employeeId) {
     this.adminService.getPaySlipByEmoployee(employeeId).subscribe(response => {
       this.paySlips = response;
     });
+  }
+
+
+
+
+  searchManager(event) {
+    const val = event.target.value.toLowerCase();
+    if (val && val.trim() !== '') {
+      this.allReportingManagers = this.filterReportingManager.filter(employee => {
+        return employee.name.toLowerCase().startsWith(val);
+      });
+    } else {
+      this.allReportingManagers = this.filterReportingManager;
+    }
   }
 
 }

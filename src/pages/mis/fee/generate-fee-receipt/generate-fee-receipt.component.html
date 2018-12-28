@@ -14,9 +14,9 @@
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <label for="Quater">Quater:</label>
+            <label for="Quater">Quarter:</label>
             <select class="form-control" formControlName="quater">
-              <option value="" disabled="true">Select Quater</option>
+              <option value="" disabled="true">Select Quarter</option>
               <option *ngFor="let quater of quaters;" [value]="quater.id">{{quater.Qtype}}</option>
             </select>
             <span class="material-input"></span>
@@ -74,7 +74,8 @@
       </div>
       <div class="card-body">
         <div *ngIf="downloadinData" >
-          <table class="table table-responsive">
+          <div class=" table-responsive">
+          <table class="table table-condensed table-striped table-hover">
             <colgroup>
               <col width="10%">
               <col width="15%">
@@ -119,6 +120,7 @@
                 </tr>
               </tfoot>
           </table>
+        </div>
         </div>
       </div>
     </div>

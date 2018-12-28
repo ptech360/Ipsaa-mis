@@ -2,6 +2,8 @@
   padding-bottom: 20px;
   margin: 20px auto 0;
   position: relative;
+  display: inline-block;
+  width: 100%;
 
   &:after {
     content: '';
@@ -12,13 +14,20 @@
     width: calc(100% - 30px);
     background-color: rgba(180, 180, 180, 0.3);
   }
-
+  .username{
+    color: white !important;
+    position: relative;
+  }
   .photo {
-    width: 80px;
-    height: 80px;
+    width: 34px;
+    height: 34px;
     overflow: hidden;
+    float: left;
+    z-index: 5;
+    margin-right: 11px;
     border-radius: 50%;
-    margin: 0 auto;
+    margin-left: 23px;
+    box-shadow: 0 16px 38px -12px rgba(0,0,0,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
 
     img {
       width: 100%;
@@ -27,9 +36,91 @@
 
   a {
     text-align: center;
-    color: black;
+    color: #fff;
     text-align: center;
     display: block;
     white-space: nowrap;
+
+    span{
+      float: left;
+      margin-top: 5px;
+    }
+    .caret{
+      margin-left: 110px;
+      margin-top: 8px;
+    }
   }
+  .user-info{
+    .collapse{
+
+      
+      .show{
+        background-color: rgba(180, 180, 180, 0.3);
+      }
+      ul{
+        li{
+          display: inline-block;
+          width: 100%;
+         
+            a{
+              display: inline-block;
+              width: -webkit-fill-available;
+              clear: both;
+              
+              
+            }
+        }
+      }
+    }
+  
+    .collapsing {
+        position: relative;
+        height: auto;
+        overflow: visible;
+        transition: height 0.35s ease;
+
+        // .show{
+        //   background-color: rgba(180, 180, 180, 0.3);
+        // }
+        // ul{
+        //   li{
+        //     display: inline-block;
+        //     width: 100%;
+        //     line-height: normal;
+        //       a{
+        //         display: inline-block;
+        //         width: -webkit-fill-available;
+        //         /* height: auto; */
+        //         padding: 10px 10px;
+        //         clear: both;
+        //         /* float: left; */
+        //         text-align: center;
+        //         line-height: normal;
+        //         span{
+        //           width: 100%;
+        //           text-align: center;
+        //           line-height: normal;
+        //         }
+        //       }
+        //   }
+        // }
+
+    }
+  }
+
+
+
+}
+
+
+.sidebar{
+  .sidebar-background{
+    &:after{
+      background: #000 !important;
+      opacity: 0.8 !important;
+    }
+  }
+
+
+
 }

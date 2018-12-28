@@ -12,6 +12,7 @@ import { AlertService } from '../../../../providers/alert/alert.service';
 export class ProgramComponent implements OnInit {
   programs: any[] = [];
   groups: any[];
+  groupCopy: any[];
   viewPanel: boolean;
   editable: boolean;
   selectedProgram: any = {};
@@ -40,6 +41,7 @@ export class ProgramComponent implements OnInit {
   getGroups() {
     this.adminService.getGroups().subscribe((response: any[]) => {
       this.groups = response;
+      this.groupCopy = response;
     });
   }
 
@@ -48,14 +50,14 @@ export class ProgramComponent implements OnInit {
     this.viewPanel = false;
   }
 
-  showSidePanel(update: boolean , object: any) {
+  showSidePanel(update: boolean, object: any) {
     this.editable = update;
     this.viewPanel = true;
     this.selectedGroups = [];
     if (this.selectedTab === 'Program') {
-      this.selectedGroup = (object) ? object : {};
+      this.selectedProgram = (object) ? object : {};
       this.programForm = this.getProgramForm();
-      this.programForm.patchValue(this.selectedGroup);
+      this.programForm.patchValue(this.selectedProgram);
       (object) ? this.selectedGroups = JSON.parse(JSON.stringify(object.groups)) : this.selectedGroups = [];
     } else {
       this.selectedGroup = (object) ? object : {};
@@ -89,7 +91,14 @@ export class ProgramComponent implements OnInit {
   }
 
   deleteProgram(program: any) {
+    this.alertService.confirm('you want to delete ' + program.name + 'program').then(() => {
+      this.adminService.deleteProgram(program.id).subscribe(response => {
+        this.alertService.successAlert(program.name + 'Program Deleted Successfully');
+        this.programs.splice(this.programs.indexOf(program, 1));
+      });
+    }).catch((error) => {
 
+    });
   }
 
   addProgramGroup(program) {
@@ -97,7 +106,7 @@ export class ProgramComponent implements OnInit {
       this.selectedGroups = [];
       this.selectedGroups.push(program);
     } else {
-      if (this.selectedGroups.findIndex(element =>  program.id === element.id) === -1) {
+      if (this.selectedGroups.findIndex(element => program.id === element.id) === -1) {
         this.selectedGroups.push(program);
       }
     }
@@ -160,5 +169,15 @@ export class ProgramComponent implements OnInit {
         this.alertService.successAlert('New Group Added.');
       });
     }
+  }
+
+  deleteGroup(group) {
+    this.adminService.deleteGroup(group.id)
+      .subscribe((res: any) => {
+this.alertService.successAlert('Group Delete Successfuly');
+this.groups = this.groupCopy.filter( element => {
+  return element.id === group.id;
+});
+      });
   }
 }

@@ -12,6 +12,7 @@ export class StudentAttendanceComponent implements OnInit {
   private attendanceCopy: any;
   bharatRamSchool = false;
   programs = [];
+  selectedCenter: any;
   selectedCenterId: any;
   selectedProgram: any;
   centers: any = [];
@@ -112,4 +113,24 @@ export class StudentAttendanceComponent implements OnInit {
     });
   }
 
+
+
+  searchStudent(event: any) {
+  const val = event.target.value.toLowerCase();
+  if (val && val.trim() !== '') {
+    this.attendance = this.attendanceCopy.filter(student => {
+      return (
+        student.fullName.toLowerCase().startsWith(val) ||
+        (student.program && student.program.toLowerCase().startsWith(val)) ||
+        (student.group && student.group.toLowerCase().startsWith(val)) ||
+        (student.center && student.center.toLowerCase().startsWith(val)) ||
+        (student.status && student.status.toString().startsWith(val))
+      );
+    });
+
+  } else {
+    this.attendance = this.attendanceCopy;
+  }
+
+  }
 }

@@ -32,6 +32,7 @@ export class StaffMessageComponent implements OnInit {
   centers: any[];
   groups: any[];
   programs: any[];
+  selectedCenter: any = 'all';
   staffs: any[];
   staffIds: any = {};
   loader: boolean;
@@ -48,12 +49,15 @@ export class StaffMessageComponent implements OnInit {
   ids: any[] = [];
   smsContent = '';
   emailsubject: any;
-  emailcontent: any = '';
+  emailcontent = '';
   attachments: any[] = [];
   files: any[] = [];
   selectAllStaff: boolean;
   sending: boolean;
   emailData: any;
+  ccEmail: string ;
+  emailList: any = [];
+  selectedStaffs: any = [];
 
   constructor(
     private adminService: AdminService,
@@ -115,12 +119,23 @@ export class StaffMessageComponent implements OnInit {
     });
   }
 
+  filterByCenter(center) {
+    if (center === 'all') {
+this.allItems = this.staffs;
+    } else {
+      this.allItems = this.staffs.filter(staff => {
+        return staff.centerName === center.name;
+      });
+    }
+    this.setPage(1);
+    this.selectAll(false);
+  }
   searchStaff(event: any) {
     this.searchKey = event;
-    const val = event.target.value;
+    const val = event.target.value.toLowerCase();
     if (val && val.trim() !== '') {
       this.allItems = this.staffs.filter(staff => {
-        return staff.fullName.startsWith(val);
+        return staff.name.toLowerCase().startsWith(val);
       });
       this.setPage(1);
     } else {
@@ -148,14 +163,15 @@ export class StaffMessageComponent implements OnInit {
 
   selectAll(isChecked: boolean) {
     if ( isChecked ) {
-      this.staffs.forEach(staff => {
+      this.allItems.forEach(staff => {
         this.staffIds[staff.id] = true;
       });
     } else {
-      this.staffs.forEach(staff => {
+      this.allItems.forEach(staff => {
         this.staffIds[staff.id] = false;
       });
       this.selectAllStaff = false;
+      this.hideViewPanel();
     }
     this.selectStaffs();
   }
@@ -182,9 +198,10 @@ export class StaffMessageComponent implements OnInit {
 
   emailApi() {
     const object = {
+    'cids': this.emailData.cids,
     'ids': this.ids,
     'subject': this.emailsubject,
-    'emailcontent': this.emailcontent
+    'emailcontent': this.emailData.emailcontent
     };
     const formData = new FormData();
     Object.keys(object).forEach(key => {
@@ -194,15 +211,22 @@ export class StaffMessageComponent implements OnInit {
       formData.append('files', file);
     }
 
-    this.emailData.files.forEach(file => {
-      formData.append('files', file);
-    });
+    // this.emailData.files.forEach(file => {
+    //   formData.append('files', file);
+    // });
     this.emailData.images.forEach(image => {
       formData.append('images', image);
     });
+    this.emailList.forEach(element => {
+formData.append('cc', element);
+    });
+    console.log(this.emailList);
+
     this.sending = true;
     this.smsService.sendStaffEmail(formData).subscribe((response: any) => {
       this.sending = false;
+      this.emailList = [];
+      this.ccEmail = '';
       this.alertService.successAlert('Succesfully sent');
       this.hideViewPanel();
       this.selectAll(false);
@@ -213,6 +237,15 @@ export class StaffMessageComponent implements OnInit {
   }
 
   showEmailPanel() {
+    this.selectedStaffs = [];
+    this.ids.forEach((id: number) => {
+      const staff: any = this.allItems.find(s => {
+        return s.id == id;
+      });
+      if (staff) {
+        this.selectedStaffs.push(staff);
+      }
+    });
     this.adminService.viewPanel.next(true);
     this.smsCard = false;
     this.emailCard = true;
@@ -224,7 +257,7 @@ export class StaffMessageComponent implements OnInit {
       if ( this.staffIds[id] ) {
         this.ids.push(id);
       }
-    });
+     });
     if (!this.ids.length) {
       this.hideViewPanel();
     }
@@ -240,6 +273,17 @@ export class StaffMessageComponent implements OnInit {
 
   dropped(event) {
     this.emailData = event;
-    this.emailcontent = event.textContent;
+    this.emailcontent = event.textContent || '';
   }
+
+
+
+
+  addCcEmail() {
+    this.emailList.push(this.ccEmail);
+    this.ccEmail = '';
+      }
+    removeCcEmail(i) {
+    this.emailList.splice(i, 1);
+    }
 }

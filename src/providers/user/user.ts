@@ -26,7 +26,7 @@ import { StorageService } from '../localstorage/storage';
 export class User {
   _user: any;
 
-  constructor(public api: Api, public storage: StorageService) {}
+  constructor(public api: Api, public storage: StorageService) { }
 
   /**
    * Send a POST request to our login endpoint with the data
@@ -34,12 +34,14 @@ export class User {
    */
 
   getUser() {
-    const token = this.storage.getData('ngStorage-token');
-    let user = {};
-    if (typeof token !== 'undefined') {
-      user = JSON.parse(this.urlBase64Decode(token.split('.')[1]));
+    if (this.storage.getData('ngStorage-token')) {
+      const token = this.storage.getData('ngStorage-token');
+      let user = {};
+      if (typeof token !== 'undefined') {
+        user = JSON.parse(this.urlBase64Decode(token.split('.')[1]));
+      }
+      return user;
     }
-    return user;
   }
 
   urlBase64Decode(str) {
@@ -66,12 +68,15 @@ export class User {
     });
   }
 
+
+
+
   /**
    * Send a POST request to our signup endpoint with the data
    * the user entered on the form.
    */
   signup(accountInfo: any) {
-    let seq = this.api.post('signup', accountInfo);
+    const seq = this.api.post('signup', accountInfo);
 
     seq.subscribe(
       (res: any) => {
@@ -86,6 +91,19 @@ export class User {
     );
 
     return seq;
+  }
+
+
+
+
+
+  getTokenForForgetPassword(email) {
+    return this.api.post('mis/resetpassword/email', email);
+  }
+
+
+  getCreateNewPassword(pwd_token) {
+    return this.api.post('mis/resetpassword/', pwd_token);
   }
 
   /**

@@ -14,9 +14,9 @@
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <label for="Quater">Quater:</label>
+            <label for="Quater">Quarter:</label>
             <select class="form-control" formControlName="quater">
-              <option value="" disabled="true">Select Quater</option>
+              <option value="" disabled="true">Select Quarter</option>
               <option *ngFor="let quater of quaters;" [value]="quater.id">{{quater.Qtype}}</option>
             </select>
             <span class="material-input"></span>
@@ -35,7 +35,7 @@
 
         <div class="col-md-3">
           <button type="submit" mat-raised-button class="btn btn-warning btn-lg" [disabled]="!generateSlipForm.valid"
-            (click)="generate( generateSlipForm.value)">Get / Generate </button>
+            (click)="generate()">Get / Generate </button>
         </div>
       </div>
 
@@ -130,7 +130,8 @@
       </div>
       <div class="card-body">
         <div *ngIf="downloadinData" >
-          <table class="table table-responsive">
+          <div class="table-responsive">
+          <table class="table table-condensed table-striped table-hover">
             <colgroup>
               <col width="5%">
               <col width="5%">
@@ -144,7 +145,7 @@
               <col width="10%">
               <col width="10%">
             </colgroup>
-            <thead class="text-primary" *ngIf=" studentDetails?.length >0">
+            <thead class="text-primary">
               <th>
 
                 <input type="checkbox" (ngModelChange)="selectAll($event)" [(ngModel)]="selectAllStudent"> </th>
@@ -156,7 +157,15 @@
               <th>Extra Charges</th>
               <th>Late Payment</th>
               <th>Final Fee</th>
-              <th>Status</th>
+              <th>
+                Status
+                <select (ngModelChange)="filterByPaymentStatus($event)" [(ngModel)]="statusFilter">
+                  <option value="All">All</option>
+                  <option value="Paid">Paid</option>
+                  <option value="PartiallyPaid">Partially Paid</option>
+                  <option value="Raised">Raised</option>
+                </select>
+              </th>
               <th>Locked</th>
 
             </thead>
@@ -190,14 +199,12 @@
                   </span>
                 </td>
               </tr>
-
-            </tbody>
-            <tfoot *ngIf=" studentDetails.length == 0" style="border: 1px groove #e8e8e8;">
-              <tr>
-                <td class="text-center">No Content</td>
+              <tr *ngIf=" studentDetails.length == 0">
+                <td class="text-center" colspan="10">No Content</td>
               </tr>
-            </tfoot>
+            </tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>
@@ -381,7 +388,7 @@
               <div class="col-lg-6 col-md-3 col-sm-3">
                 <div class="form-group">
                   <label class="control-label"> Fee</label>
-                  <input class="form-control" type="number" [value]="regenerateSlipForm.get('finalFee').value + regenerateSlipForm.get('gstAmount').value"
+                  <input class="form-control" type="number" formControlName="finalFee" 
                     name="finalFee" readonly>
                   <span class="material-input"></span>
                 </div>
@@ -447,14 +454,14 @@
               </div>
               <div *ngIf="!selectedStudentDetails.generateActive" class="form-footer text-right">
 
-                <button class="btn btn-sm btn-rose btn-fill" [disabled]="!regenerateSlipForm.valid" (click)="saveSlip('save')">
+                <button class="btn btn-sm btn-rose btn-fill"  (click)="saveSlip('save')">
                   <span *ngIf=" saveFeeSlip ;else save">
                     <i class="fa fa-spinner fa-spin"></i> Saving
                   </span>
                   <ng-template #save>Save</ng-template>
                 </button>
 
-                <button class="btn btn-sm btn-rose btn-fill" [disabled]="!regenerateSlipForm.valid " (click)="saveSlip('Regenerate')">
+                <button class="btn btn-sm btn-rose btn-fill" data-toggle="modal" data-target="#regenerateDatePopUp" >
                   <span *ngIf=" regenerateSlip ;else Regenerate">
                     <i class="fa fa-spinner fa-spin"></i> Regenerating
                   </span>
@@ -507,7 +514,8 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label class="control-label">*Message</label>
-                  <textarea class="form-control" name="body" formControlName="body" rows="10" cols="100"></textarea>
+                  <!-- <textarea class="form-control" name="body" formControlName="body" rows="10" cols="100"></textarea> -->
+                  <app-email-message-directive (onFileDrop)="dropped($event)"></app-email-message-directive>
                   <span class="material-input"></span>
                 </div>
               </div>
@@ -531,5 +539,55 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="regenerateDatePopUp" tabindex="-1" role="dialog" aria-labelledby="regenerateDatePopUp" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content card card-stats">
+      <div class="card-header card-header-danger card-header-icon">
+        <h3 style="text-align: center" class="card-title">Are you sure</h3>
+        <h4 style="text-align: center" class="card-title">you want to Regenerate slip
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center">
+<button type="button" class="btn btn-primary" (click)="saveSlip('Regenerate')" >From Start Date</button>
+<button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#SpecificDate" >From Specific Date</button>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-rose" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="SpecificDate" tabindex="-1" role="dialog" aria-labelledby="SpecificDate" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content card card-stats">
+      <div class="card-header card-header-danger card-header-icon">
+        <h2 style="text-align: center" class="card-title">Specific Date </h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="Specific">Specific Date:</label>
+            <input class="form-control" id="Specific" [(ngModel)]="regenrateSpecificDate" type="date"  name="Specific">
+            <span class="material-input"></span>
+          </div>       
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-rose"  (click)="saveSlip('SpecificDate')" >Submit</button>
+        <button type="button" class="btn btn-rose" data-dismiss="modal">Cancle</button>
+      </div>
+    </div>
   </div>
 </div>

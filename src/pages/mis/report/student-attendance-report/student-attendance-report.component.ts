@@ -33,8 +33,6 @@ export class StudentAttendanceReportComponent implements OnInit {
     this.adminService.getCenters()
       .subscribe((res: any) => {
         this.centerList = res;
-      }, (err) => {
-        this.alertService.errorAlert(err);
       });
   }
   studentAttendanceReportDownload() {
@@ -46,21 +44,14 @@ export class StudentAttendanceReportComponent implements OnInit {
 console.log(this.studentAttendanceFor);
 
 this.adminService.studentsAttendanceReportDownload(this.studentAttendanceFor)
-// .subscribe((res) => {
-//   const blob = new Blob([res.data], {
-//     type: 'application/octet-stream'
-//   });
-//   FileSaver.saveAs(blob, res.headers('fileName'));
-.subscribe((res: ArrayBuffer) => {
-  // const headers = res.headers;
-  const blob = new Blob([res], {
+.subscribe((res) => {
+  const blob = new Blob([res.body], {
   });
-  FileSaver.saveAs(blob, 'Fee_Attendance_Report.pdf');
+  FileSaver.saveAs(blob, res.headers.get('fileName'));
 
   this.downloadData = false;
   this.studentAttendanceFor = {};
       }, (err) => {
-        this.alertService.errorAlert(err);
         this.downloadData = false;
       });
   }

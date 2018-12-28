@@ -25,6 +25,7 @@ export class UserComponent implements OnInit {
   getUsers() {
     this.adminService.getUsers().subscribe((response: any[]) => {
       this.users = response;
+      console.log(response);
       this.usersCopy = JSON.parse(JSON.stringify(response));
     });
   }
@@ -41,8 +42,17 @@ export class UserComponent implements OnInit {
     const val = searchKey.toLowerCase();
     if (val && val.trim() !== '') {
       this.users = this.usersCopy.filter((user: any) => {
-        return user.name.toLowerCase().startsWith(val);
+        return  user.name.toLowerCase().startsWith(val) || user.email.toLowerCase().startsWith(val);
       });
+    } else {
+      this.users = this.usersCopy;
+    }
+  }
+
+  pushUser(user) {
+    console.log(user);
+    if (user) {
+      this.users.push(user);
     }
   }
 

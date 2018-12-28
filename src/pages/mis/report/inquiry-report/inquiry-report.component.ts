@@ -32,8 +32,6 @@ export class InquiryReportComponent implements OnInit {
     this.adminService.getCenters()
       .subscribe((res: any) => {
         this.centerList = res;
-      }, (err) => {
-        this.alertService.errorAlert(err);
       });
   }
   downloadReport() {
@@ -49,20 +47,13 @@ export class InquiryReportComponent implements OnInit {
     this.inquiryFor['from'] = this.formDate;
       this.inquiryFor['to'] = this.toDate;
       this.adminService.inquiryReportDownload(this.inquiryFor)
-      // .subscribe((res) => {
-        //   const blob = new Blob([res.data], {
-          //     type: 'application/octet-stream'
-          // });
-          // FileSaver.saveAs(blob, res.headers('fileName'));
-          .subscribe((res) => {
+          .subscribe((res: any) => {
             this.downloadData = false;
-            const blob = new Blob([res.data], {
+            const blob = new Blob([res.body], {
             });
-            const headers = res.headers('fileName');
-            FileSaver.saveAs(blob, headers);
+            FileSaver.saveAs(blob, res.headers.get('fileName'));
 
       }, (err) => {
-        this.alertService.errorAlert(err);
         this.downloadData = false;
       });
   }

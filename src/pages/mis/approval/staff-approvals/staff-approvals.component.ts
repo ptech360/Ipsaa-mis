@@ -14,6 +14,7 @@ export class StaffApprovalsComponent implements OnInit {
   selectedStaff: any = {};
   viewPanel = false;
   update = false;
+  showTable = false;
   constructor(
     private alertService: AlertService,
     private adminService: AdminService,
@@ -33,11 +34,17 @@ export class StaffApprovalsComponent implements OnInit {
       });
   }
   getStaffList() {
-    console.log(this.selectedCenterId);
+    this.alertService.loading.next(true);
+
     this.adminService.getSelectedCenterStaffApprovalCount(this.selectedCenterId)
       .subscribe((res: any) => {
+        this.alertService.loading.next(false);
+        this.showTable = true;
         this.staffAprrovelList = res;
       }, (err) => {
+        this.alertService.loading.next(false);
+        this.showTable = true;
+
         this.alertService.errorAlert(err);
       });
   }
@@ -55,6 +62,32 @@ export class StaffApprovalsComponent implements OnInit {
 
     this.adminService.viewPanel.next(true);
     console.log(this.viewPanel);
+  }
+
+
+
+  staffApprove(staff) {
+    this.adminService.aproveStaff(staff.id)
+      .subscribe((res: any) => {
+        this.getCenterStaffApprovelList();
+
+        this.staffAprrovelList = this.staffAprrovelList.filter(element => element.id !== staff.id);
+          this.alertService.successAlert('Staff Approved');
+      }, (err) => {
+        this.alertService.errorAlert(err);
+      });
+  }
+
+  staffReject(staff) {
+    this.adminService.rejectStaff(staff.id)
+      .subscribe((res: any) => {
+        this.getCenterStaffApprovelList();
+        this.staffAprrovelList = this.staffAprrovelList.filter(element => element.id !== staff.id);
+        this.alertService.successAlert('Staff Rejected');
+
+      }, (err) => {
+        this.alertService.errorAlert(err);
+      });
   }
 
 

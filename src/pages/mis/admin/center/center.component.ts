@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { DashboardService } from '../../../../providers/dashboard/dashboard.service';
 import { AdminService } from '../../../../providers/admin/admin.service';
 import { AlertService } from '../../../../providers/alert/alert.service';
@@ -28,6 +28,9 @@ export class CenterComponent implements OnInit {
   selectedZone: any;
   selectedCity: any;
   centersCopy: any = [];
+  states: any = [];
+  stateForm: FormGroup;
+  selectedState: any;
 
   constructor(
     private dashboardService: DashboardService,
@@ -43,6 +46,7 @@ export class CenterComponent implements OnInit {
     this.getCenters();
     this.getZones();
     this.getCities();
+    this.getStates();
     this.changeTab('Center');
   }
 
@@ -76,6 +80,12 @@ export class CenterComponent implements OnInit {
     });
   }
 
+  getStates() {
+    this.dashboardService.getStates().subscribe(response => {
+      this.states = response;
+    });
+  }
+
   changeTab(tab: string) {
     this.selectedTab = tab;
     this.viewPanel = false;
@@ -103,8 +113,13 @@ export class CenterComponent implements OnInit {
       case 'City':
         this.tableTitle = 'Cities';
         this.tableData = this.cities;
-        this.tableColumn = ['name', 'zone'];
+        this.tableColumn = ['name', 'zone', 'state'];
         break;
+      case 'State':
+      this.tableTitle = 'States';
+      this.tableData = this.states;
+      this.tableColumn = ['name'];
+      break;
     }
   }
 
@@ -128,6 +143,11 @@ export class CenterComponent implements OnInit {
           this.cityForm = this.getCityForm();
           this.cityForm.patchValue(data);
           break;
+        case 'States':
+          this.selectedState = data;
+          this.stateForm = this.getStateForm();
+          this.stateForm.patchValue(data);
+        break;
       }
     } else {
       switch (this.tableTitle) {
@@ -141,6 +161,9 @@ export class CenterComponent implements OnInit {
         case 'Cities':
           this.cityForm = this.getCityForm();
           break;
+        case 'States':
+          this.stateForm = this.getStateForm();
+        break;
       }
     }
   }
@@ -182,7 +205,15 @@ export class CenterComponent implements OnInit {
       id: [null],
       mode: ['New'], /** 'Edit' in the case of update*/
       name: [''],
-      zone: ['']
+      zone: [''],
+      state: ['']
+    });
+  }
+
+  getStateForm() {
+    return this.fb.group({
+      id: [null],
+      name: ['']
     });
   }
 
@@ -204,16 +235,13 @@ export class CenterComponent implements OnInit {
             _.extend(this.selectedZone, response);
             this.alertService.successAlert('You have updated zone!');
             this.adminService.viewPanel.next(false);
-          }, (error: any) => {
-            this.alertService.errorAlert(error);
           });
         }
       });
     } else {
       this.adminService.saveZone(this.zoneForm.value).subscribe((response: any) => {
+        this.zones.push(response);
         this.alertService.successAlert('You have added new zone!');
-      }, (error: any) => {
-        this.alertService.errorAlert(error);
       });
     }
   }
@@ -226,17 +254,34 @@ export class CenterComponent implements OnInit {
             _.extend(this.selectedCity, response);
             this.alertService.successAlert('You have updated city!');
             this.adminService.viewPanel.next(false);
-          }, (error: any) => {
-            this.alertService.errorAlert(error);
           });
         }
       });
     } else {
       this.adminService.saveCity(this.cityForm.value).subscribe((response: any) => {
+        this.cities.push(response);
         this.alertService.successAlert('You have added new city!');
         this.adminService.viewPanel.next(false);
-      }, (error: any) => {
-        this.alertService.errorAlert(error);
+      });
+    }
+  }
+
+  saveState() {
+    if (this.editable) {
+      this.alertService.confirm('').then((isConfirm) => {
+        if (isConfirm) {
+          this.adminService.updateState(this.stateForm.value).subscribe((response: any) => {
+            _.extend(this.selectedState, response);
+            this.alertService.successAlert('You have updated state!');
+            this.adminService.viewPanel.next(false);
+          });
+        }
+      });
+    } else {
+      this.adminService.saveState(this.stateForm.value).subscribe((response: any) => {
+        this.states.push(response);
+        this.alertService.successAlert('You have added new State!');
+        this.adminService.viewPanel.next(false);
       });
     }
   }
@@ -261,22 +306,41 @@ export class CenterComponent implements OnInit {
     });
   }
 
+  deleteState(state: any) {
+    this.alertService.confirm('Once deleted, you will not be able to recover this state').then(isConfirm => {
+      if (isConfirm) {
+        this.adminService.deleteState(state.id).subscribe((response: any) => {
+          this.cities.splice(this.cities.indexOf(this.selectedState), 1);
+        });
+      }
+    });
+  }
+
   deleteCenter(center: any) {
     this.alertService.confirm('Once deleted, you will not be able to recover this Center').then(isConfirm => {
       if (isConfirm) {
         this.adminService.deleteCenter(center.id).subscribe((response: any) => {
           this.centers.splice(this.centers.indexOf(this.selectedCenter), 1);
+          this.alertService.successAlert('You have successfully deleted ' + center.name + 'Center');
         });
       }
     });
   }
 
   filterCenter(searchKey) {
+    this.tableData = this.centersCopy;
     const val = searchKey.toLowerCase();
     if (val && val.trim() !== '') {
-      this.centers = this.centersCopy.filter((center: any) => {
+      this.tableData = this.centersCopy.filter((center: any) => {
         return center.code.toLowerCase().startsWith(val);
       });
+    }
+  }
+
+  pushCenter(center) {
+    console.log(center);
+    if (center) {
+      this.centers.push(center);
     }
   }
 }

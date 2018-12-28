@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MenuService } from '../../../providers/initial/menu.service';
-import { User } from '../../../providers/user/user';
+import { StorageService } from '../../../providers/localstorage/storage';
+import { Router } from '@angular/router';
 
 declare const $: any;
-
+declare let document;
 declare interface RouteInfo {
   path: string;
   title: string;
@@ -22,20 +23,24 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
-
+  loaded: any;
   menu: any = {};
   self: any = {};
   profileImageURI: string;
 
-  constructor(private menuService: MenuService, private userService: User) {
+  constructor(private menuService: MenuService,
+    private storage: StorageService,
+    private router: Router) {
     menuService.getMenus().subscribe(
       (response: any) => {
+        response.items.sort((a: any , b: any) => {
+          a.submenu.sort((ai: any , bi: any) => {
+            return ai.seq - bi.seq ;
+          });
+          return a.seq - b.seq ;
+        });
         this.menu = response;
-      },
-      err => {
-        console.error('ERROR', err);
-      }
-    );
+      });
     menuService.getUserProfile().subscribe(
       (response: any) => {
         this.self = response;
@@ -46,11 +51,7 @@ export class SidebarComponent implements OnInit {
         } else {
           this.profileImageURI = '/assets/img/faces/default_profile_pic.png';
         }
-      },
-      err => {
-        console.error('ERROR', err);
-      }
-    );
+      });
   }
 
   ngOnInit() {
@@ -64,6 +65,8 @@ export class SidebarComponent implements OnInit {
   }
 
   onLogout() {
-    this.userService.logout();
-  }
+    this.storage.clearData();
+    this.router.navigate(['/login']);
+
+    }
 }

@@ -75,12 +75,11 @@
                 <th>Center</th>
                 <th>Base Fee</th>
                 <th>Final Fee</th>
-                <th>Action</th>
+                <th *ngIf="STUDENTFEE_WRITE">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let student of studentFeeDetails let i = index;" class="staff-list-row" [hidden]="loadingFeeList"
-                (click)="getStudentFee(student)">
+              <tr *ngFor="let student of studentFeeDetails let i = index;" class="staff-list-row" [hidden]="loadingFeeList">
                 <td>{{i+1}}</td>
                 <td>{{student.fullName}}</td>
                 <td>{{student.program.description}}</td>
@@ -88,7 +87,7 @@
                 <td>{{student.center.name}}</td>
                 <td>{{student.baseFee}}</td>
                 <td>{{student.finalFee}}</td>
-                <td class="action-buttons">
+                <td class="action-buttons" *ngIf="STUDENTFEE_WRITE">
                   <button type="button" class="btn btn-primary btn-sm" (click)="getStudentFee(student)">edit</button>
                 </td>
               </tr>
@@ -110,6 +109,6 @@
   <!-- student fee table ends -->
 
   <div class="col-lg-6" *ngIf="viewPanel">
-    <app-student-fee-info [studentFee]="selectedStudentDetails"></app-student-fee-info>
+    <app-student-fee-info [studentFee]="selectedStudentDetails" [update]="update"></app-student-fee-info>
   </div>
 </div>

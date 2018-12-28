@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../../../providers/alert/alert.service';
 
 import * as _ from 'underscore';
@@ -17,8 +17,10 @@ export class UserInfoComponent implements OnInit {
   userForm: FormGroup;
   editable: boolean;
   roles: any[];
-  centers: any;
+  EmpName: string;
+  centers: any[] = [];
   employees: any[] = [];
+  employeesCopy: any[] = [];
   selectedRoleModel: string;
   selectedCenterModel: string;
   saving: boolean;
@@ -36,24 +38,29 @@ export class UserInfoComponent implements OnInit {
     this.userForm = this.getUserForm();
     if (this.editable) {
       this.userForm.patchValue(user);
+      if (user.employee) {
+        this.EmpName = user.employee.name;
+        this.userForm.controls['empId'].patchValue(user.employee.id);
+      }
       this.selectedRoles = JSON.parse(JSON.stringify(user.roles));
-      this.selectedCenters = JSON.parse(JSON.stringify(user.centers));
+      this.selectedCenters = user.centers;
     } else {
       this.selectedUser = {};
       this.userForm.reset();
     }
   }
+  @Output() addUser: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.selectedUser.employee
-        ? this.userForm.controls['empId'].patchValue(this.selectedUser.employee.id)
-        : this.userForm.controls['empId'].patchValue(null);
+      ? this.userForm.controls['empId'].patchValue(this.selectedUser.employee.id)
+      : this.userForm.controls['empId'].patchValue(null);
     this.getEmployee();
     this.getCenters();
     this.getRoles();
@@ -68,12 +75,16 @@ export class UserInfoComponent implements OnInit {
   getCenters() {
     this.adminService.getAllCenters().subscribe((response: any) => {
       this.centers = response;
+      this.centers = this.centers.filter(cen => {
+        return !this.selectedCenters.includes(cen.name);
+      });
     });
   }
 
   getEmployee() {
     this.adminService.getEmployee().subscribe((response: any) => {
       this.employees = response.stafflist;
+      this.employeesCopy = response.stafflist;
     });
   }
 
@@ -81,16 +92,16 @@ export class UserInfoComponent implements OnInit {
     return this.fb.group({
       active: [''],
       centers: [''],
-      email: [''],
+      email: ['', [Validators.required]],
       empId: [''],
       employee: [''],
-      firstname: [''],
+      firstname: ['', [Validators.required]],
       fullName: [''],
       id: [''],
       lastname: [''],
       mode: [''],
       name: [''],
-      phone: [''],
+      phone: ['', [Validators.required]],
       profileImage: [''],
       profileImageData: [''],
       roles: [[]],
@@ -119,10 +130,11 @@ export class UserInfoComponent implements OnInit {
       this.selectedCenters = [];
       this.selectedCenters.push(center);
     } else {
-      if (
-        this.selectedCenters.findIndex(element => center === element) === -1
-      ) {
+      if (!this.selectedCenters.includes(center)) {
         this.selectedCenters.push(center);
+        this.centers.splice(this.centers.findIndex((cen) => {
+          return cen.name === center;
+        }), 1);
       }
     }
   }
@@ -152,7 +164,7 @@ export class UserInfoComponent implements OnInit {
       if (value) {
         this.alertService.confirm('You want to change Password').then(isConfirm => {
           if (isConfirm) {
-            this.adminService.resetUserPassword({id: this.selectedUser.id, password: value}).subscribe(success => {
+            this.adminService.resetUserPassword({ id: this.selectedUser.id, password: value }).subscribe(success => {
               this.alertService.successAlert('Password Changed Successfully');
             });
           }
@@ -161,7 +173,14 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
-  removeUser() {}
+  removeUser() {
+
+    this.adminService.deleteUser(this.selectedUser.id)
+      .subscribe((res: any) => {
+
+        this.alertService.successAlert('User Dalete Successfuly');
+      });
+  }
 
   saveUser() {
     this.userForm.controls['roles'].patchValue(this.selectedRoles);
@@ -180,11 +199,14 @@ export class UserInfoComponent implements OnInit {
               this.selectedRoles = [];
               this.selectedCenters = [];
               this.alertService.successAlert('User updated');
+            }, error => {
+              this.saving = false;
             });
         }
       });
     } else {
       this.saving = true;
+      this.userForm.controls['active'].patchValue(true);
       this.adminService.saveUser(this.userForm.value).subscribe(response => {
         // this.users.push(response);
         this.saving = false;
@@ -193,7 +215,35 @@ export class UserInfoComponent implements OnInit {
         this.selectedRoles = [];
         this.selectedCenters = [];
         this.alertService.successAlert('New User added');
+        this.addUser.emit(response);
+      }, error => {
+        this.saving = false;
       });
+    }
+  }
+
+  getSelectedEmployee(employe) {
+    this.EmpName = employe.name;
+    const employee = this.employees.find(emp => {
+      return emp.id === employe.id;
+    });
+    if (employee) {
+      // this.userForm.patchValue(employee);
+      this.userForm.controls['empId'].patchValue(employee.id);
+      this.userForm.controls['firstname'].patchValue(employee.name);
+      this.userForm.controls['phone'].patchValue(employee.mobile);
+      this.userForm.controls['email'].patchValue(employee.email);
+    }
+  }
+
+  searchStudent(event) {
+    const val = event.target.value.toLowerCase();
+    if (val && val.trim() !== '') {
+      this.employees = this.employeesCopy.filter(employee => {
+        return employee.name.toLowerCase().startsWith(val);
+      });
+    } else {
+      this.employees = this.employeesCopy;
     }
   }
 }

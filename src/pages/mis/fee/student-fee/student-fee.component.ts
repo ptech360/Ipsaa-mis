@@ -21,6 +21,8 @@ export class StudentFeeComponent implements OnInit {
   viewPanel = false;
   loadingFeeList = false;
   allItems = [];
+  update = true;
+  STUDENTFEE_WRITE: boolean;
 
   constructor(
     private adminService: AdminService,
@@ -29,6 +31,7 @@ export class StudentFeeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.STUDENTFEE_WRITE = this.adminService.hasPrivilage('STUDENTFEE_WRITE');
     this.initiallize();
     this.subscribSidePanel();
   }
@@ -51,7 +54,6 @@ export class StudentFeeComponent implements OnInit {
         this.loadingFeeList = false;
       }, (err) => {
         this.alertService.loading.next(false);
-        this.alertService.errorAlert(err);
       });
   }
 
@@ -67,6 +69,8 @@ export class StudentFeeComponent implements OnInit {
   }
 
   getStudentFee(student) {
+    console.log(student);
+
     this.selectedStudentDetails = (student) ? student : {};
     this.showSidePanel();
 

@@ -14,6 +14,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { AlertService } from '../alert/alert.service';
+import { Router } from '@angular/router';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -22,7 +23,7 @@ import { AlertService } from '../alert/alert.service';
 export class Api {
   url: string = environment.api;
 
-  constructor(public http: HttpClient, public storage: StorageService, public alertService: AlertService) {}
+  constructor(public http: HttpClient, public storage: StorageService, public router: Router , public alertService: AlertService) { }
 
   getHeaders(optHeaders?: HttpHeaders) {
     let headers = new HttpHeaders();
@@ -67,7 +68,7 @@ export class Api {
         observe: 'response',
         responseType: 'blob'
       })
-      .map(this.extractData)
+      .map(this.extractData1)
       .catch(this.handleError);
   }
 
@@ -79,7 +80,7 @@ export class Api {
         observe: 'response',
         responseType: 'arraybuffer'
       })
-      .map(this.extractData)
+      .map(this.extractData1)
       .catch(this.handleError);
   }
   put(endpoint: string, body: any, optHeaders?: HttpHeaders) {
@@ -119,17 +120,23 @@ export class Api {
     return response.body || response.status;
   }
 
+  extractData1(response: HttpResponse<any>) {
+    return response;
+  }
+
   handleError = (errorResponse: HttpErrorResponse) => {
     switch (errorResponse.status) {
       case 401:
-        this.alertService.errorAlert('Session Expired');
+        this.router.navigate(['/login']).then(() => {
+          this.alertService.errorAlert(errorResponse.error.message);
+        });
         this.storage.clearData();
         break;
       case 0:
         this.alertService.errorAlert('You don\'t seem to have an active internet connection. Please connect and try again.');
         break;
       default:
-        this.alertService.errorAlert(errorResponse.message);
+        this.alertService.errorAlert(errorResponse.error.message);
         break;
     }
     return Observable.throw(errorResponse);

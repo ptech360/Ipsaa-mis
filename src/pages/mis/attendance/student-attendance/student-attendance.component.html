@@ -2,7 +2,7 @@
   <div class="col-md-3">
     <div class="form-group">
       <label class="control-label"> Search:</label>
-      <input type="text" class="form-control" placeholder="By Student Name" [(ngModel)]="searchStudentName">
+      <input type="text" class="form-control" placeholder="By Student Name" (keyup)="searchStudent($event)" >
     </div>
   </div>
   <div class="col-md-3">
@@ -23,11 +23,12 @@
       </select>
     </div>
   </div>
-  <div class="col-md-3" *ngIf="selectedProgram">
+  <div class="col-md-3" *ngIf=" bharatRamSchool && selectedProgram">
     <div class="form-group">
     <button class="btn btn-rose btn-round" (click)="presentFilteredStudent()">Mark All Present</button>
     </div>
   </div>
+  
 </div>
 <div class="row">
   <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let student of attendance;">
@@ -40,11 +41,12 @@
       <div class="card-body">
         <div>
           <div class="row">
-            <div class="col offset-5">Program:</div>
+            <!-- <div class="col offset-5">Program:</div> -->
+            <div class="col">Program:</div>
             <div class="col">{{student.program}}</div>
           </div>
           <div class="row">
-            <div class="col offset-5">Group:</div>
+            <div class="col">Group:</div>
             <div class="col">{{student.group}}</div>
           </div>
           <div class="row">

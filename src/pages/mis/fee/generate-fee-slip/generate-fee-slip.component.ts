@@ -3,6 +3,7 @@ import { AdminService } from '../../../../providers/admin/admin.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from '../../../../providers/alert/alert.service';
 import * as FileSaver from 'file-saver';
+declare const $: any;
 
 @Component({
   selector: 'app-generate-fee-slip',
@@ -15,7 +16,7 @@ export class GenerateFeeSlipComponent implements OnInit {
   quaters = [{ Qtype: 'FYQ1', id: 2 }, { Qtype: 'FYQ2', id: 3 }, { Qtype: 'FYQ3', id: 4 }, { Qtype: 'FYQ4', id: 1 }];
   currentYear: number;
   years = [];
-  studentDetails: Array<any>;
+  studentDetails = [];
   viewPanel = false;
   mailPanel = false;
   saveFeeSlip = false;
@@ -33,6 +34,9 @@ export class GenerateFeeSlipComponent implements OnInit {
   allItems: any;
   showtable = false;
   downloadinData: boolean;
+  regenrateSpecificDate: any;
+  studentDetailsCopy: any;
+  statusFilter = 'All';
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -41,6 +45,7 @@ export class GenerateFeeSlipComponent implements OnInit {
     this.currentYear = (new Date).getFullYear();
     this.years.push(this.currentYear - 1);
     this.years.push(this.currentYear);
+    this.years.push(this.currentYear + 1);
 
 
   }
@@ -69,8 +74,6 @@ export class GenerateFeeSlipComponent implements OnInit {
   }
 
 
-
-
   generate() {
     this.downloadinData = false;
     this.alertService.loading.next(true);
@@ -79,22 +82,32 @@ export class GenerateFeeSlipComponent implements OnInit {
       'period': 'Quarterly',
       'quarter': this.generateSlipForm.value.quater,
       'year': this.generateSlipForm.value.year
-    })
-      .subscribe((res) => {
-        this.alertService.loading.next(false);
-        this.showtable = true;
-        this.downloadinData = true;
+    }).subscribe((res) => {
+      this.alertService.loading.next(false);
+      this.showtable = true;
+      this.downloadinData = true;
 
-        this.studentDetails = res;
-        this.allItems = res.slice(0);
-      }, (err) => {
-        this.alertService.loading.next(false);
-        this.downloadinData = true;
-        this.showtable = true;
+      this.studentDetails = res;
+      this.studentDetailsCopy = res;
+      this.allItems = res.slice(0);
+    }, (err) => {
+      this.alertService.loading.next(false);
+      this.downloadinData = true;
+      this.showtable = true;
 
-        this.alertService.errorAlert(err);
-      });
+    });
 
+  }
+
+  filterByPaymentStatus(status: string) {
+    this.studentDetails = this.studentDetailsCopy;
+    if (status === 'All') {
+      this.studentDetails = this.studentDetailsCopy;
+      return;
+    }
+    this.studentDetails = this.studentDetails.filter(slip => {
+      return slip.status === status;
+    });
   }
 
   searchStudent(event: any) {
@@ -147,15 +160,12 @@ export class GenerateFeeSlipComponent implements OnInit {
   updateFinalFee() {
     const val = this.regenerateSlipForm.get('balance').value + this.regenerateSlipForm.get('adjust').value +
       this.regenerateSlipForm.get('latePaymentCharge').value + this.regenerateSlipForm.get('extraCharge').value +
-      this.regenerateSlipForm.get('stationary').value + this.regenerateSlipForm.get('uniformCharges').value;
+      this.regenerateSlipForm.get('stationary').value + this.regenerateSlipForm.get('uniformCharges').value +
+      this.regenerateSlipForm.get('finalAnnualCharges').value + this.regenerateSlipForm.get('finalAdmissionFee').value +
+      this.regenerateSlipForm.get('finalBaseFee').value + this.regenerateSlipForm.get('finalDepositFee').value +
+      this.regenerateSlipForm.get('transportFee').value + this.regenerateSlipForm.get('gstAmount').value;
 
-
-
-
-
-
-    const v = this.regenerateSlipForm.get('finalFee').value + this.regenerateSlipForm.get('gstAmount').value + val;
-    this.regenerateSlipForm.get('totalFee').setValue(v);
+    this.regenerateSlipForm.get('totalFee').setValue(val);
   }
 
   getRegenerateSlipForm() {
@@ -227,15 +237,8 @@ export class GenerateFeeSlipComponent implements OnInit {
     Object.keys(this.studentIds).forEach(id => {
       if (this.studentIds[id]) {
         this.ids.push(id);
-
-
-
         this.studentDetails.forEach(element => {
-
-
-
-          if (element.id === Number(id)  && !element.generateActive) {
-
+          if (element.id === Number(id) && !element.generateActive) {
             this.unlockIds.push(id);
           }
         });
@@ -246,11 +249,11 @@ export class GenerateFeeSlipComponent implements OnInit {
 
   selectAll(isChecked: boolean) {
     if (isChecked) {
-      this.studentDetails.forEach(student => {
+      this.allItems.forEach(student => {
         this.studentIds[student.id] = true;
       });
     } else {
-      this.studentDetails.forEach(student => {
+      this.allItems.forEach(student => {
         this.studentIds[student.id] = false;
       });
       this.selectAllStudent = false;
@@ -274,7 +277,6 @@ export class GenerateFeeSlipComponent implements OnInit {
           this.alertService.successAlert('');
         }, (err) => {
           this.saveFeeSlip = false;
-          this.alertService.errorAlert(err);
         });
     }
     if (value === 'Regenerate') {
@@ -282,17 +284,33 @@ export class GenerateFeeSlipComponent implements OnInit {
 
       this.adminService.regenerateStudentsFeeSlips({ 'id': this.selectedStudentDetails.id }, 'regenerate')
         .subscribe((res: any) => {
-
+          $('#regenerateDatePopUp').modal('hide');
 
           this.regenerateSlip = false;
           this.alertService.successAlert('');
-
-
         }, (err) => {
           this.regenerateSlip = false;
-          this.alertService.errorAlert(err);
         });
     }
+
+    if (value === 'SpecificDate') {
+      this.regenerateSlip = true;
+
+      this.adminService.regenerateStudentsFeeSlips({
+        'id': this.selectedStudentDetails.id,
+        'spaceifyRegenrationDate': this.regenrateSpecificDate
+      }, 'regenerate')
+        .subscribe((res: any) => {
+          this.regenerateSlip = false;
+          $('#SpecificDate').modal('hide');
+
+          this.alertService.successAlert('');
+        }, (err) => {
+          this.regenerateSlip = false;
+        });
+    }
+
+
 
   }
 
@@ -300,17 +318,15 @@ export class GenerateFeeSlipComponent implements OnInit {
     this.downloadingSlips = true;
 
     this.adminService.downloadFeeSlips(this.ids)
-      .subscribe((res: ArrayBuffer) => {
-        const blob = new Blob([res], {
-          // type: 'application/octet-stream'
+      .subscribe((res) => {
+        const blob = new Blob([res.body], {
         });
-        FileSaver.saveAs(blob, 'abc.pdf' );
+        FileSaver.saveAs(blob, res.headers.get('fileName'));
 
         this.downloadingSlips = false;
         this.alertService.successAlert('');
       }, (err) => {
         this.downloadingSlips = false;
-        // this.alertService.errorAlert(err)
       }
       );
   }
@@ -325,7 +341,6 @@ export class GenerateFeeSlipComponent implements OnInit {
         this.alertService.successAlert('');
       }, (err) => {
         this.lockSlip = false;
-        this.alertService.errorAlert(err);
       });
   }
 
@@ -342,7 +357,6 @@ export class GenerateFeeSlipComponent implements OnInit {
 
       }, (err) => {
         this.regeneratingSlip = false;
-        this.alertService.errorAlert(err);
       });
   }
 
@@ -355,19 +369,16 @@ export class GenerateFeeSlipComponent implements OnInit {
   }
 
   sendMail() {
-
-    console.log(this.eMailForm.value);
-
     this.adminService.sendEmails({ 'subject': this.eMailForm.value.subject, 'body': this.eMailForm.value.body, 'slipIds': this.ids })
       .subscribe((res: any) => {
         this.eMailForm.reset();
         this.alertService.successAlert('');
-      }, (err) => {
-        this.alertService.errorAlert(err);
+        this.showSidePanel(false, null);
       });
   }
 
-
-
-
+  dropped(event) {
+    console.log(event);
+    this.eMailForm.controls['body'].patchValue(event.emailcontent || '');
+  }
 }

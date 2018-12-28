@@ -1,9 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AdminService } from '../../../../providers/admin/admin.service';
-import {
-  FormBuilder,
-  FormGroup
-} from '../../../../../node_modules/@angular/forms';
+import {FormBuilder, FormGroup} from '../../../../../node_modules/@angular/forms';
 import { AlertService } from '../../../../providers/alert/alert.service';
 import * as _ from 'underscore';
 import { PayrollService } from '../../../../providers/payroll/payroll.service';
@@ -79,9 +76,9 @@ export class SalaryInfoComponent implements OnInit {
   }
 
   onChange() {
-    this.salaryForm.controls.basic.patchValue(
-      this.calculateBasic(this.salaryForm.value)
-    );
+    // this.salaryForm.controls.basic.patchValue(
+    //   this.calculateBasic(this.salaryForm.value)
+    // );
     this.salaryForm.controls.hra.patchValue(
       this.calculateHRA(this.salaryForm.value)
     );
@@ -118,13 +115,13 @@ export class SalaryInfoComponent implements OnInit {
       totalDeduction = totalDeduction + this.salaryForm.controls.esi.value;
     }
 
-    if (this.salaryForm.controls.profd.value) {
-      this.salaryForm.controls.professionalTax.patchValue(200);
-      totalDeduction =
-        totalDeduction + this.salaryForm.controls.professionalTax.value;
-    } else {
-      this.salaryForm.controls.professionalTax.patchValue(0);
-    }
+    // if (this.salaryForm.controls.profd.value) {
+    //   this.salaryForm.controls.professionalTax.patchValue(200);
+    //   totalDeduction =
+    //     totalDeduction + this.salaryForm.controls.professionalTax.value;
+    // } else {
+    //   this.salaryForm.controls.professionalTax.patchValue(0);
+    // }
     totalEarning =
       this.salaryForm.controls.ctc.value +
       this.salaryForm.controls.extraMonthlyAllowance.value;
@@ -133,16 +130,31 @@ export class SalaryInfoComponent implements OnInit {
     this.salaryForm.controls.netSalary.patchValue(
       totalEarning - totalDeduction
     );
+    this.fetchProfessionalTax();
+  }
+
+  fetchProfessionalTax() {
+    const object = {
+        eid: this.salaryForm.controls.eid.value,
+        grossSalary: this.salaryForm.controls.grossSalary.value
+    };
+    this.adminService.getProfessionalTax(object).subscribe(response => {
+        this.salaryForm.controls.profd.patchValue(true);
+        this.salaryForm.controls.professionalTax.patchValue(response.professionalTax);
+    }, error => {});
+
   }
 
   calculateBasic(salary) {
     const ctc = salary.ctc ? salary.ctc : 0;
-    return (ctc * 40) / 100;
+    const basic = (ctc * 40) / 100;
+    this.salaryForm.controls.basic.patchValue(basic);
+    this.onChange();
   }
 
   calculateHRA(salary) {
     const basic = salary.basic ? salary.basic : 0;
-    return (basic * 40) / 100;
+    return ((basic * 40) / 100);
   }
   // conveyance fixed 1600
   // bonus fixed 584

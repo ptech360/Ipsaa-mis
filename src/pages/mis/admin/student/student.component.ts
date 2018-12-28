@@ -10,7 +10,7 @@ import { AlertService } from '../../../../providers/alert/alert.service';
 })
 export class StudentComponent implements OnInit {
   students: any[] = [];
-  activeStatus = true;
+  activeStatus = 'true';
   pageNumber = 0;
   pageSize = 0;
   programCode = 'ALL';
@@ -35,7 +35,7 @@ export class StudentComponent implements OnInit {
     private adminService: AdminService,
     private pagerService: PagerService,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getStudents();
@@ -44,19 +44,32 @@ export class StudentComponent implements OnInit {
   }
 
   getStudents() {
+
     const object = {
-      active: this.activeStatus,
+      active: status,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       programCode: this.programCode
     };
+    this.allItems = [];
 
-    this.students = [];
     this.loader = true;
     this.adminService.getStudents(object).subscribe((response: any) => {
       this.loader = false;
-      this.allItems = response.students;
-      this.students = response.students;
+      console.log(response);
+
+      let status: boolean;
+      if (this.activeStatus === 'true') {
+        status = true;
+      } else {
+        status = false;
+
+      }
+
+      this.allItems = response.students.filter(stud => {
+        return stud.active === status;
+      });
+      this.students = this.allItems;
       this.studentsCopy = JSON.parse(JSON.stringify(this.students));
       this.pageSize = response.pageSize;
       this.pageNumber = response.pageNumber;
@@ -77,36 +90,50 @@ export class StudentComponent implements OnInit {
 
   showStudent(student) {
     this.update = false;
+    console.log(student);
     this.selectedStudent = student;
     this.adminService.viewPanel.next(true);
   }
 
   editStudent(student) {
+    console.log(student);
     this.update = true;
     this.selectedStudent = student;
     this.adminService.viewPanel.next(true);
   }
 
   addNewStudent() {
-    this.update = false;
+    this.update = true;
     this.selectedStudent = {};
     this.adminService.viewPanel.next(true);
   }
 
   deleteStudentSwal(student: any) {
-    this.alertService.confirm('').then(isConfirm => {
-      if (isConfirm) {
-        this.adminService.deleteStudentById(student.id).subscribe((response: any) => {
-          this.alertService.successAlert('You have deleted student record successfully');
-        }, (error: any) => {
-          this.alertService.errorAlert(error);
+    this.adminService.isFeePanding(student.id).subscribe((isPending: boolean) => {
+      if (isPending) {
+        this.alertService.confirm('As ' + student.fullName + ' Fee is still outstanding').then(isConfirm => {
+          if (isConfirm) {
+            this.adminService.deleteStudentForcefully(student.id).subscribe(response => {
+              this.allItems.splice(this.allItems.indexOf(student), 1);
+              this.setPage(1);
+              this.alertService.successAlert('Student successfully deleted');
+            });
+          }
+        });
+      } else {
+        this.alertService.confirm('').then(isConfirm => {
+          if (isConfirm) {
+            this.adminService.deleteStudentById(student.id).subscribe((response: any) => {
+              this.alertService.successAlert('You have deleted student record successfully');
+            });
+          }
         });
       }
     });
   }
 
   hasPrivilege(previlage) {
-    return true;
+    return this.adminService.hasPrivilage(previlage);
   }
 
   setPage(page: number) {
@@ -132,15 +159,20 @@ export class StudentComponent implements OnInit {
 
   searchStudent(event: any) {
     this.searchKey = event;
-    const val = event.target.value;
+    const val = event.target.value.toLowerCase();
     if (val && val.trim() !== '') {
       this.allItems = this.students.filter(student => {
-        return student.fullName.startsWith(val);
+        return student.fullName.toLowerCase().startsWith(val);
       });
       this.setPage(1);
     } else {
-      this.allItems = this.studentsCopy;
+      this.allItems = this.students;
       this.setPage(1);
     }
+  }
+  pushNewStudent(student) {
+    this.students.push(student);
+    this.studentsCopy.push(student);
+    this.setPage(1);
   }
 }

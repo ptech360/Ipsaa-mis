@@ -26,6 +26,10 @@ export class DashboardService {
     return this.api.get('api/city/');
   }
 
+  getStates() {
+    return this.api.get('api/state/all');
+  }
+
   getCenters() {
     return this.api.get('api/center/');
   }
@@ -80,5 +84,11 @@ export class DashboardService {
 
   getFollowups() {
     return this.api.post('api/dash/followupreport', {});
+  }
+
+
+
+  getFilterStaff(filterBy, data) {
+return this.api.post('api/dash/' + filterBy , data);
   }
 }

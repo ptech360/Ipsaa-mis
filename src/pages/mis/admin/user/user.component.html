@@ -10,7 +10,7 @@
           Users
           <button class="btn btn-primary btn-sm" style="float: right;" (click)="showSidePanel(false,null)">Add New</button>
           <div class="form-group" style="float: right;">
-            <input class="form-control" [(ngModel)]="searchUser" (ngModelChange)="filterUser($event)" placeholder="Search by name..">
+            <input class="form-control" (ngModelChange)="filterUser($event)" placeholder="Search by name.." ngModel>
           </div>
         </h3>
       </div>
@@ -43,12 +43,12 @@
               <td><span style="word-break: break-all;">{{user.type}}</span></td>
               <td>
                 <ng-container *ngFor="let role of user.roles;let i = index">
-                    <span class="badge badge-primary margin-right-5" *ngIf="!i">{{role}}</span>
+                  <span class="badge badge-primary margin-right-5" *ngIf="!user.role">{{role}}</span>
                   <span class="complete" *ngIf="user.role"><!--user.role is used only for show content more or less-->
                       <span class="badge badge-primary margin-right-5">{{role}}</span>
                   </span>
                 </ng-container>
-                <label class="more-less" *ngIf="user.roles.length">
+                <label class="more-less" *ngIf="user.roles.length>1">
                   <input type="checkbox" [(ngModel)]="user.role">
                   <span class="more"></span>
                 </label>
@@ -78,6 +78,6 @@
     </div>
   </div>
   <div class="col-lg-6" *ngIf="viewPanel">
-    <app-user-info [user]="selectedUser" [update]="editable"></app-user-info>
+    <app-user-info [user]="selectedUser" [update]="editable" (addUser)="pushUser($event)"></app-user-info>
   </div>
 </div>

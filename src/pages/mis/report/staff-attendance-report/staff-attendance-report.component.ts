@@ -11,7 +11,7 @@ import * as FileSaver from 'file-saver';
 export class StaffAttendanceReportComponent implements OnInit {
 
   centerList: Array<any>;
-  SelectedCenterId: any;
+  SelectedCenter: any;
   formDate: Date;
   toDate: Date;
   staffAttendanceFor = {};
@@ -32,34 +32,26 @@ export class StaffAttendanceReportComponent implements OnInit {
     this.adminService.getCenters()
       .subscribe((res: any) => {
         this.centerList = res;
-      }, (err) => {
-        this.alertService.errorAlert(err);
+        this.centerList.unshift({ code: 'All', name: 'All', id: 'All' });
       });
   }
   staffAttendanceReportDownload() {
     this.downloadData = true;
 
-      this.staffAttendanceFor['centerId'] = this.SelectedCenterId;
+      this.staffAttendanceFor['centerCode'] = this.SelectedCenter.code;
       this.staffAttendanceFor['from'] = this.formDate;
       this.staffAttendanceFor['to'] = this.toDate;
 console.log(this.staffAttendanceFor);
 
     this.adminService.staffsAttendanceReportDownload(this.staffAttendanceFor)
-      // .subscribe((res) => {
-      //   const blob = new Blob([res.data], {
-      //     type: 'application/octet-stream'
-      //   });
-      //   FileSaver.saveAs(blob, res.headers('fileName'));
-      .subscribe((res: ArrayBuffer) => {
-        // const headers = res.headers;
-        const blob = new Blob([res], {
-        });
-        FileSaver.saveAs(blob, 'Staff_Attendance_Report.pdf');
+      .subscribe((res) => {
+          const blob = new Blob([res.body], {
+          });
+          FileSaver.saveAs(blob, res.headers.get('fileName'));
 
         this.downloadData = false;
         this.staffAttendanceFor = {};
       }, (err) => {
-        this.alertService.errorAlert(err);
         this.downloadData = false;
       });
   }

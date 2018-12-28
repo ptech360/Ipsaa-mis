@@ -11,7 +11,7 @@
     <div class="form-group">
       <label for="center">Center:</label>
       <select class="form-control" id="center" [(ngModel)]="selectedCenter" (ngModelChange)="filterStaffByCenter()">
-        <option value="all">All</option>
+        <option [ngValue]="'All'">All</option>
         <option *ngFor="let center of centers;" [ngValue]="center">{{center.name}}</option>
       </select>
       <span class="material-input"></span>
@@ -21,7 +21,8 @@
   <div class="col-md-3">
     <div class="form-group">
       <label for="staff_status">Staff Status:</label>
-      <select class="form-control" id="staff_status" [(ngModel)]="selectedStaffStatus" (ngModelChange)="filterStaff()">
+      <select class="form-control" id="staff_status" [(ngModel)]="selectedStaffStatus" (ngModelChange)="filterStaffByCenter()">
+      
         <option value="true">Active</option>
         <option value="false">Inactive</option>
       </select>
@@ -32,9 +33,9 @@
   <div class="col-md-3">
     <div class="form-group">
       <label for="staff_type">Staff Type:</label>
-      <select class="form-control" id="staff_type" [(ngModel)]="selectedStaffType" (ngModelChange)="filterStaff()">
-        <option value="ALL" selected>All</option>
-        <option *ngFor="let stafftype of staffType" [ngValue]="stafftype.value">{{stafftype.name}}</option>
+      <select class="form-control" id="staff_type" [(ngModel)]="selectedStaffType" (ngModelChange)="filterStaffByCenter()">
+        <option [ngValue]="'All'" selected>All</option>
+        <option *ngFor="let type of staffType" [ngValue]="type.value">{{type.name}}</option>
       </select>
       <span class="material-input"></span>
     </div>
@@ -42,7 +43,7 @@
 </div>
 
 <div class="row">
-  <div [class]="viewPanel?'transition col-lg-6':'transition col-md-12'">
+  <div [class]="viewPanel?'transition col-lg-5':'transition col-md-12'">
     <div class="card">
       <div class="card-header card-header-warning card-header-icon">
         <div class="card-icon">
@@ -70,8 +71,8 @@
               <tr>
                 <!-- <th>Sr. No.</th> -->
                 <th>EID</th>
-                <th>Center</th>
                 <th>Name</th>
+                <th>Center</th>
                 <th>Designation</th>
                 <th>Mobile</th>
                 <th>Email</th>
@@ -82,12 +83,12 @@
               <tr *ngFor="let staff of pagedItems;let i = index" class="staff-list-row" [hidden]="loadingStaffList">
                 <!-- <td>{{i+1}}</td> -->
                 <td (click)="showStaff(staff)">{{staff.eid}}</td>
-                <td (click)="showStaff(staff)">{{staff.centerName}}</td>
                 <td (click)="showStaff(staff)">{{staff.name}}</td>
+                <td (click)="showStaff(staff)">{{staff.centerName}}</td>
                 <td (click)="showStaff(staff)">{{staff.designation}}</td>
                 <td (click)="showStaff(staff)">{{staff.mobile}}</td>
                 <td (click)="showStaff(staff)"><span style="word-break: break-all;">{{staff.email}}</span></td>
-                <td *ngIf="activeStatus" class="action-buttons">
+                <td *ngIf="staff.active" class="action-buttons">
                   <button type="button" class="btn btn-primary btn-sm" (click)="editStaff(staff)">edit</button>
                   <button type="button" class="btn btn-danger btn-sm" (click)="deleteStaffSwal(staff.id)">del</button>
                 </td>
@@ -121,10 +122,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-6" *ngIf="viewPanel">
-    <div class="card" id="staff_info">
-
-    </div>
+  <div class="col-lg-7" *ngIf="viewPanel">
     <app-staff-info [id]="selectedStaff.id" [update]="update"></app-staff-info>
   </div>
 </div>

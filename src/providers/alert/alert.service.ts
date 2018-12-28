@@ -11,7 +11,7 @@ export class AlertService {
       title: 'Are you sure?',
       text: msg,
       icon: 'warning',
-      buttons: ['Cancel', 'Ok'],
+      buttons: ['CANCEL', 'OK'],
       dangerMode: true,
     });
   }
@@ -24,10 +24,10 @@ export class AlertService {
     });
   }
 
-  public errorAlert(msg: string) {
+  public errorAlert(message: any) {
     swal({
       title: 'Error',
-      text: msg,
+      text: message,
       icon: 'error'
     });
   }
