@@ -7,8 +7,10 @@ declare let $: any;
 
 @Component({
   selector: 'app-staff',
-  templateUrl: './staff.component.html'
+  templateUrl: './staff.component.html',
+  styleUrls: ['./staff.component.scss']
 })
+
 export class AppStaffComponent implements OnInit {
   staffListCopy: any = [];
   searchStaffList: any = [];
@@ -249,6 +251,13 @@ export class AppStaffComponent implements OnInit {
           });
       }
     });
+  }
+
+  pushStaff(staff) {
+    if (staff) {
+      this.staffList.push(staff);
+      this.setPage(1);
+    }
   }
 
   hasPrivilege(privilege) { }
